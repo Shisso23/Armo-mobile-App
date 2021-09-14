@@ -49,15 +49,12 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Gutters, Layout } = useTheme();
-  const _handleSubmission = async (
-    formData: SignUpFormFormProps,
-    actions: FormikHelpers<SignUpProps>,
-  ) => {
+  const { Layout } = useTheme();
+  const _handleSubmission = async (formData: SignUpProps, actions: FormikHelpers<SignUpProps>) => {
     try {
       await submitForm(formData);
       actions.setSubmitting(false);
-      flashService.success('Signed up Successfully');
+      flashService.success('Successfully Signed Up ');
       onSuccess();
     } catch (error) {
       actions.setSubmitting(false);
@@ -120,7 +117,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               label="Region"
               keyExtractor={(region: any, index: Number) => `${region}${index}`}
               onChange={(region: any) => {
-                console.log({ region });
                 setFieldValue('region', region);
               }}
               items={regions}

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Menu, List } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import { Dimensions, StyleSheet, Platform, Pressable, FlatList, View } from 'react-native';
-import _ from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import useTheme from '../../../theme/hooks/useTheme';
@@ -61,7 +60,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
     />
   );
 
-  const renderInput = (pressed) => {
+  const renderInput = (pressed = false) => {
     return (
       <CustomInput
         value={value}
@@ -76,14 +75,14 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
               name="chevron-up"
               type="feather"
               size={16}
-              color={Colors.muted}
+              color={Colors.shadow}
               style={Gutters.tinyRMargin}
             />
             <Icon
               name="chevron-down"
               type="feather"
               size={16}
-              color={Colors.muted}
+              color={Colors.shadow}
               style={Gutters.tinyRMargin}
             />
           </View>

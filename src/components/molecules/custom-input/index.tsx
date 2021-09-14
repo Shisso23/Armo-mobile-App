@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Input, InputProps, Icon, Button } from 'react-native-elements';
+import { Input, InputProps, Icon } from 'react-native-elements';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
@@ -19,14 +19,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <Input
       labelStyle={styles.label}
-      leftIcon={
-        <Icon
-          name="lock"
-          type="fontiso"
-          size={18}
-          iconStyle={{ color: Colors.shadow, opacity: 0.5 }}
-        />
-      }
+      leftIcon={<Icon name="lock" type="fontiso" size={18} iconStyle={styles.icon} />}
       inputContainerStyle={[
         Common.inputWithRoundBorders,
         Gutters.smallLPadding,
@@ -52,6 +45,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: -5,
   },
+  icon: { color: Colors.shadow, opacity: 0.5 },
   inputContainer: {
     borderBottomWidth: 0,
     elevation: 15,

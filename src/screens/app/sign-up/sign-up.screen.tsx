@@ -13,7 +13,9 @@ const SignUpScreen: React.FC = () => {
   const { Gutters } = useTheme();
   const isFocused = useIsFocused();
 
-  const submitForm = async (values: Object) => {};
+  const submitForm = async (values: Object) => {
+    console.log('submit', values);
+  };
 
   return (
     <>
