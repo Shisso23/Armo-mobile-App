@@ -7,6 +7,7 @@ import axios from 'axios';
 import { exitAppOnHardwarePressListener } from '../../../helpers';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
+import { ScreenContainer } from '../../../components';
 
 const { width } = Dimensions.get('window');
 const { CancelToken } = axios;
@@ -39,7 +40,7 @@ const HomeScreen: React.FC = () => {
   useFocusEffect(exitAppOnHardwarePressListener);
 
   return (
-    <View style={[Gutters.largeHPadding, Gutters.largeTPadding]}>
+    <ScreenContainer>
       {services.map((service, index) => {
         return (
           <View key={index}>
@@ -69,7 +70,7 @@ const HomeScreen: React.FC = () => {
           </View>
         );
       })}
-    </View>
+    </ScreenContainer>
   );
 };
 
