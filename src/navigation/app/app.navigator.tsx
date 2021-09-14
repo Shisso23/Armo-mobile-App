@@ -28,7 +28,7 @@ const AppNavigator = () => {
 
 const DrawerNavigator = ({ navigation }: { navigation: any }) => (
   <Drawer.Navigator>
-    {/* <Drawer.Screen
+    <Drawer.Screen
       name="Home"
       component={HomeScreen}
       options={{
@@ -39,7 +39,7 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => (
           backgroundColor: Colors.transparent,
         },
       }}
-    /> */}
+    />
 
     <Drawer.Screen
       name="SignUp"

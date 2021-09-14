@@ -15,7 +15,7 @@ const HomeScreen: React.FC = () => {
   const requestSource = CancelToken.source();
   const armoWebSiteLink = 'www.armo.co.za';
   const navigateToWebsite = () => Linking.openURL(`https://${armoWebSiteLink}`);
-  const { Layout, Gutters, Images } = useTheme();
+  const { Layout, Gutters, Images, Common } = useTheme();
 
   useEffect(() => {
     return () => {
@@ -47,18 +47,21 @@ const HomeScreen: React.FC = () => {
               source={Images.logo3}
               style={[styles.image, Gutters.largeBMargin, Layout.alignSelfCenter]}
             />
-            <Text style={styles.title}>{service.title}</Text>
-            <Text style={styles.texts}>{service.description}</Text>
+            <Text style={[styles.title, Gutters.smallBMargin]}>{service.title}</Text>
+            <Text style={[styles.texts]}>{service.description}</Text>
             <TouchableOpacity onPress={navigateToWebsite}>
-              <Text style={[styles.linkText]} selectable>
+              <Text style={[styles.linkText, Common.text, Gutters.smallTMargin]} selectable>
                 {armoWebSiteLink}
               </Text>
             </TouchableOpacity>
 
             {index < services.length - 1 ? (
               <Divider
-                style={[Gutters.largeVMargin, Gutters.largeLMargin, styles.divider]}
-                width={2}
+                color={Colors.text}
+                style={[Gutters.largeVMargin, Layout.alignSelfCenter, styles.divider]}
+                width={0.75}
+                inset
+                insetType="middle"
               />
             ) : (
               <View />
@@ -71,14 +74,14 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  divider: { height: 3, width: '80%' },
-  image: { height: 65, width: width * 0.65 },
+  divider: { opacity: 0.65, width: '70%' },
+  image: { height: 70, width: width * 0.65 },
   linkText: {
     color: Colors.linkText,
     fontSize: 15,
   },
-  texts: { fontSize: 16, lineHeight: 22, textAlign: 'left' },
-  title: { fontSize: 20, fontWeight: '500' },
+  texts: { fontSize: 16, lineHeight: 22, opacity: 0.86, textAlign: 'left' },
+  title: { fontSize: 19, fontWeight: '500' },
 });
 
 export default HomeScreen;
