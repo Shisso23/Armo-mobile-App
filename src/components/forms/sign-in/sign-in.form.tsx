@@ -1,14 +1,19 @@
-import React from 'react';
-import { Button, Input } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
 
-import { emailSchema, passwordSchema } from '../form-validaton-schemas';
+import { passwordSchema } from '../form-validaton-schemas';
 import { getFormError } from '../form-utils';
 
 import { ErrorObject } from '../types';
+import CustomInput from '../../molecules/custom-input';
+import { Colors } from '../../../theme/Variables';
+import { useTheme } from '../../../theme';
 import { SignInProps } from '../../../models';
+import { ForgotPasswordLink } from '../../molecules';
 
 type SignInFormProps = {
   submitForm: Function;
@@ -17,7 +22,7 @@ type SignInFormProps = {
 };
 
 const signInSchema = Yup.object().shape({
-  email: emailSchema,
+  username: Yup.string().required('Username is required'),
   password: passwordSchema,
 });
 
@@ -26,6 +31,8 @@ const SignInForm: React.FC<SignInFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const { Common, Layout, Gutters } = useTheme();
   const _handleFormSubmitError = (
     error: ErrorObject,
     actions: FormikHelpers<SignInProps>,
@@ -36,9 +43,9 @@ const SignInForm: React.FC<SignInFormProps> = ({
       const apiErrors = error.errors;
       actions.resetForm({ values: formData, status: { apiErrors } });
     } else if (error.statusCode === 400) {
-      actions.setFieldError('email', 'Incorrect login credentials provided');
+      actions.setFieldError('username', 'Incorrect login credentials provided');
     } else {
-      actions.setFieldError('email', error.message);
+      actions.setFieldError('username', error.message);
     }
   };
 
@@ -51,12 +58,21 @@ const SignInForm: React.FC<SignInFormProps> = ({
       .catch((error: ErrorObject) => _handleFormSubmitError(error, actions, formData));
   };
 
+  const _showPasswordShort = () => {
+    setTimeout(() => {
+      setIsPasswordHidden(true);
+    }, 3000);
+
+    setIsPasswordHidden(false);
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       initialStatus={{ apiErrors: {} }}
       onSubmit={_handleSubmission}
       validationSchema={signInSchema}
+      enableReinitialize
     >
       {({
         handleChange,
@@ -72,28 +88,72 @@ const SignInForm: React.FC<SignInFormProps> = ({
           getFormError(name, { touched, status, errors });
         return (
           <>
-            <Input
-              value={values.email}
-              onChangeText={handleChange('email')}
-              label="Email"
-              onBlur={handleBlur('email')}
-              errorMessage={error('email')}
-              keyboardType="email-address"
-            />
-            <Input
-              value={values.password}
-              onChangeText={handleChange('password')}
-              label="Password"
-              onBlur={handleBlur('password')}
-              secureTextEntry
-              errorMessage={error('password')}
-            />
-            <Button title="Login" onPress={handleSubmit} loading={isSubmitting} />
+            <View style={[styles.inputView]}>
+              <CustomInput
+                value={values.username}
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+                label="Username"
+                errorMessage={error('username')}
+                leftIcon={
+                  <Icon name="user" type="font-awesome" size={20} iconStyle={styles.icon} />
+                }
+                inputContainerStyle={styles.inputContainer}
+              />
+              <CustomInput
+                value={values.password}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                label="Password"
+                errorMessage={error('password')}
+                inputContainerStyle={styles.inputContainer}
+                autoCapitalize="none"
+                secureTextEntry={isPasswordHidden}
+                rightIcon={
+                  <Icon
+                    type="material-community"
+                    size={21}
+                    name={isPasswordHidden ? 'eye' : 'eye-off'}
+                    onPress={() => _showPasswordShort()}
+                    style={styles.icon}
+                  />
+                }
+              />
+            </View>
+
+            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
+              <Button
+                title="SIGN IN"
+                onPress={handleSubmit}
+                loading={isSubmitting}
+                titleStyle={Common.submitButtonTitle}
+                containerStyle={Common.submitButtonContainer}
+                buttonStyle={Common.submitButton}
+              />
+              <ForgotPasswordLink containerStyle={Gutters.regularVMargin} />
+            </View>
           </>
         );
       }}
     </Formik>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonsView: { width: '100%' },
+  icon: { color: Colors.shadow, opacity: 0.5 },
+  inputContainer: {
+    borderBottomWidth: 0,
+    elevation: 3,
+    shadowColor: Colors.shadow,
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+  },
+  inputView: { marginTop: '25%', width: '85%' },
+});
 
 export default SignInForm;

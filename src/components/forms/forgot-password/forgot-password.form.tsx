@@ -86,6 +86,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
                   <Icon name="user" type="font-awesome" size={20} iconStyle={styles.icon} />
                 }
                 inputContainerStyle={styles.inputContainer}
+                keyboardType="email-address"
               />
             </View>
 

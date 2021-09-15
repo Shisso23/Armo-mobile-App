@@ -4,6 +4,7 @@ export type AuthStackList = {
   SignIn: undefined;
   ForgotPassword: undefined;
   SignUp: undefined;
+  ResetPassword: undefined;
 };
 
 export type AuthStackProps = StackNavigationProp<AuthStackList>;

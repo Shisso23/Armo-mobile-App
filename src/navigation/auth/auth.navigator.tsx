@@ -20,7 +20,7 @@ const AuthNavigator = ({ navigation }: { navigation: { goBack: Function } }) => 
         name="SignIn"
         component={SignInScreen}
         options={{
-          title: 'Sign In',
+          headerShown: false,
         }}
       />
       <AuthStack.Screen
@@ -41,16 +41,15 @@ const AuthNavigator = ({ navigation }: { navigation: { goBack: Function } }) => 
         name="SignUp"
         component={SignUpScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
           title: '',
           headerLeft: () => <BackButton onBack={navigation.goBack} />,
           headerStyle: {
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
           },
         }}
       />
     </AuthStack.Navigator>
   );
 };
-
 export default AuthNavigator;
