@@ -5,13 +5,24 @@ import { Text } from 'react-native-elements';
 import { FormScreenContainer } from '../../../components';
 import { ForgotPasswordForm } from '../../../components/forms';
 import { userAuthService } from '../../../services';
-import { forgotPasswordModel } from '../../../models';
+import { forgotPasswordModel, ForgotPasswordProps } from '../../../models';
 import { useTheme } from '../../../theme';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const ForgotPasswordScreen: React.FC = () => {
   const { Gutters, Layout, Images } = useTheme();
+  const navigation = useNavigation();
+  const _handleCancel = () => {
+    navigation.navigate('SignIn');
+  };
+
+  const submitForm = (values: ForgotPasswordProps) => {
+    userAuthService.forgotPassword(values).then(() => {
+      navigation.navigate('ResetPassword');
+    });
+  };
   return (
     <FormScreenContainer
       contentContainerStyle={[
@@ -28,8 +39,9 @@ const ForgotPasswordScreen: React.FC = () => {
         reset your password
       </Text>
       <ForgotPasswordForm
-        submitForm={userAuthService.forgotPassword}
+        submitForm={submitForm}
         initialValues={forgotPasswordModel()}
+        _handleCancel={_handleCancel}
       />
     </FormScreenContainer>
   );

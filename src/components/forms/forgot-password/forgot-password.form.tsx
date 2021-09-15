@@ -19,6 +19,7 @@ type ForgotPasswordFormProps = {
   submitForm: Function;
   onSuccess?: Function;
   initialValues: ForgotPasswordProps;
+  _handleCancel: Function;
 };
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -29,6 +30,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
+  _handleCancel,
 }) => {
   const { Common, Gutters, Layout } = useTheme();
   const _handleSubmission = (
@@ -103,7 +105,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
               <Button
                 type="clear"
                 title="Cancel"
-                onPress={() => {}}
+                onPress={_handleCancel}
                 titleStyle={styles.cancelButtonTitle}
                 containerStyle={Gutters.smallTMargin}
               />

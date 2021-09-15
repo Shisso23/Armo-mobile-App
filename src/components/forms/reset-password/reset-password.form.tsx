@@ -42,7 +42,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
     if (!passwordsMatched) {
       return null;
     }
-    submitForm(formData)
+    return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
         flashService.success('Password resetted');

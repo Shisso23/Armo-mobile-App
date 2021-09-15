@@ -3,14 +3,17 @@ import { Image, StyleSheet, Dimensions } from 'react-native';
 
 import { FormScreenContainer } from '../../../components';
 import { ResetPasswordForm } from '../../../components/forms';
-import { resetPasswordModel } from '../../../models';
+import { resetPasswordModel, ResetPasswordProps } from '../../../models';
 import { useTheme } from '../../../theme';
 
 const { width } = Dimensions.get('window');
 
 const ResetPasswordScreen: React.FC = () => {
   const { Gutters, Layout, Images } = useTheme();
-  const onSubmit = () => {};
+  const onSubmit = async (formData: ResetPasswordProps) => {
+    console.log(formData);
+    return null;
+  };
   return (
     <FormScreenContainer
       contentContainerStyle={[

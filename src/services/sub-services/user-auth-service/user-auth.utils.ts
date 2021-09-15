@@ -17,8 +17,14 @@ const removeAccessAndRefreshTokens = () =>
 const getAccessAndRefreshTokens = () =>
   Promise.all([storageService.getAccessToken(), storageService.getRefreshToken()]);
 
-const constructOAuthSignInData = ({ email, password }: { email: string; password: string }) => ({
-  email,
+const constructOAuthSignInData = ({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}) => ({
+  username,
   password,
   grant_type: 'password',
   client_id: appConfig.clientId,
