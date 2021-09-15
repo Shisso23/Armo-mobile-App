@@ -8,7 +8,6 @@ import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
 import BackButton from '../../components/atoms/back-button';
 import { Colors } from '../../theme/Variables';
-import SignUpScreen from '../../screens/app/sign-up/sign-up.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -31,19 +30,6 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => (
     <Drawer.Screen
       name="Home"
       component={HomeScreen}
-      options={{
-        headerShown: true,
-        title: '',
-        headerLeft: () => <BackButton onBack={navigation.goBack} />,
-        headerStyle: {
-          backgroundColor: Colors.transparent,
-        },
-      }}
-    />
-
-    <Drawer.Screen
-      name="SignUp"
-      component={SignUpScreen}
       options={{
         headerShown: true,
         title: '',

@@ -41,6 +41,12 @@ export default ({ Colors, FontFamily }) =>
       color: Colors.secondary,
       fontWeight: 'bold',
     },
+    submitButton: {
+      backgroundColor: Colors.secondary,
+      borderRadius: 20,
+    },
+    submitButtonContainer: { borderRadius: 20, width: '70%' },
+    submitButtonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
     textInput: {
       backgroundColor: Colors.inputBackground,
       borderColor: Colors.text,

@@ -25,7 +25,7 @@ const SignUpScreen: React.FC = () => {
         <Text style={[Gutters.smallVMargin, { color: Colors.shadow }]}>
           Add your details to sign up
         </Text>
-        <View style={Gutters.smallHMargin}>
+        <View style={Gutters.largeHMargin}>
           <SignUpForm submitForm={submitForm} initialValues={signUpFormModel()} />
         </View>
       </FormScreenContainer>
