@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 60,
     overflow: 'hidden',
-    width: 90,
+    width: 75,
   },
   container: { backgroundColor: Colors.gray, bottom: 18, minHeight: 60, width: '100%' },
   imageSize: { color: Colors.white, opacity: 0.5 },
