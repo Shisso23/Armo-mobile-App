@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 15,
     fontWeight: '400',
+    opacity: 0.7,
   },
   verticalAlignTextTop: {
     textAlignVertical: 'top',

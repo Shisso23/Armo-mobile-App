@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.shadow,
     borderRadius: 20,
   },
-  icon: { color: Colors.shadow, opacity: 0.8 },
+  icon: { color: Colors.shadow, opacity: 0.65 },
   inputContainer: {
     borderBottomWidth: 0,
     elevation: 3,

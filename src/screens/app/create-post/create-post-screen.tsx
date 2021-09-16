@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
-import { Text, Icon } from 'react-native-elements';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Icon } from 'react-native-elements';
 
 import { FormScreenContainer } from '../../../components';
 import { CreatePostForm } from '../../../components/forms';
@@ -10,7 +11,12 @@ import { useTheme } from '../../../theme';
 const { width } = Dimensions.get('window');
 
 const CreatePostScreen: React.FC = () => {
+  const navigation = useNavigation();
   const { Gutters, Layout } = useTheme();
+
+  const goBack = () => {
+    navigation.goBack();
+  };
   const onSubmit = async (formData: CreatePostProps) => {
     console.log(formData);
     return null;
@@ -26,7 +32,7 @@ const CreatePostScreen: React.FC = () => {
     >
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
         <Text style={styles.title}>Create Post</Text>
-        <Icon name="times" type="font-awesome-5" size={25} />
+        <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
 
       <CreatePostForm submitForm={onSubmit} initialValues={CreatePostModel()} />
@@ -36,6 +42,6 @@ const CreatePostScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  title: { fontSize: 23, fontWeight: '800' },
+  title: { fontSize: 23, fontWeight: '500' },
 });
 export default CreatePostScreen;
