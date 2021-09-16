@@ -8,5 +8,6 @@ export type AppStackProps = StackNavigationProp<AppStackList>;
 export type DrawerList = {
   Home: undefined;
   Profile: undefined;
+  CreatePost: undefined;
 };
 export type DrawerStackProps = StackNavigationProp<DrawerList>;

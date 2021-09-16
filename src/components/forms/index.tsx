@@ -4,3 +4,4 @@ export { default as ProfileForm } from './profile/profile.form';
 export { default as ForgotPasswordForm } from './forgot-password/forgot-password.form';
 export { default as ResetPasswordForm } from './reset-password/reset-password.form';
 export { default as SignUpForm } from './sign-up/sign-up.form';
+export { default as CreatePostForm } from './posts/create-post.form';

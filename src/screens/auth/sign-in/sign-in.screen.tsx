@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { RegisterLink } from '../../../components';
+import { useIsFocused } from '@react-navigation/native';
 
+import { RegisterLink } from '../../../components';
 import { FormScreenContainer } from '../../../components';
 import { SignInForm } from '../../../components/forms';
 import { isAuthenticatedFlowAction } from '../../../reducers/app-reducer/app.actions';
@@ -14,33 +15,37 @@ const { width } = Dimensions.get('window');
 
 const SignInScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const { Gutters, Layout, Images } = useTheme();
+  const { Gutters, Layout, Images, Colors } = useTheme();
+  const isFocused = useIsFocused();
 
   const _onSignInSuccess = () => {
     dispatch(isAuthenticatedFlowAction());
   };
 
   return (
-    <FormScreenContainer contentContainerStyle={[Layout.scrollCenter]}>
-      <View
-        style={[
-          Gutters.regularPadding,
-          Layout.alignItemsCenter,
-          // Layout.fill,
-          Gutters.largeHPadding,
-          styles.container,
-        ]}
-      >
-        <Image source={Images.signInTop} style={styles.topImage} />
-        <Image source={Images.logo3} style={[styles.image]} />
-        <SignInForm
-          submitForm={userAuthService.signIn}
-          onSuccess={_onSignInSuccess}
-          initialValues={signInModel()}
-        />
-      </View>
-      <RegisterLink containerStyle={Gutters.largeTMargin} />
-    </FormScreenContainer>
+    <>
+      {isFocused && <StatusBar hidden />}
+      <FormScreenContainer contentContainerStyle={[Layout.scrollCenter]}>
+        <View
+          style={[
+            Gutters.regularPadding,
+            Layout.alignItemsCenter,
+            // Layout.fill,
+            Gutters.largeHPadding,
+            styles.container,
+          ]}
+        >
+          <Image source={Images.signInTop} style={styles.topImage} />
+          <Image source={Images.logo3} style={[styles.image]} />
+          <SignInForm
+            submitForm={userAuthService.signIn}
+            onSuccess={_onSignInSuccess}
+            initialValues={signInModel()}
+          />
+        </View>
+        <RegisterLink containerStyle={Gutters.largeTMargin} />
+      </FormScreenContainer>
+    </>
   );
 };
 

@@ -20,7 +20,7 @@ const ForgotPasswordScreen: React.FC = () => {
 
   const submitForm = (values: ForgotPasswordProps) => {
     userAuthService.forgotPassword(values).then(() => {
-      navigation.navigate('ResetPassword');
+      navigation.navigate('SignIn');
     });
   };
   return (
