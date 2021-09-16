@@ -9,6 +9,7 @@ import { AppStackList, DrawerList } from './types';
 import BackButton from '../../components/atoms/back-button';
 import { Colors } from '../../theme/Variables';
 import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
+import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -17,11 +18,18 @@ const AppNavigator = () => {
   const { Custom } = useTheme();
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions}>
-      {/* <AppStack.Screen
+      <AppStack.Screen
         name="App Home"
         component={DrawerNavigator}
         options={{ headerShown: false }}
-      /> */}
+      />
+
+      <AppStack.Screen
+        name="ReplyToPost"
+        component={ReplyToPostScreen}
+        options={{ headerShown: false }}
+      />
+
       <AppStack.Screen
         name="CreatePost"
         component={CreatePostScreen}

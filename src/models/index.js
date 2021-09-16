@@ -5,3 +5,4 @@ export { signInModel, apiSignInModel, SignInProps } from './auth/sign-in/sign-in
 export { signUpFormModel, SignUpProps } from './app/sign-up/sign-up.model';
 export * from './app/user/user.model';
 export * from './app/posts/posts.model';
+export * from './app/posts/reply.model';

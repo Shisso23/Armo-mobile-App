@@ -9,44 +9,25 @@ import { getFormError } from '../form-utils';
 import { flashService } from '../../../services';
 
 import { ErrorObject } from '../types';
-import { CreatePostProps } from '../../../models';
-import CustomInput from '../../molecules/custom-input';
-import DropdownSelect from '../../molecules/dropdown-select/dropdown-select';
+import { ReplyToPostProps } from '../../../models';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import DescriptionInput from '../../molecules/description-input';
 import ImageThumbnail from '../../molecules/image-thumbnail';
 import UploadMediaButton from '../../molecules/upload-media-button';
 
-type CreatePostFormProps = {
+type ReplyToFormProps = {
   submitForm: Function;
   onSuccess?: Function;
-  initialValues: CreatePostProps;
+  initialValues: ReplyToPostProps;
 };
 
-const createPostSchema = Yup.object().shape({
-  category: Yup.string().required(),
-  topicTitle: Yup.string().required('Topic title is required'),
+const replyToPostSchema = Yup.object().shape({
   description: Yup.string().required(),
   imageUri: Yup.string(),
 });
 
-const categories = [
-  'AFR',
-  'ARM',
-  'ARM-CE',
-  'ARMA',
-  'ARMSA',
-  'ANIPAC',
-  'BPF',
-  'IT-RO',
-  'Nordic ARM',
-  'ROTOPOL',
-  'RPC-CPPIA',
-  'StAR',
-];
-
-const CreatePostForm: React.FC<CreatePostFormProps> = ({
+const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
@@ -54,13 +35,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
   const { Common, Gutters, Layout } = useTheme();
   const [imageSize, setImageSize] = useState(0);
   const _handleSubmission = (
-    formData: CreatePostProps,
-    actions: FormikHelpers<CreatePostProps>,
+    formData: ReplyToPostProps,
+    actions: FormikHelpers<ReplyToPostProps>,
   ) => {
     return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
-        flashService.success('Post created successfully');
+        flashService.success('Sent');
         onSuccess();
       })
       .catch((error: ErrorObject) => {
@@ -78,7 +59,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
       initialValues={initialValues}
       initialStatus={{ apiErrors: {} }}
       onSubmit={_handleSubmission}
-      validationSchema={createPostSchema}
+      validationSchema={replyToPostSchema}
       enableReinitialize
     >
       {({
@@ -96,39 +77,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
           getFormError(name, { touched, status, errors });
         return (
           <>
-            <DropdownSelect
-              value={values.category}
-              label="Category"
-              onChange={(category: any) => {
-                setFieldValue('category', category);
-              }}
-              items={categories}
-              valueExtractor={(item: any) => {
-                return item;
-              }}
-              error={error('category')}
-              placeholder=""
-              contentStyle={styles.categoryContent}
-              inputContainerStyle={styles.inputContainer}
-              rightIcon={
-                <Icon
-                  type="material-community"
-                  size={21}
-                  name="chevron-right"
-                  style={styles.icon}
-                />
-              }
-            />
-
-            <CustomInput
-              value={values.topicTitle}
-              onChangeText={handleChange('topicTitle')}
-              onBlur={handleBlur('topicTitle')}
-              label="Topic title"
-              errorMessage={error('topicTitle')}
-              inputContainerStyle={styles.inputContainer}
-              leftIcon={undefined}
-            />
             <DescriptionInput
               handleChange={handleChange}
               handleBlur={handleBlur}
@@ -182,22 +130,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
 
 const styles = StyleSheet.create({
   buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
-  categoryContent: {
-    borderColor: Colors.shadow,
-    borderRadius: 20,
-  },
-  icon: { color: Colors.shadow, opacity: 0.65 },
-  inputContainer: {
-    borderBottomWidth: 0,
-    elevation: 3,
-    shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-  },
   postButton: { width: '100%' },
 });
-export default CreatePostForm;
+export default ReplyToPostForm;
