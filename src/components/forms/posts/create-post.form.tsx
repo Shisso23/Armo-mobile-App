@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
@@ -16,6 +16,7 @@ import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import DescriptionInput from '../../molecules/description-input';
 import ImageThumbnail from '../../molecules/image-thumbnail';
+import UploadMediaButton from '../../molecules/upload-media-button';
 
 type ResetPasswordFormProps = {
   submitForm: Function;
@@ -25,9 +26,9 @@ type ResetPasswordFormProps = {
 
 const createPostSchema = Yup.object().shape({
   category: Yup.string().required(),
-  topicTitle: Yup.string().required(),
+  topicTitle: Yup.string().required('Topic title is required'),
   description: Yup.string().required(),
-  images: Yup.array(),
+  imageUri: Yup.string(),
 });
 
 const categories = [
@@ -51,6 +52,7 @@ const CreatePostForm: React.FC<ResetPasswordFormProps> = ({
   initialValues,
 }) => {
   const { Common, Gutters, Layout } = useTheme();
+  const [imageSize, setImageSize] = useState(0);
   const _handleSubmission = (
     formData: CreatePostProps,
     actions: FormikHelpers<CreatePostProps>,
@@ -97,7 +99,6 @@ const CreatePostForm: React.FC<ResetPasswordFormProps> = ({
             <DropdownSelect
               value={values.category}
               label="Category"
-              keyExtractor={(category: any, index: Number) => `${category}${index}`}
               onChange={(category: any) => {
                 setFieldValue('category', category);
               }}
@@ -134,30 +135,24 @@ const CreatePostForm: React.FC<ResetPasswordFormProps> = ({
               value={values.description}
               error={error}
             />
-            <ImageThumbnail image={_.get(values, 'image', {})} />
+            <ImageThumbnail
+              imageUri={_.get(values, 'imageUri', {})}
+              imageSize={imageSize}
+              deleteImage={() => {
+                setFieldValue('imageUri', '');
+              }}
+            />
 
             <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
-              <Button
-                type="outline"
+              <UploadMediaButton
                 title="Upload Image/Video"
-                icon={
-                  <Icon
-                    name="upload"
-                    color={Colors.gray}
-                    size={17}
-                    type="antdesign"
-                    style={Gutters.smallRMargin}
-                  />
-                }
-                onPress={() => {}}
-                titleStyle={styles.uploadButtonTitle}
-                buttonStyle={styles.uploadButtonStyle}
-                containerStyle={[
-                  Gutters.regularBMargin,
-                  Common.submitButtonContainer,
-                  styles.uploadButtonContainer,
-                ]}
-                raised
+                style={[Layout.fill, Gutters.tinyRMargin]}
+                disabled={isSubmitting}
+                errorMessage={error('imageUri')}
+                onImageSelect={(image: Object) => {
+                  setImageSize(_.get(image[0], 'size', 0));
+                  setFieldValue('imageUri', _.get(image[0], 'uri', ''));
+                }}
               />
               <Button
                 title="Post"
@@ -204,13 +199,5 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   postButton: { width: '100%' },
-  uploadButtonContainer: {
-    borderBottomWidth: 0.5,
-    borderColor: Colors.gray,
-    borderWidth: 0.8,
-    width: '100%',
-  },
-  uploadButtonStyle: { borderRadius: 20, borderWidth: 0 },
-  uploadButtonTitle: { color: Colors.black, opacity: 0.6 },
 });
 export default CreatePostForm;

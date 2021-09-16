@@ -80,10 +80,6 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
             style={{ opacity: textItalics ? 1 : 0.6 }}
             onPress={() => setTextItalics(!textItalics)}
           />
-          <View style={Layout.row}>
-            <Icon name="chevron-left" size={21} color={Colors.white} style={{}} />
-            <Icon name="chevron-right" size={21} color={Colors.white} />
-          </View>
           <Icon
             name="format-align-center"
             color={Colors.white}

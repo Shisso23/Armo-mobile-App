@@ -15,7 +15,7 @@ export default ({ Colors, FontFamily }) =>
       backgroundColor: Colors.transparent,
     },
     errorStyle: {
-      color: Colors.danger,
+      color: Colors.error,
       fontFamily: FontFamily.primary,
       fontSize: 15,
       height: 26,
