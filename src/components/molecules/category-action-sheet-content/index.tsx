@@ -1,4 +1,5 @@
-import React from 'react';
+import _ from 'lodash';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 
@@ -7,21 +8,14 @@ import { Colors } from '../../../theme/Variables';
 import CategoryItem from '../category-item';
 
 type CategoryActionSheetContentProps = {
-  onSelectCategory: Function;
-  setSortOrder: Function;
   showResults: Function;
-  loadingResults: Boolean;
-  clearSelectedCategories: Function;
 };
 
-const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
-  onSelectCategory,
-  setSortOrder,
-  showResults,
-  loadingResults,
-  clearSelectedCategories,
-}) => {
+const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({ showResults }) => {
   const { Gutters, Common, Layout } = useTheme();
+  const [sortBy, setSortBy] = useState('New');
+  const [categoriesCleared, setCategoriesCleared] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<Object[]>([]);
 
   const categories = [
     { name: 'Mould', id: 1 },
@@ -36,8 +30,45 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
     { name: 'Foaming', id: 10 },
   ];
 
-  const renderCategories = ({ item }: { item: { id: any; name: String } }) => {
-    return <CategoryItem item={item} selected={false} setCategorySelected={onSelectCategory} />;
+  useEffect(() => {
+    return () => {
+      clearCategories();
+    };
+  }, []);
+
+  const onSelectCategory = (item: Object) => {
+    if (selectedCategories.some((category) => _.get(category, 'id') === _.get(item, 'id'))) {
+      const updatedCategories = selectedCategories.filter(
+        (category) => _.get(category, 'id') !== _.get(item, 'id'),
+      );
+      if (_.get(item, 'selected', false)) {
+        setSelectedCategories([...updatedCategories, item]);
+      } else {
+        setSelectedCategories(updatedCategories);
+      }
+    } else {
+      setSelectedCategories([...selectedCategories, item]);
+    }
+  };
+
+  const clearCategories = () => {
+    setSortBy('New');
+    setCategoriesCleared(true);
+    setSelectedCategories([]);
+  };
+
+  const renderCategories = ({ item }: { item: { id: any; name: String; selected: Boolean } }) => {
+    return (
+      <CategoryItem
+        item={item}
+        cleared={categoriesCleared}
+        setCategorySelected={(category: Object) => {
+          onSelectCategory(category);
+          setCategoriesCleared(false);
+        }}
+        clear={clearCategories}
+      />
+    );
   };
 
   return (
@@ -54,20 +85,28 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
       <View style={[Layout.row, Gutters.regularMargin]}>
         <CategoryItem
           name="New"
-          selected={false}
-          setCategorySelected={() => setSortOrder('ascending')}
+          selected={sortBy === 'New'}
+          cleared={categoriesCleared}
+          setCategorySelected={() => {
+            setSortBy('New');
+            setCategoriesCleared(false);
+          }}
         />
         <CategoryItem
           name="Old"
-          selected={false}
-          setCategorySelected={() => setSortOrder('descending')}
+          selected={sortBy === 'Old'}
+          cleared={categoriesCleared}
+          setCategorySelected={() => {
+            setSortBy('Old');
+            setCategoriesCleared(false);
+          }}
         />
       </View>
       <View style={[Layout.rowBetween, Gutters.regularMargin]}>
         <Button
           title="Show results"
           onPress={showResults}
-          loading={loadingResults}
+          loading={false}
           containerStyle={[Common.submitButtonContainer, styles.showResultsButton]}
           buttonStyle={[Common.submitButton, styles.showResultsButtonStyle]}
         />
@@ -75,7 +114,7 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
         <Button
           type="clear"
           title="Clear"
-          onPress={clearSelectedCategories}
+          onPress={clearCategories}
           titleStyle={styles.clearButtonTitle}
           containerStyle={[Gutters.regularRMargin]}
         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from 'react';
+import React, { useState, createRef } from 'react';
 import {
   View,
   StyleSheet,
@@ -15,17 +15,14 @@ import { useNavigation } from '@react-navigation/native';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
-import CustomInput from '../../../components/molecules/custom-input';
 import CategoryActionSheet from '../../../components/molecules/category-action-sheet-content';
+import SearchBar from '../../../components/atoms/search-bar';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  // const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [categorySelected, setCategorySelected] = useState(false);
-  // const [sortOrder, setSortOrder] = useState(null); // by default sorts from new to old
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
-  const actionSheetRef = createRef();
+  const actionSheetRef = createRef<any>();
   const [searchResult, setSearchResult] = useState([]);
   const { Layout, Gutters, Common, Fonts } = useTheme();
   const forums = [
@@ -63,37 +60,6 @@ const ForumsScreen: React.FC = () => {
 
   const handleJoinForum = () => {};
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={[Layout.rowBetween, Gutters.regularRMargin]}>
-          <Icon
-            type="font-awesome-5"
-            name="bell"
-            size={23}
-            iconStyle={[styles.iconsOpacity, Gutters.smallRMargin, styles.bellIcon]}
-          />
-          <View
-            style={[
-              Layout.rowBetween,
-              styles.userView,
-              Gutters.smallHPadding,
-              Gutters.tinyVPadding,
-            ]}
-          >
-            <Icon
-              name="user"
-              type="feather"
-              size={15}
-              iconStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
-            />
-            <Text>username</Text>
-          </View>
-        </View>
-      ),
-    });
-  });
-
   const handleFilterPress = () => {
     Keyboard.dismiss();
     setActionSheetIsVisible(true);
@@ -110,6 +76,10 @@ const ForumsScreen: React.FC = () => {
 
   const clearSearch = () => {
     setSearchText('');
+  };
+
+  const onActionSheetClose = () => {
+    setActionSheetIsVisible(false);
   };
 
   const renderForum = ({ item }: { item: { title: String; description: String; id: any } }) => {
@@ -154,16 +124,11 @@ const ForumsScreen: React.FC = () => {
     <>
       <Text style={[Gutters.regularMargin, Fonts.titleSmall, styles.title]}>Community</Text>
       <View style={[Layout.rowCenter, Gutters.largeHMargin]}>
-        <CustomInput
+        <SearchBar
           value={searchText}
-          onChangeText={searchForums}
-          label=""
-          placeholder="Search forums"
-          inputContainerStyle={styles.searchInput}
-          leftIcon={<Icon name="search" iconStyle={styles.iconsOpacity} />}
-          rightIcon={
-            <Icon name="clear" size={20} onPress={clearSearch} iconStyle={styles.iconsOpacity} />
-          }
+          clearSearch={clearSearch}
+          onChangeTex={searchForums}
+          placeHolder="Search forums"
         />
 
         <Icon
@@ -205,29 +170,22 @@ const ForumsScreen: React.FC = () => {
         ref={actionSheetRef}
         gestureEnabled
         containerStyle={styles.actionSheet}
-        onClose={() => setActionSheetIsVisible(false)}
+        onClose={onActionSheetClose}
       >
-        <CategoryActionSheet
-          onSelectCategory={() => {}}
-          setSortOrder={() => {}}
-          showResults={() => {}}
-          loadingResults={false}
-          clearSelectedCategories={() => {}}
-        />
+        <CategoryActionSheet showResults={() => {}} />
       </ActionSheet>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  bellIcon: { marginTop: 3 },
   actionSheet: { borderRadius: 25 },
   fab: { backgroundColor: Colors.secondary, borderRadius: 10 },
   filterIconContainer: {
     borderColor: Colors.secondary,
     borderWidth: 1.5,
     bottom: '2%',
-    right: '30%',
+    right: '25%',
     transform: [{ rotate: '90deg' }],
   },
   forumItem: {
@@ -241,16 +199,7 @@ const styles = StyleSheet.create({
   iconsOpacity: { opacity: 0.72 },
   joinForumIcon: { marginTop: 3 },
   joinForumText: { fontWeight: '300' },
-  searchInput: {
-    borderBottomWidth: 1.5,
-    borderColor: Colors.secondary,
-    borderWidth: 1.5,
-    marginBottom: 0,
-    marginLeft: 15,
-    marginRight: '10%',
-  },
   title: { fontWeight: '500', marginLeft: '5%' },
-  userView: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
 });
 
 export default ForumsScreen;
