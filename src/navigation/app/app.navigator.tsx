@@ -14,6 +14,7 @@ import ServicesScreen from '../../screens/app/services/services.screen';
 import ForumsScreen from '../../screens/app/forums/forums.screen';
 import DrawerContent from '../../components/atoms/drawer/drawe.content';
 import { StyleSheet } from 'react-native';
+import ViewPostScreen from '../../screens/app/forums/view-post.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -30,6 +31,16 @@ const AppNavigator = () => {
       <AppStack.Screen
         name="Forums"
         component={ForumsScreen}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: Colors.white, shadowColor: Colors.transparent },
+          title: '',
+        }}
+      />
+
+      <AppStack.Screen
+        name="ViewPost"
+        component={ViewPostScreen}
         options={{
           headerShown: true,
           headerStyle: { backgroundColor: Colors.white, shadowColor: Colors.transparent },
@@ -59,7 +70,7 @@ const AppNavigator = () => {
 };
 
 const DrawerNavigator = ({ navigation }: { navigation: any }) => {
-  const { Custom } = useTheme();
+  const { Custom, Images } = useTheme();
   return (
     <Drawer.Navigator
       screenOptions={Custom.globalNavigatorScreenOptions}
@@ -68,13 +79,49 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
     >
       <Drawer.Screen
         name="Home"
-        component={ForumsScreen}
+        component={ViewPostScreen}
         options={{
           headerShown: true,
           title: '',
           headerLeft: () => <BackButton onBack={navigation.goBack} />,
           headerStyle: {
             backgroundColor: Colors.transparent,
+          },
+        }}
+        initialParams={{
+          post: {
+            title: 'Cloudiness on Marble Material or Similar',
+            date: new Date(),
+            id: 999,
+            description:
+              'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
+            image: Images.logo,
+            replies: [
+              {
+                user: { name: 'User1' },
+                comment:
+                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
+                replies: [
+                  {
+                    user: { name: 'User3' },
+                    comment: 'Yes indeed',
+                    replies: [],
+                  },
+                ],
+              },
+              {
+                user: { name: 'User1' },
+                comment:
+                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
+                replies: [
+                  {
+                    user: { name: 'User3' },
+                    comment: 'Yes indeed',
+                    replies: [],
+                  },
+                ],
+              },
+            ],
           },
         }}
       />
