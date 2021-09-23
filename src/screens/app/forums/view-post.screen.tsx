@@ -1,6 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, Image, Pressable, Dimensions } from 'react-native';
-import { Icon, ListItem } from 'react-native-elements';
+import React, { createRef } from 'react';
+import { StyleSheet, Text, Image, Pressable, Dimensions, TouchableOpacity } from 'react-native';
+import { Icon, ListItem, Tooltip } from 'react-native-elements';
+import ActionSheet from 'react-native-actions-sheet';
+import { useNavigation } from '@react-navigation/core';
+import Clipboard from '@react-native-community/clipboard';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -8,6 +11,7 @@ import { ScreenContainer } from '../../../components';
 import UserInfoBox from '../../../components/molecules/user-info/userInfoBox';
 import _ from 'lodash';
 import PostReplies from '../../../components/molecules/post-replies';
+import ShareActionContent from '../../../components/molecules/share-action-content';
 
 const { width } = Dimensions.get('window');
 
@@ -19,7 +23,19 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
   const user = { name: 'Hyacinthe Shisso' };
+  const actionSheetRef = createRef<any>();
+  const toolTipRef = createRef<any>();
+  const navigation = useNavigation();
   const { Layout, Gutters, Fonts } = useTheme();
+
+  const openActionSheet = () => {
+    actionSheetRef.current.setModalVisible(true);
+  };
+
+  const handleClipBoardCopy = () => {
+    Clipboard.setString(_.get(post, 'description', ''));
+    toolTipRef.current.toggleTooltip();
+  };
 
   const renderReplyAndShareButtons = () => {
     return (
@@ -30,14 +46,26 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           styles.shareAndReplyContainer,
         ]}
       >
-        <Icon name="reply" color={Colors.white} style={Gutters.tinyLMargin} />
+        <Icon
+          onPress={() => navigation.navigate('ReplyToPost', { post })}
+          name="reply"
+          color={Colors.white}
+          style={Gutters.tinyLMargin}
+        />
         <ListItem.Content>
-          <Text style={styles.replyText}>Reply</Text>
+          <Pressable onPress={() => navigation.navigate('ReplyToPost', { post })}>
+            {() => <Text style={styles.replyText}>Reply</Text>}
+          </Pressable>
         </ListItem.Content>
-        <Icon name="share" color={Colors.white} />
-        <ListItem.Title style={[Gutters.smallRMargin, { color: Colors.white }]}>
-          Share
-        </ListItem.Title>
+
+        <TouchableOpacity onPress={openActionSheet} style={Layout.row}>
+          <Icon name="share" color={Colors.white} />
+          <ListItem.Title
+            style={[Gutters.smallHMargin, Gutters.tinyTMargin, { color: Colors.white }]}
+          >
+            Share
+          </ListItem.Title>
+        </TouchableOpacity>
       </ListItem>
     );
   };
@@ -64,11 +92,21 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         {renderReplyAndShareButtons()}
         <PostReplies post={post} />
       </ScreenContainer>
+      <ActionSheet ref={actionSheetRef} gestureEnabled containerStyle={styles.actionSheet}>
+        <Tooltip popover={<Text>Copied</Text>} ref={toolTipRef}>
+          <ShareActionContent
+            onSharePress={() => {}}
+            onCopyPress={handleClipBoardCopy}
+            onReportPress={() => {}}
+          />
+        </Tooltip>
+      </ActionSheet>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  actionSheet: { borderRadius: 25 },
   replyText: { color: Colors.white, fontSize: 17 },
   // eslint-disable-next-line react-native/no-color-literals
   shareAndReplyContainer: { backgroundColor: '#EF7C0B', left: -10, width },
