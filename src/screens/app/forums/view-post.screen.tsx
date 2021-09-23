@@ -1,6 +1,14 @@
 import React, { createRef } from 'react';
-import { StyleSheet, Text, Image, Pressable, Dimensions, TouchableOpacity } from 'react-native';
-import { Icon, ListItem, Tooltip } from 'react-native-elements';
+import {
+  StyleSheet,
+  Text,
+  Image,
+  Pressable,
+  Dimensions,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/core';
 import Clipboard from '@react-native-community/clipboard';
@@ -24,7 +32,6 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { post } = params;
   const user = { name: 'Hyacinthe Shisso' };
   const actionSheetRef = createRef<any>();
-  const toolTipRef = createRef<any>();
   const navigation = useNavigation();
   const { Layout, Gutters, Fonts } = useTheme();
 
@@ -34,7 +41,8 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   const handleClipBoardCopy = () => {
     Clipboard.setString(_.get(post, 'description', ''));
-    toolTipRef.current.toggleTooltip();
+    actionSheetRef.current.setModalVisible(false);
+    Alert.alert('Copied');
   };
 
   const renderReplyAndShareButtons = () => {
@@ -92,14 +100,17 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         {renderReplyAndShareButtons()}
         <PostReplies post={post} />
       </ScreenContainer>
-      <ActionSheet ref={actionSheetRef} gestureEnabled containerStyle={styles.actionSheet}>
-        <Tooltip popover={<Text>Copied</Text>} ref={toolTipRef}>
-          <ShareActionContent
-            onSharePress={() => {}}
-            onCopyPress={handleClipBoardCopy}
-            onReportPress={() => {}}
-          />
-        </Tooltip>
+      <ActionSheet
+        overlayColor={Colors.transparent}
+        ref={actionSheetRef}
+        gestureEnabled
+        containerStyle={styles.actionSheet}
+      >
+        <ShareActionContent
+          onSharePress={() => {}}
+          onCopyPress={handleClipBoardCopy}
+          onReportPress={() => {}}
+        />
       </ActionSheet>
     </>
   );
