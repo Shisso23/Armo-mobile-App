@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  View,
 } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
@@ -20,6 +21,7 @@ import UserInfoBox from '../../../components/molecules/user-info/userInfoBox';
 import _ from 'lodash';
 import PostReplies from '../../../components/molecules/post-replies';
 import ShareActionContent from '../../../components/molecules/share-action-content';
+import ReportPostModal from '../../../components/molecules/report-post-modal';
 
 const { width } = Dimensions.get('window');
 
@@ -32,6 +34,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { post } = params;
   const user = { name: 'Hyacinthe Shisso' };
   const actionSheetRef = createRef<any>();
+  const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigation = useNavigation();
   const { Layout, Gutters, Fonts } = useTheme();
 
@@ -43,6 +46,15 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
     Clipboard.setString(_.get(post, 'description', ''));
     actionSheetRef.current.setModalVisible(false);
     Alert.alert('Copied');
+  };
+
+  const handleReportPress = () => {
+    actionSheetRef.current.setModalVisible(false);
+    setReportModalVisible(true);
+  };
+
+  const hideReportModal = () => {
+    setReportModalVisible(false);
   };
 
   const renderReplyAndShareButtons = () => {
@@ -79,11 +91,20 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   };
   const handleOpenImage = () => {};
 
+  const onDeletePost = () => {};
+
+  const onEditPost = () => {};
+
   return (
     <>
       <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
-        <UserInfoBox post={post} user={user} />
-        <ListItem.Content style={Gutters.regularHPadding}>
+        <UserInfoBox
+          post={post}
+          user={user}
+          handlePostDelete={onDeletePost}
+          handlePostEdit={onEditPost}
+        />
+        <View style={Gutters.regularHPadding}>
           <Text style={Fonts.titleTiny}>{_.get(post, 'title', '')}</Text>
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
             {_.get(post, 'description', '-')}
@@ -96,10 +117,19 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
               />
             )}
           </Pressable>
-        </ListItem.Content>
-        {renderReplyAndShareButtons()}
-        <PostReplies post={post} />
+        </View>
+        <View>
+          {renderReplyAndShareButtons()}
+          <PostReplies post={post} />
+        </View>
+        <ReportPostModal
+          style={Gutters.largeLMargin}
+          handleReport={() => {}}
+          visible={reportModalVisible}
+          onDismiss={hideReportModal}
+        />
       </ScreenContainer>
+
       <ActionSheet
         overlayColor={Colors.transparent}
         ref={actionSheetRef}
@@ -109,7 +139,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         <ShareActionContent
           onSharePress={() => {}}
           onCopyPress={handleClipBoardCopy}
-          onReportPress={() => {}}
+          onReportPress={handleReportPress}
         />
       </ActionSheet>
     </>
@@ -118,7 +148,9 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
 const styles = StyleSheet.create({
   actionSheet: { borderRadius: 25 },
+
   replyText: { color: Colors.white, fontSize: 17 },
+
   // eslint-disable-next-line react-native/no-color-literals
   shareAndReplyContainer: { backgroundColor: '#EF7C0B', left: -10, width },
 });

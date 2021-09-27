@@ -4,13 +4,21 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Colors } from '../../../theme/Variables';
 import { StyleSheet } from 'react-native';
+import EditDeletePost from '../edit-delete-post-modal';
 
 type UserInfoBoxProps = {
   user: Object;
   post?: Object;
+  handlePostDelete: Function;
+  handlePostEdit: Function;
 };
 
-const UserInfoBox: React.FC<UserInfoBoxProps> = ({ user, post }) => {
+const UserInfoBox: React.FC<UserInfoBoxProps> = ({
+  user,
+  post,
+  handlePostEdit,
+  handlePostDelete,
+}) => {
   const formatDate = (date: any) => {
     return moment(date).fromNow();
   };
@@ -27,7 +35,7 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({ user, post }) => {
         <ListItem.Title>{_.get(user, 'name', '')}</ListItem.Title>
         <ListItem.Subtitle>{formatDate(_.get(post, 'date', new Date()))}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Title>#{_.get(post, 'id', '#')}</ListItem.Title>
+      <EditDeletePost handleDelete={handlePostDelete} handleEdit={handlePostEdit} />
     </ListItem>
   );
 };
