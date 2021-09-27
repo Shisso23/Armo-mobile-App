@@ -29,6 +29,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     <View>
       <ListItem.Accordion
         noIcon
+        underlayColor={Colors.transparent}
         content={
           <>
             <Text style={[styles.repliesText, Gutters.smallRMargin]}>Replies</Text>

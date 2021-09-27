@@ -80,15 +80,19 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     shadowColor: Colors.shadow,
     shadowOffset: {
-      height: 16,
+      height: 10,
       width: 3,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowOpacity: 0.6,
+    shadowRadius: 20,
     top: '35%',
     width: '80%',
   },
-  reportMenuContent: { borderRadius: 15, height: '100%', width: '100%' },
+  reportMenuContent: {
+    borderRadius: 15,
+    height: '100%',
+    width: '100%',
+  },
   reportMenuTitle: { fontWeight: '500' },
 });
 export default ReportPostModal;
