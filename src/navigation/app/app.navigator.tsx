@@ -22,13 +22,17 @@ const Drawer = createDrawerNavigator<DrawerList>();
 const AppNavigator = ({ navigation }: { navigation: any }) => {
   const { Custom, Images } = useTheme();
   return (
-    <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions}>
+    <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions} headerMode="screen">
       <AppStack.Screen
         name="App Home"
         component={DrawerNavigator}
         options={{ headerShown: false }}
       />
-      <AppStack.Screen name="ReplyToPost" component={ReplyToPostScreen} />
+      <AppStack.Screen
+        name="ReplyToPost"
+        component={ReplyToPostScreen}
+        options={{ headerShown: false }}
+      />
       <AppStack.Screen
         name="ViewPost"
         component={ViewPostScreen}
