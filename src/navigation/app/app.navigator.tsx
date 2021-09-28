@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
-import BackButton from '../../components/atoms/back-button';
 import { Colors } from '../../theme/Variables';
 import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
 import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
@@ -15,12 +14,13 @@ import ForumsScreen from '../../screens/app/forums/forums.screen';
 import DrawerContent from '../../components/atoms/drawer/drawe.content';
 import { StyleSheet } from 'react-native';
 import ViewPostScreen from '../../screens/app/forums/view-post.screen';
+import Header from '../../components/atoms/header';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
 
-const AppNavigator = () => {
-  const { Custom } = useTheme();
+const AppNavigator = ({ navigation }: { navigation: any }) => {
+  const { Custom, Images } = useTheme();
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions}>
       <AppStack.Screen
@@ -28,65 +28,12 @@ const AppNavigator = () => {
         component={DrawerNavigator}
         options={{ headerShown: false }}
       />
-      <AppStack.Screen
-        name="Forums"
-        component={ForumsScreen}
-        options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: Colors.white, shadowColor: Colors.transparent },
-          title: '',
-        }}
-      />
-
+      <AppStack.Screen name="ReplyToPost" component={ReplyToPostScreen} />
       <AppStack.Screen
         name="ViewPost"
         component={ViewPostScreen}
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: Colors.white, shadowColor: Colors.transparent },
-          title: '',
-        }}
-      />
-
-      <AppStack.Screen
-        name="Services"
-        component={ServicesScreen}
-        options={{ headerShown: false }}
-      />
-
-      <AppStack.Screen
-        name="ReplyToPost"
-        component={ReplyToPostScreen}
-        options={{ headerShown: false }}
-      />
-
-      <AppStack.Screen
-        name="CreatePost"
-        component={CreatePostScreen}
-        options={{ headerShown: false }}
-      />
-    </AppStack.Navigator>
-  );
-};
-
-const DrawerNavigator = ({ navigation }: { navigation: any }) => {
-  const { Custom, Images } = useTheme();
-  return (
-    <Drawer.Navigator
-      screenOptions={Custom.globalNavigatorScreenOptions}
-      drawerContent={(props) => <DrawerContent {...props} />}
-      drawerStyle={styles.drawer}
-    >
-      <Drawer.Screen
-        name="Home"
-        component={ViewPostScreen}
-        options={{
-          headerShown: true,
-          title: '',
-          headerLeft: () => <BackButton onBack={navigation.goBack} />,
-          headerStyle: {
-            backgroundColor: Colors.transparent,
-          },
+          header: (props) => <Header onBack={() => navigation.goBack()} {...props} backButton />,
         }}
         initialParams={{
           post: {
@@ -122,6 +69,54 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
                 ],
               },
             ],
+          },
+        }}
+      />
+
+      <AppStack.Screen
+        name="Services"
+        component={ServicesScreen}
+        options={{ headerShown: false }}
+      />
+
+      <AppStack.Screen
+        name="Forums"
+        component={ForumsScreen}
+        options={{
+          headerShown: true,
+          header: (props) => (
+            <Header onBack={() => navigation.goBack()} backButton={false} {...props} />
+          ),
+          title: '',
+        }}
+      />
+
+      <AppStack.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ headerShown: false }}
+      />
+    </AppStack.Navigator>
+  );
+};
+
+const DrawerNavigator = ({ navigation }: { navigation: any }) => {
+  const { Custom } = useTheme();
+  return (
+    <Drawer.Navigator
+      screenOptions={Custom.globalNavigatorScreenOptions}
+      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerStyle={styles.drawer}
+    >
+      <Drawer.Screen
+        name="Home"
+        component={ForumsScreen}
+        options={{
+          headerShown: true,
+          title: '',
+          header: (props) => <Header onBack={() => navigation.goBack()} {...props} />,
+          headerStyle: {
+            backgroundColor: Colors.transparent,
           },
         }}
       />

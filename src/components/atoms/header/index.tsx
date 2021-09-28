@@ -12,12 +12,13 @@ type BackButtonProps = {
   onBack: any;
   color?: any;
   style?: any;
+  backButton?: Boolean;
 };
 
 const Header: React.FC<BackButtonProps> = (props) => {
   const { Gutters, Layout } = useTheme();
   const navigation = useNavigation<DrawerNavigationProp<any>>();
-
+  console.log({ props });
   const handleOnPress = () => {
     return navigation.toggleDrawer();
   };
@@ -28,6 +29,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
         {...props}
         onPress={handleOnPress}
         image={require('../../../assets/icons/menu/menu.png')}
+        backButton={props.backButton}
       />
 
       <View style={[Layout.rowBetween, Gutters.tinyVPadding, Gutters.regularRMargin]}>
@@ -45,7 +47,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
             size={15}
             containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
           />
-          <Text>username</Text>
+          <Text>000</Text>
         </View>
       </View>
     </View>
@@ -55,7 +57,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
 export default Header;
 
 const styles = StyleSheet.create({
-  header: { height: 90 },
+  header: { backgroundColor: Colors.white, height: 90 },
   iconsOpacity: { opacity: 0.72 },
   userView: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
 });
