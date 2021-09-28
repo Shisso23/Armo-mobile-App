@@ -1,5 +1,6 @@
 import React, { useState, createRef } from 'react';
 import { View, StyleSheet, Text, Dimensions, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
 import { Icon, ListItem, Avatar } from 'react-native-elements';
 import Clipboard from '@react-native-community/clipboard';
@@ -27,6 +28,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [downVotes, setDownVotes] = useState(0);
   const actionSheetRef = createRef<any>();
+  const navigation = useNavigation();
 
   const nestedComments = _.get(reply, 'replies', []).map((chilComment: any, index: Number) => {
     return (
@@ -99,7 +101,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
       <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
         <TouchableOpacity
           onPress={() => {
-            console.log('reply');
+            navigation.navigate('ReplyToPost', { post: reply });
           }}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
         >
