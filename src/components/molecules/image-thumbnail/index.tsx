@@ -8,20 +8,20 @@ import _ from 'lodash';
 import { promptConfirm } from '../../../helpers/prompt.helper';
 
 type ImageThumbnailProps = {
-  imageUri: any;
+  media: any;
   deleteImage: Function;
   imageSize: any;
 };
 
 const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
-  imageUri,
+  media,
   deleteImage = () => null,
   imageSize = 0,
 }) => {
   const { Gutters, Layout, Common } = useTheme();
   return (
     <>
-      {!_.isEmpty(imageUri) && (
+      {!_.isEmpty(media) && (
         <View
           style={[
             Layout.rowBetween,
@@ -31,9 +31,9 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
             styles.container,
           ]}
         >
-          <Avatar source={{ uri: imageUri }} title="uri" containerStyle={styles.avatar} />
+          <Avatar source={{ uri: media }} title="uri" containerStyle={styles.avatar} />
           <Text numberOfLines={2} style={styles.imageUri}>
-            {`${imageUri.slice(0, 15)}...${imageUri.slice(-11)}\n`}
+            {`${media.slice(0, 15)}...${media.slice(-11)}\n`}
             <Text style={styles.imageSize}>{`${imageSize} ${imageSize > 1000 ? 'MB' : 'KB'}`}</Text>
           </Text>
 
@@ -43,11 +43,8 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
             size={22}
             color={Colors.white}
             onPress={() => {
-              promptConfirm(
-                '',
-                'Are you sure you want to delete this item?',
-                'Delete',
-                deleteImage,
+              promptConfirm('', 'Are you sure you want to delete this item?', 'Delete', () =>
+                deleteImage(media),
               );
             }}
           />

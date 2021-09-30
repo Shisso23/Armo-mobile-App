@@ -17,7 +17,7 @@ const constructFormData = (res = []) => {
 
 const imageOptions = {
   mediaType: 'any',
-  multiple: false,
+  multiple: true,
   compressImageQuality: 0.5,
   width: 400,
   height: 400,

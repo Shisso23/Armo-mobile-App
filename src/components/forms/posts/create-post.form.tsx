@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -28,7 +28,7 @@ const createPostSchema = Yup.object().shape({
   category: Yup.string().required(),
   topicTitle: Yup.string().required('Topic title is required'),
   description: Yup.string().required(),
-  imageUri: Yup.string(),
+  media: Yup.array(),
 });
 
 const categories = [
@@ -71,6 +71,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
           actions.resetForm({ values: formData, status: { apiErrors } });
         }
       });
+  };
+
+  const removeMedia = (values: { media: Object }, setFieldValue: Function, uri: string) => {
+    const remainingMedia = values.media.filter((singleMedia: { uri: string }) => {
+      return singleMedia.uri !== uri;
+    });
+    setFieldValue('media', remainingMedia);
   };
 
   return (
@@ -135,44 +142,49 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               value={values.description}
               error={error}
             />
-            <ImageThumbnail
-              imageUri={_.get(values, 'imageUri', {})}
-              imageSize={imageSize}
-              deleteImage={() => {
-                setFieldValue('imageUri', '');
+
+            <>
+              {_.get(values, 'media', []).map((media) => (
+                <ImageThumbnail
+                  key={media.url}
+                  media={media.uri}
+                  imageSize={imageSize}
+                  deleteImage={(mediaToDelete: any) => {
+                    removeMedia(values, setFieldValue, mediaToDelete);
+                  }}
+                />
+              ))}
+            </>
+
+            <UploadMediaButton
+              title="Upload Image/Video"
+              style={[Layout.fill, Gutters.tinyRMargin]}
+              disabled={isSubmitting}
+              errorMessage={error('media')}
+              onImageSelect={(media: any) => {
+                setImageSize(_.get(media[0], 'size', 0));
+                setFieldValue('media', [...values.media, ...media]);
               }}
             />
-
-            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
-              <UploadMediaButton
-                title="Upload Image/Video"
-                style={[Layout.fill, Gutters.tinyRMargin]}
-                disabled={isSubmitting}
-                errorMessage={error('imageUri')}
-                onImageSelect={(image: Object) => {
-                  setImageSize(_.get(image[0], 'size', 0));
-                  setFieldValue('imageUri', _.get(image[0], 'uri', ''));
-                }}
-              />
-              <Button
-                title="Post"
-                icon={
-                  <Icon
-                    name="send-o"
-                    size={15}
-                    color={Colors.white}
-                    type="font-awesome"
-                    style={Gutters.smallRMargin}
-                  />
-                }
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                titleStyle={Common.submitButtonTitle}
-                containerStyle={[Common.submitButtonContainer, styles.postButton]}
-                buttonStyle={Common.submitButton}
-                raised
-              />
-            </View>
+            <Button
+              title="Post"
+              icon={
+                <Icon
+                  name="send-o"
+                  size={15}
+                  color={Colors.white}
+                  type="font-awesome"
+                  style={Gutters.smallRMargin}
+                />
+              }
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              titleStyle={Common.submitButtonTitle}
+              containerStyle={[Common.submitButtonContainer, styles.postButton]}
+              buttonStyle={Common.submitButton}
+              raised
+            />
+            {/* </View> */}
           </>
         );
       }}
@@ -181,7 +193,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
 };
 
 const styles = StyleSheet.create({
-  buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
   categoryContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,
