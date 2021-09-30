@@ -15,7 +15,7 @@ const { width } = Dimensions.get('window');
 
 const SignInScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const { Gutters, Layout, Images, Colors } = useTheme();
+  const { Gutters, Layout, Images } = useTheme();
   const isFocused = useIsFocused();
 
   const _onSignInSuccess = () => {
@@ -30,7 +30,6 @@ const SignInScreen: React.FC = () => {
           style={[
             Gutters.regularPadding,
             Layout.alignItemsCenter,
-            // Layout.fill,
             Gutters.largeHPadding,
             styles.container,
           ]}

@@ -28,10 +28,8 @@ const signOut = () => {
 const register = (formData: SignUpProps) => {
   const registerUrl = authUrls.registerUrl();
   const apiModel = apiSignUpModel(formData);
-  console.log({ apiModel });
 
   return networkService.post(registerUrl, apiModel).catch((err) => {
-    console.log({ err });
     err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
   });

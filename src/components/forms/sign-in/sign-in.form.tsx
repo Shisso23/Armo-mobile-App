@@ -92,6 +92,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
               <CustomInput
                 value={values.username}
                 onChangeText={handleChange('username')}
+                autoCapitalize="none"
                 onBlur={handleBlur('username')}
                 label="Username"
                 errorMessage={error('username')}
