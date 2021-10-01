@@ -10,17 +10,21 @@ const getPosts = async (pageNumber = null, pageSize = null) => {
   const url = postUrls.posts();
   const params = pageNumber && pageSize ? `/PageNumber=${pageNumber}/PageSize=${pageSize}` : '';
   const apiResponse = await authNetworkService.get(`${url}${params}`);
-  return _.get(apiResponse, 'data', null);
+
+  return _.get(apiResponse, 'data.data', null);
 };
 
 const getPost = async (id: any) => {
   const url = postUrls.posts();
-  try {
-    const apiResponse = await authNetworkService.get(`${url}/postId=${id}`);
-    return _.get(apiResponse, 'data', null);
-  } catch (error) {
-    flashService.error(_.get(error, 'message', 'Error fetching post!'));
-  }
+
+  return authNetworkService
+    .get(`${url}/${id}`)
+    .then((apiResponse) => {
+      return _.get(apiResponse, 'data.data', null);
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error fetching post!'));
+    });
 };
 
 const createPost = async (formData: CreatePostProps) => {
@@ -47,9 +51,22 @@ const editPost = async (formData: EditPostProps, postId: any) => {
   }
 };
 
+const deletePost = async (id: any) => {
+  const url = postUrls.posts();
+  return authNetworkService
+    .delete(`${url}/${id}`)
+    .then((apiResponse) => {
+      return _.get(apiResponse, 'data.data', null);
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error deleting post!'));
+    });
+};
+
 export default {
   getPosts,
   getPost,
   createPost,
   editPost,
+  deletePost,
 };

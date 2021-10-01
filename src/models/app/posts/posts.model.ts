@@ -19,12 +19,9 @@ export type EditPostProps = {
 };
 
 export type apiPostProps = {
-  id: any;
   title: string;
-  content: string;
-  owner: { id: string; fullName: string };
-  category: string;
-  attachments: Array<string>;
+  summary: string;
+  id: any;
 };
 
 export const CreatePostModel = (_model?: CreatePostProps): CreatePostProps => ({
@@ -42,12 +39,9 @@ export const apiCreatePostModel = (_model?: CreatePostProps) => ({
 });
 
 export const apiPost = (_model: apiPostProps) => ({
-  id: _.get(_model, 'id', ''),
   title: _.get(_model, 'title', ''),
-  content: _.get(_model, 'content', ''),
-  owner: _.get(_model, 'owner', {}),
-  category: _.get(_model, 'category', ''),
-  attachments: _.get(_model, 'attachments', ''),
+  summary: _.get(_model, 'summary', ''),
+  id: _.get(_model, 'id', ''),
 });
 
 export const apiGetPosts = (_model: GetPostProps) => ({

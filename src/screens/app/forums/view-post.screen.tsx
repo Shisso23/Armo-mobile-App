@@ -12,6 +12,7 @@ import {
 import { Icon, ListItem } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/core';
+import { useDispatch } from 'react-redux';
 import Clipboard from '@react-native-community/clipboard';
 
 import { Colors } from '../../../theme/Variables';
@@ -22,6 +23,7 @@ import _ from 'lodash';
 import PostReplies from '../../../components/molecules/post-replies';
 import ShareActionContent from '../../../components/molecules/share-action-content';
 import ReportPostModal from '../../../components/molecules/report-post-modal';
+import { deletePostAction } from '../../../reducers/posts-reducer/posts.actions';
 
 const { width } = Dimensions.get('window');
 
@@ -32,7 +34,8 @@ type ViewPostScreenProps = {
 const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
-  const user = { name: 'Hyacinthe Shisso' };
+  const owner = _.get(post, 'owner', {});
+  const dispatch = useDispatch();
   const actionSheetRef = createRef<any>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -43,7 +46,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   };
 
   const handleClipBoardCopy = () => {
-    Clipboard.setString(_.get(post, 'description', ''));
+    Clipboard.setString(_.get(post, 'content', ''));
     actionSheetRef.current.setModalVisible(false);
     Alert.alert('Copied');
   };
@@ -55,6 +58,16 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   const hideReportModal = () => {
     setReportModalVisible(false);
+  };
+
+  const handleOpenImage = () => {};
+
+  const onDeletePost = () => {
+    dispatch(deletePostAction(_.get(post, 'id', '')));
+  };
+
+  const onEditPost = () => {
+    navigation.navigate('EditPost', { post });
   };
 
   const renderReplyAndShareButtons = () => {
@@ -89,25 +102,20 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
       </ListItem>
     );
   };
-  const handleOpenImage = () => {};
-
-  const onDeletePost = () => {};
-
-  const onEditPost = () => {};
 
   return (
     <>
       <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
         <UserInfoBox
           post={post}
-          user={user}
+          user={owner}
           handlePostDelete={onDeletePost}
           handlePostEdit={onEditPost}
         />
         <View style={Gutters.regularHPadding}>
           <Text style={Fonts.titleTiny}>{_.get(post, 'title', '')}</Text>
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
-            {_.get(post, 'description', '-')}
+            {_.get(post, 'content', '-')}
           </ListItem.Subtitle>
           <Pressable onPress={handleOpenImage}>
             {() => (

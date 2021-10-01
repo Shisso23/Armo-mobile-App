@@ -9,4 +9,5 @@ export type postsTypesState = {
   isLoadingGetPosts: boolean;
   isLoadingGetPost: boolean;
   isLoadingEditPost: boolean;
+  isLoadingDeletePost: boolean;
 };

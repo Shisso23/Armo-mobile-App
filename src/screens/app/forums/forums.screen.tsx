@@ -1,9 +1,10 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useCallback, createRef } from 'react';
 import { View, StyleSheet, FlatList, RefreshControl, Keyboard } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -11,46 +12,30 @@ import { ScreenContainer } from '../../../components';
 import CategoryActionSheet from '../../../components/molecules/category-action-sheet-content';
 import SearchBar from '../../../components/atoms/search-bar';
 import PostItem from '../../../components/molecules/post-item';
+import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { apiPostProps } from '../../../models';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
+  const { posts } = useSelector(postsSelector);
+  const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
   const [searchResult, setSearchResult] = useState([]);
   const { Layout, Gutters, Common, Fonts } = useTheme();
-  const forums = [
-    {
-      title: 'Cloudiness on Marble Material or similar',
-      description:
-        'We are struggling with cloudiness on our products when we run marble material or similar. Any ide…',
-    },
-    {
-      title: 'Struggling to Mould around Pipe',
-      description:
-        'Any ideas on how to improve the moulding in this area, it seems to be a bit of a hit and …',
-    },
-    {
-      title: 'Rough Inner Surface on Flat Part',
-      description:
-        'Any ideas why the inner surface of our Moulding would look like this, Is really rough..',
-    },
-    {
-      title: 'Cloudiness on Marble Material or similar',
-      description:
-        'We are struggling with cloudiness on our products when we run marble material or similar. Any ide…',
-    },
-    {
-      title: 'Struggling to Mould around Pipe',
-      description:
-        'Any ideas on how to improve the moulding in this area, it seems to be a bit of a hit and …',
-    },
-    {
-      title: 'Rough Inner Surface on Flat Part',
-      description:
-        'Any ideas why the inner surface of our Moulding would look like this, Is really rough..',
-    },
-  ];
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getPostsAction());
+    }, [dispatch]),
+  );
+
+  const getPost = async (id: any) => {
+    const post = await dispatch(getPostAction(id));
+    navigation.navigate('ViewPost', { post });
+  };
 
   const handleJoinForum = () => {};
 
@@ -62,8 +47,9 @@ const ForumsScreen: React.FC = () => {
 
   const searchForums = (searchKeyWord: string) => {
     setSearchText(searchKeyWord);
-    const results = forums.filter(
-      (forum) => forum.title.includes(searchKeyWord) || forum.description.includes(searchKeyWord),
+    const results = posts.filter(
+      (post: apiPostProps) =>
+        post.title.includes(searchKeyWord) || post.sammury.includes(searchKeyWord),
     );
     setSearchResult(results);
   };
@@ -76,12 +62,12 @@ const ForumsScreen: React.FC = () => {
     setActionSheetIsVisible(false);
   };
 
-  const renderForum = ({ item }: { item: { title: String; description: String; id: any } }) => {
+  const renderForum = ({ item }: { item: apiPostProps }) => {
     return (
       <PostItem
         item={item}
         handleJoinForum={handleJoinForum}
-        onSelect={() => navigation.navigate('ViewPost')}
+        onSelect={(post: apiPostProps) => getPost(post.id)}
       />
     );
   };
@@ -113,7 +99,7 @@ const ForumsScreen: React.FC = () => {
       <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin]}
-          data={searchText.length > 0 ? searchResult : forums}
+          data={searchText.length > 0 ? searchResult : posts}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           refreshControl={

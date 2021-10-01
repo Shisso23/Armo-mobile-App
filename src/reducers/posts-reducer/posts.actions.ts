@@ -2,35 +2,42 @@ import {
   setIsLoadingEditPostAction,
   setIsLoadingGetPostAction,
   setIsLoadingGetPostsAction,
+  setIsLoadingDeletePostAction,
   setPostsAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
-import { CreatePostProps, EditPostProps } from '../../models';
+import { constructPostsModels, CreatePostProps, EditPostProps } from '../../models';
 
-export const getPostsAction = (pageNumber: any, pageSize: any) => async (dispatch: Function) => {
-  dispatch(setIsLoadingGetPostsAction(true));
-  try {
-    const posts = await postsService.getPosts(pageNumber, pageSize);
-    dispatch(setPostsAction(posts));
-    return posts;
-  } catch (error) {
-    flashService.error(error.message);
-  } finally {
-    dispatch(setIsLoadingGetPostsAction(false));
-  }
-};
+export const getPostsAction =
+  (pageNumber = null, pageSize = null) =>
+  async (dispatch: Function) => {
+    dispatch(setIsLoadingGetPostsAction(true));
+    try {
+      const response = await postsService.getPosts(pageNumber, pageSize);
+      dispatch(setPostsAction(constructPostsModels(response.items)));
+      return response;
+    } catch (error) {
+      flashService.error(error.message);
+    } finally {
+      dispatch(setIsLoadingGetPostsAction(false));
+    }
+  };
 
-export const getPostAction = (id: any) => async (dispatch: Function) => {
+export const getPostAction = (id: any) => (dispatch: Function) => {
   dispatch(setIsLoadingGetPostAction(true));
-  try {
-    let post = await postsService.getPost(id);
-    return post;
-  } catch (error) {
-    flashService.error(error.message);
-  } finally {
-    dispatch(setIsLoadingGetPostAction(false));
-  }
+
+  return postsService
+    .getPost(id)
+    .then((post) => {
+      return post;
+    })
+    .catch((error) => {
+      flashService.error(error.message);
+    })
+    .finally(() => {
+      dispatch(setIsLoadingGetPostAction(false));
+    });
 };
 
 export const editPostAction = (formData: EditPostProps, id: any) => async (dispatch: Function) => {
@@ -51,4 +58,20 @@ export const createPostAction = async (formData: CreatePostProps) => {
   } catch (error) {
     flashService.error(error.message);
   }
+};
+
+export const deletePostAction = (id: any) => (dispatch: Function) => {
+  dispatch(setIsLoadingDeletePostAction(true));
+
+  return postsService
+    .deletePost(id)
+    .then((post) => {
+      return post;
+    })
+    .catch((error) => {
+      flashService.error(error.message);
+    })
+    .finally(() => {
+      dispatch(setIsLoadingDeletePostAction(false));
+    });
 };

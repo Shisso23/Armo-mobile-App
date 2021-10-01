@@ -2,12 +2,13 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { List } from 'react-native-paper';
+import { apiPostProps } from '../../../models';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
 type PostItemProps = {
-  item: { title: String; description: String; id: any };
+  item: apiPostProps;
   handleJoinForum: any;
   onSelect: any;
 };
@@ -23,7 +24,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) 
         titleStyle={Common.cardTitle}
         description={() => (
           <View style={Gutters.smallTMargin}>
-            <Text style={Common.cardDescription}>{item.description}</Text>
+            <Text style={Common.cardDescription}>{item.summary}</Text>
             <TouchableOpacity
               style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
               onPress={handleJoinForum}
