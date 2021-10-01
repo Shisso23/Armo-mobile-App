@@ -19,38 +19,7 @@ const ForumsScreen: React.FC = () => {
   const actionSheetRef = createRef<any>();
   const [searchResult, setSearchResult] = useState([]);
   const { Layout, Gutters, Common, Fonts } = useTheme();
-  const forums = [
-    {
-      title: 'Cloudiness on Marble Material or similar',
-      description:
-        'We are struggling with cloudiness on our products when we run marble material or similar. Any ide…',
-    },
-    {
-      title: 'Struggling to Mould around Pipe',
-      description:
-        'Any ideas on how to improve the moulding in this area, it seems to be a bit of a hit and …',
-    },
-    {
-      title: 'Rough Inner Surface on Flat Part',
-      description:
-        'Any ideas why the inner surface of our Moulding would look like this, Is really rough..',
-    },
-    {
-      title: 'Cloudiness on Marble Material or similar',
-      description:
-        'We are struggling with cloudiness on our products when we run marble material or similar. Any ide…',
-    },
-    {
-      title: 'Struggling to Mould around Pipe',
-      description:
-        'Any ideas on how to improve the moulding in this area, it seems to be a bit of a hit and …',
-    },
-    {
-      title: 'Rough Inner Surface on Flat Part',
-      description:
-        'Any ideas why the inner surface of our Moulding would look like this, Is really rough..',
-    },
-  ];
+  const forums = [];
 
   const handleJoinForum = () => {};
 
