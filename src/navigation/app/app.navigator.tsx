@@ -11,7 +11,7 @@ import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
 import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
 import ServicesScreen from '../../screens/app/services/services.screen';
 import ForumsScreen from '../../screens/app/forums/forums.screen';
-import DrawerContent from '../../components/atoms/drawer/drawe.content';
+import DrawerContent from '../../components/atoms/drawer/drawer.content';
 import { StyleSheet } from 'react-native';
 import ViewPostScreen from '../../screens/app/forums/view-post.screen';
 import Header from '../../components/atoms/header';
