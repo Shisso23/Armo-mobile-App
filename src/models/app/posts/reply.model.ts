@@ -11,6 +11,5 @@ export const ReplyToPostModel = (_model?: ReplyToPostProps): ReplyToPostProps =>
 });
 
 export const apiReplyToPostModel = (_model?: ReplyToPostProps) => ({
-  description: _.get(_model, 'description', ''),
-  imageUri: _.get(_model, 'imageUri', ''),
+  content: _.get(_model, 'description', ''),
 });
