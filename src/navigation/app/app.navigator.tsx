@@ -2,7 +2,6 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// import HomeScreen from '../../screens/app/home/home.screen';
 import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
@@ -20,7 +19,7 @@ const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
 
 const AppNavigator = ({ navigation }: { navigation: any }) => {
-  const { Custom, Images } = useTheme();
+  const { Custom } = useTheme();
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions} headerMode="screen">
       <AppStack.Screen
@@ -38,42 +37,6 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         component={ViewPostScreen}
         options={{
           header: (props) => <Header onBack={() => navigation.goBack()} {...props} backButton />,
-        }}
-        initialParams={{
-          post: {
-            title: 'Cloudiness on Marble Material or Similar',
-            date: new Date(),
-            id: 999,
-            description:
-              'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-            image: Images.logo,
-            replies: [
-              {
-                user: { name: 'User1' },
-                comment:
-                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-                replies: [
-                  {
-                    user: { name: 'User3' },
-                    comment: 'Yes indeed',
-                    replies: [],
-                  },
-                ],
-              },
-              {
-                user: { name: 'User1' },
-                comment:
-                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-                replies: [
-                  {
-                    user: { name: 'User3' },
-                    comment: 'Yes indeed',
-                    replies: [],
-                  },
-                ],
-              },
-            ],
-          },
         }}
       />
 
