@@ -14,8 +14,12 @@ export function saveItem(key: string, value: any) {
 
 export function getItem(key: string) {
   return AsyncStorage.getItem(key)
-    .then((value) => {
-      return typeof value === 'string' ? JSON.parse(value) : value;
+    .then((value: any) => {
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        return value;
+      }
     })
     .catch((error) => {
       // eslint-disable-next-line no-console

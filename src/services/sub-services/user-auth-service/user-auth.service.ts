@@ -53,6 +53,16 @@ const forgotPassword = async (formData: ForgotPasswordProps) => {
   });
 };
 
+const verifyEmail = async (formData: ForgotPasswordProps) => {
+  const verifyEmailUrl = authUrls.verifyEmail();
+  const apiModel = apiForgotPasswordModel(formData);
+
+  return networkService.post(verifyEmailUrl, apiModel).catch((err) => {
+    err.errors = forgotPasswordModel(err.errors);
+    return Promise.reject(err);
+  });
+};
+
 const doTokensExistInLocalStorage = () => {
   const _trueIfBothExist = (accessToken: string, refreshToken: string) =>
     !_.isNull(accessToken) && !_.isNull(refreshToken);
@@ -67,5 +77,6 @@ export default {
   signOut,
   register,
   forgotPassword,
+  verifyEmail,
   doTokensExistInLocalStorage,
 };

@@ -81,6 +81,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
               <CustomInput
                 value={values.email}
                 onChangeText={handleChange('email')}
+                autoCapitalize="none"
                 onBlur={handleBlur('email')}
                 label="Email"
                 errorMessage={error('email')}
