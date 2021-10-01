@@ -102,7 +102,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
           icon={() => (
             <Icon color={Colors.secondary} size={22} name="exit-outline" type="ionicon" />
           )}
-          label="Sign out"
+          label="Sign Out"
           labelStyle={styles.labelBlack}
           onPress={() => dispatch(signOutAction())}
         />
