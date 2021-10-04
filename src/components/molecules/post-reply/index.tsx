@@ -44,7 +44,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   };
 
   const handleClipBoardCopy = () => {
-    Clipboard.setString(_.get(reply, 'description', ''));
+    Clipboard.setString(_.get(reply, 'content', ''));
     actionSheetRef.current.setModalVisible(false);
     Alert.alert('Copied');
   };
@@ -95,13 +95,13 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
       </ListItem>
 
       <ListItem.Subtitle style={[Fonts.textLeft, styles.comment]}>
-        {_.get(reply, 'comment', '-')}
+        {_.get(reply, 'content', '')}
       </ListItem.Subtitle>
 
       <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('ReplyToPost', { post: reply });
+            navigation.navigate('ReplyToPost', { post: reply, isPostReply: false });
           }}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
         >

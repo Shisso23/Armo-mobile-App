@@ -5,19 +5,32 @@ import { Icon } from 'react-native-elements';
 
 import { FormScreenContainer } from '../../../components';
 import { ReplyToPostForm } from '../../../components/forms';
+import { commentsService } from '../../../services';
 import { ReplyToPostModel, ReplyToPostProps } from '../../../models';
 import { useTheme } from '../../../theme';
+import { createPostCommentAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
+import { useDispatch } from 'react-redux';
+import _ from 'lodash';
 
 const { width } = Dimensions.get('window');
-const ReplyToPostScreen: React.FC = () => {
+const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
   const navigation = useNavigation();
   const { Gutters, Layout } = useTheme();
+  const dispatch = useDispatch();
+  const { params } = route;
+  const postId = _.get(params, 'post.id', '');
+  const isPostReply = _.get(params, 'isPostReply', false);
 
   const goBack = () => {
     navigation.goBack();
   };
   const onSubmit = async (formData: ReplyToPostProps) => {
-    console.log(formData);
+    if (isPostReply) {
+      dispatch(createPostCommentAction(formData, postId));
+    } else {
+      commentsService.createCommentReply(formData, postId);
+    }
+
     return null;
   };
 

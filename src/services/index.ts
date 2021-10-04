@@ -5,3 +5,4 @@ export { default as userAuthService } from './sub-services/user-auth-service/use
 export { default as flashService } from './sub-services/flash-service/flash.service';
 export { default as postsService } from './sub-services/posts/posts.service';
 export { default as postCommentsService } from './sub-services/post-comments-service/post-comments.service';
+export { default as commentsService } from './sub-services/comment-replies-service/comment-replies.service';

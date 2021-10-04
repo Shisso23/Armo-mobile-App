@@ -20,9 +20,7 @@ const getPostComments = async (id: any) => {
 const createPostComment = async (formData: ReplyToPostProps, postId: any) => {
   const url = postCommentsUrls.createPostComment(postId);
   try {
-    const apiResponse = await authNetworkService.post(url, apiReplyToPostModel(formData), {
-      headers: { Accept: 'multipart/form-data', 'Content-Type': 'multipart/form-data' },
-    });
+    const apiResponse = await authNetworkService.post(url, apiReplyToPostModel(formData));
     return _.get(apiResponse, 'data.data', null);
   } catch (error) {
     flashService.error(_.get(error, 'message', 'Error Creating post comment!'));

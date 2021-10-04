@@ -79,14 +79,12 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           styles.shareAndReplyContainer,
         ]}
       >
-        <Icon
-          onPress={() => navigation.navigate('ReplyToPost', { post })}
-          name="reply"
-          color={Colors.white}
-          style={Gutters.tinyLMargin}
-        />
+        <Icon name="reply" color={Colors.white} style={Gutters.tinyLMargin} />
         <ListItem.Content>
-          <Pressable onPress={() => navigation.navigate('ReplyToPost', { post })}>
+          <Pressable
+            hitSlop={{ left: 40, right: 20 }}
+            onPress={() => navigation.navigate('ReplyToPost', { post, isPostReply: true })}
+          >
             {() => <Text style={styles.replyText}>Reply</Text>}
           </Pressable>
         </ListItem.Content>
