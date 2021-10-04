@@ -184,7 +184,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               buttonStyle={Common.submitButton}
               raised
             />
-            {/* </View> */}
           </>
         );
       }}

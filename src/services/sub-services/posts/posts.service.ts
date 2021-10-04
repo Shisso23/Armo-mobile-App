@@ -29,10 +29,10 @@ const getPost = async (id: any) => {
 
 const createPost = async (formData: CreatePostProps) => {
   const url = postUrls.posts();
-  const createPostModel = objectToFormData(apiCreatePostModel(formData), undefined);
+  const createPostModel = objectToFormData(apiCreatePostModel(formData));
   try {
     const apiResponse = await authNetworkService.post(url, createPostModel, {
-      headers: { Accept: 'multipart/form-data', 'Content-Type': 'multipart/form-data' },
+      headers: { Accept: 'multipart/form-data', 'content-type': 'multipart/form-data' },
     });
     return _.get(apiResponse, 'data', null);
   } catch (error) {
@@ -44,7 +44,7 @@ const editPost = async (formData: EditPostProps, postId: any) => {
   const url = postUrls.posts();
   const editPostModel = apiEditPost(formData);
   try {
-    const apiResponse = await authNetworkService.put(`${url}/postId=${postId}`, editPostModel);
+    const apiResponse = await authNetworkService.put(`${url}/${postId}`, editPostModel);
     return _.get(apiResponse, 'data', null);
   } catch (error) {
     flashService.error(_.get(error, 'message', 'Error Editing post!'));
