@@ -28,6 +28,17 @@ export default ({ Colors, FontFamily }) =>
     headerLogo: {
       width: 200,
     },
+    inputContainer: {
+      borderBottomWidth: 0,
+      elevation: 3,
+      shadowColor: Colors.shadow,
+      shadowOffset: {
+        width: 2,
+        height: 3,
+      },
+      shadowOpacity: 0.35,
+      shadowRadius: 8,
+    },
     inputWithRoundBorders: {
       backgroundColor: Colors.inputBackground,
       borderRadius: 14,

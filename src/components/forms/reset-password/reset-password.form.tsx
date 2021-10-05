@@ -114,7 +114,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
                 onBlur={handleBlur('password')}
                 label="Password"
                 errorMessage={error('password')}
-                inputContainerStyle={styles.inputContainer}
+                inputContainerStyle={Common.inputContainer}
                 autoCapitalize="none"
                 secureTextEntry={isPasswordHidden}
                 rightIcon={
@@ -142,7 +142,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
                 onEndEditing={() => {
                   !passwordsMatched && setFieldError('reTyped', 'Did not match password');
                 }}
-                inputContainerStyle={styles.inputContainer}
+                inputContainerStyle={Common.inputContainer}
                 rightIcon={
                   <Icon
                     type="material-community"
@@ -184,17 +184,6 @@ const styles = StyleSheet.create({
   buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
   cancelButtonTitle: { color: Colors.black, opacity: 0.6 },
   icon: { color: Colors.shadow, opacity: 0.5 },
-  inputContainer: {
-    borderBottomWidth: 0,
-    elevation: 3,
-    shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-  },
   inputView: { marginTop: '25%', width: '85%' },
 });
 export default ResetPasswordForm;

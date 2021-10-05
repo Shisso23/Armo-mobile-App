@@ -12,7 +12,7 @@ const { width } = Dimensions.get('window');
 
 const ReplyToPostScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { Gutters, Layout } = useTheme();
+  const { Gutters, Layout, Fonts } = useTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -31,7 +31,7 @@ const ReplyToPostScreen: React.FC = () => {
       ]}
     >
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
-        <Text style={styles.title}>Reply</Text>
+        <Text style={Fonts.title}>Reply</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
 
@@ -42,6 +42,5 @@ const ReplyToPostScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  title: { fontSize: 23, fontWeight: '500' },
 });
 export default ReplyToPostScreen;

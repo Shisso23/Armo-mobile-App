@@ -109,7 +109,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               error={error('category')}
               placeholder=""
               contentStyle={styles.categoryContent}
-              inputContainerStyle={styles.inputContainer}
+              inputContainerStyle={Common.inputContainer}
               rightIcon={
                 <Icon
                   type="material-community"
@@ -126,7 +126,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               onBlur={handleBlur('topicTitle')}
               label="Topic title"
               errorMessage={error('topicTitle')}
-              inputContainerStyle={styles.inputContainer}
+              inputContainerStyle={Common.inputContainer}
               leftIcon={undefined}
             />
             <DescriptionInput
@@ -187,17 +187,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   icon: { color: Colors.shadow, opacity: 0.65 },
-  inputContainer: {
-    borderBottomWidth: 0,
-    elevation: 3,
-    shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-  },
   postButton: { width: '100%' },
 });
 export default CreatePostForm;

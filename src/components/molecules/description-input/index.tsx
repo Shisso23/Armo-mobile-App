@@ -51,7 +51,7 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
               textAlign: textAlignCenter ? 'center' : 'left',
             },
           ]}
-          inputContainerStyle={styles.inputContainer}
+          inputContainerStyle={Common.inputContainer}
           leftIcon={undefined}
           inputHeight={180}
         />
@@ -103,18 +103,6 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
   image: { height: 70, width: width * 0.65 },
-  inputContainer: {
-    borderBottomWidth: 0,
-    elevation: 3,
-    paddingBottom: 35,
-    shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-  },
   inputStyle: { fontSize: 14, height: '100%' },
   textFormater: {
     backgroundColor: Colors.gray,
