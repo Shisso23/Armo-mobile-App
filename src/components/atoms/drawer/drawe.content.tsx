@@ -23,6 +23,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             <Avatar containerStyle={styles.userAvatar} source={Images.signInTop} size={65} />
             <Text
               style={[
+                // TODO -Get name from user data
                 Fonts.textLarge,
                 styles.userFullName,
                 Gutters.regularVMargin,
