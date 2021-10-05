@@ -13,12 +13,12 @@ import { Icon, ListItem } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/core';
 import Clipboard from '@react-native-community/clipboard';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
 import UserInfoBox from '../../../components/molecules/user-info/userInfoBox';
-import _ from 'lodash';
 import PostReplies from '../../../components/molecules/post-replies';
 import ShareActionContent from '../../../components/molecules/share-action-content';
 import ReportPostModal from '../../../components/molecules/report-post-modal';
@@ -148,11 +148,8 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
 const styles = StyleSheet.create({
   actionSheet: { borderRadius: 25 },
-
   replyText: { color: Colors.white, fontSize: 17 },
-
-  // eslint-disable-next-line react-native/no-color-literals
-  shareAndReplyContainer: { backgroundColor: '#EF7C0B', left: -10, width },
+  shareAndReplyContainer: { backgroundColor: Colors.tertiary, left: -10, width },
 });
 
 export default ViewPostScreen;

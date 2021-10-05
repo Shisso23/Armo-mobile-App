@@ -50,7 +50,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Layout } = useTheme();
+  const { Layout, Common } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
   const [passwordsMatched, setPasswordMatched] = useState(true);
@@ -175,7 +175,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               onBlur={handleBlur('password')}
               label="Password"
               errorMessage={error('password')}
-              inputContainerStyle={styles.inputContainer}
+              inputContainerStyle={Common.inputContainer}
               autoCapitalize="none"
               secureTextEntry={isPasswordHidden}
               rightIcon={
@@ -203,7 +203,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               onEndEditing={() => {
                 !passwordsMatched && setFieldError('confirmPassword', 'Did not match password');
               }}
-              inputContainerStyle={styles.inputContainer}
+              inputContainerStyle={Common.inputContainer}
               rightIcon={
                 <Icon
                   type="material-community"
@@ -234,17 +234,6 @@ const styles = StyleSheet.create({
   buttonStyle: { backgroundColor: Colors.secondary, borderRadius: 20 },
   buttonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
   icon: { color: Colors.shadow, opacity: 0.5 },
-  inputContainer: {
-    borderBottomWidth: 0,
-    elevation: 3,
-    shadowColor: Colors.shadow,
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-  },
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,
