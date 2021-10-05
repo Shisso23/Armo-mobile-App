@@ -50,7 +50,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Layout, Common } = useTheme();
+  const { Layout } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
   const [passwordsMatched, setPasswordMatched] = useState(true);
@@ -175,7 +175,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               onBlur={handleBlur('password')}
               label="Password"
               errorMessage={error('password')}
-              inputContainerStyle={Common.inputContainer}
               autoCapitalize="none"
               secureTextEntry={isPasswordHidden}
               rightIcon={
@@ -203,7 +202,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               onEndEditing={() => {
                 !passwordsMatched && setFieldError('confirmPassword', 'Did not match password');
               }}
-              inputContainerStyle={Common.inputContainer}
               rightIcon={
                 <Icon
                   type="material-community"

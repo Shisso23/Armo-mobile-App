@@ -18,8 +18,8 @@ const ForgotPasswordScreen: React.FC = () => {
     navigation.navigate('SignIn');
   };
 
-  const submitForm = (values: ForgotPasswordProps) => {
-    userAuthService.forgotPassword(values).then(() => {
+  const submitForm = async (values: ForgotPasswordProps) => {
+    await userAuthService.forgotPassword(values).then(() => {
       navigation.navigate('SignIn');
     });
   };

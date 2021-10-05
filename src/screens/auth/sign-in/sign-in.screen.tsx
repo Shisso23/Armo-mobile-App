@@ -30,7 +30,6 @@ const SignInScreen: React.FC = () => {
           style={[
             Gutters.regularPadding,
             Layout.alignItemsCenter,
-            // Layout.fill,
             Gutters.largeHPadding,
             styles.container,
           ]}

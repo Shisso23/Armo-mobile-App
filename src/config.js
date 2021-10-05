@@ -11,4 +11,5 @@ export default {
   clientSecret: CLIENT_SECRET,
   environment: ENVIRONMENT,
   website: 'www.armo.co.za',
+  scope: 'openid profile role email offline_access mobileApi',
 };
