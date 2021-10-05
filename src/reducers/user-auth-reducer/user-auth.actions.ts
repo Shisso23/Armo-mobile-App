@@ -4,14 +4,9 @@ import { setIsAuthenticatedAction, setIsLoadingAction } from './user-auth.reduce
 
 export const signUpAction: Function = (formData: SignUpProps) => async (dispatch: Function) => {
   dispatch(setIsLoadingAction(true));
-  userAuthService
-    .register(formData)
-    .then(() => {
-      dispatch(setIsAuthenticatedAction(false));
-    })
-    .finally(() => {
-      dispatch(setIsLoadingAction(false));
-    });
+  userAuthService.register(formData).finally(() => {
+    dispatch(setIsLoadingAction(false));
+  });
 };
 
 export const signOutAction: Function = () => (dispatch: Function) => {

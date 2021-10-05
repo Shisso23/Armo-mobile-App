@@ -7,12 +7,15 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { Avatar, Icon } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
+import { signOutAction } from '../../../reducers/user-auth-reducer/user-auth.actions';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const { navigation } = props;
+  const dispatch = useDispatch();
   const { Fonts, Gutters, Layout, Common, Images } = useTheme();
 
   return (
@@ -23,6 +26,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             <Avatar containerStyle={styles.userAvatar} source={Images.signInTop} size={65} />
             <Text
               style={[
+                // TODO -Get name from user data
                 Fonts.textLarge,
                 styles.userFullName,
                 Gutters.regularVMargin,
@@ -95,6 +99,14 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             />
           </Drawer.Section>
         </View>
+        <DrawerItem
+          icon={() => (
+            <Icon color={Colors.secondary} size={22} name="exit-outline" type="ionicon" />
+          )}
+          label="Sign Out"
+          labelStyle={styles.labelBlack}
+          onPress={() => dispatch(signOutAction())}
+        />
       </DrawerContentScrollView>
     </View>
   );

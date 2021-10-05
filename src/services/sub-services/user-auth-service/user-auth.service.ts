@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import querystring from 'querystring';
+
 import authUrls from './user-auth.urls';
 import authUtils from './user-auth.utils';
 import networkService from '../network-service/network.service';
@@ -16,9 +18,15 @@ import {
 const signIn = (formData: SignInProps) => {
   const signInUrl = authUrls.tokenUrl();
   const apiModel = apiSignInModel(formData);
-  const oAuthData = authUtils.constructOAuthSignInData(apiModel);
-
-  return networkService.post(signInUrl, oAuthData).then(authUtils.storeAccessAndRefreshTokens);
+  const oAuthData = querystring.stringify(authUtils.constructOAuthSignInData(apiModel));
+  return networkService
+    .post(signInUrl, oAuthData, {
+      headers: {
+        Accept: 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then(authUtils.storeAccessAndRefreshTokens);
 };
 
 const signOut = () => {
@@ -28,10 +36,8 @@ const signOut = () => {
 const register = (formData: SignUpProps) => {
   const registerUrl = authUrls.registerUrl();
   const apiModel = apiSignUpModel(formData);
-  console.log({ apiModel });
 
   return networkService.post(registerUrl, apiModel).catch((err) => {
-    console.log({ err });
     err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
   });
@@ -42,6 +48,16 @@ const forgotPassword = async (formData: ForgotPasswordProps) => {
   const apiModel = apiForgotPasswordModel(formData);
 
   return networkService.post(forgotPasswordUrl, apiModel).catch((err) => {
+    err.errors = forgotPasswordModel(err.errors);
+    return Promise.reject(err);
+  });
+};
+
+const verifyEmail = async (formData: ForgotPasswordProps) => {
+  const verifyEmailUrl = authUrls.verifyEmail();
+  const apiModel = apiForgotPasswordModel(formData);
+
+  return networkService.post(verifyEmailUrl, apiModel).catch((err) => {
     err.errors = forgotPasswordModel(err.errors);
     return Promise.reject(err);
   });
@@ -61,5 +77,6 @@ export default {
   signOut,
   register,
   forgotPassword,
+  verifyEmail,
   doTokensExistInLocalStorage,
 };
