@@ -34,6 +34,7 @@ export default ({ FontSize, Colors }) =>
       color: Colors.text,
       fontSize: FontSize.small,
     },
+    title: { fontSize: 23, fontWeight: '500' },
     titleLarge: {
       color: Colors.text,
       fontSize: FontSize.large * 2,
