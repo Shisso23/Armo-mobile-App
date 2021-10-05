@@ -35,7 +35,7 @@ const register = (formData: RegisterProps) => {
   });
 };
 
-const forgotPassword = (formData: ForgotPasswordProps) => {
+const forgotPassword = async (formData: ForgotPasswordProps) => {
   const forgotPasswordUrl = authUrls.forgotPasswordUrl();
   const apiModel = apiForgotPasswordModel(formData);
 

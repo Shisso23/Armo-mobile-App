@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     shadowColor: Colors.shadow,
     shadowOffset: {
       width: 3,
-      height: 16,
+      height: 10,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.4,
     shadowRadius: 20,
   },
   inputStyle: { fontSize: 14, height: '100%' },
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 15,
     fontWeight: '400',
+    opacity: 0.7,
   },
   verticalAlignTextTop: {
     textAlignVertical: 'top',

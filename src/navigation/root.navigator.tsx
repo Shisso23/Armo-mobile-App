@@ -18,8 +18,7 @@ const AppContainer: React.FC = () => {
         {isAuthenticated ? (
           <RootStack.Screen name="APP" component={AppNavigator} />
         ) : (
-          <RootStack.Screen name="APP" component={AppNavigator} />
-          // <RootStack.Screen name="AUTH" component={AuthNavigator} />
+          <RootStack.Screen name="AUTH" component={AuthNavigator} />
         )}
       </RootStack.Navigator>
     </NavigationContainer>

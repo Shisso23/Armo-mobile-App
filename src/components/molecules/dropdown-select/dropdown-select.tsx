@@ -19,10 +19,12 @@ type DropdownSelectProps = {
   error?: any;
   placeholder?: String | any;
   errorStyle?: Object;
+  inputContainerStyle?: Object;
   disabled?: Boolean | any;
   label?: String | any;
   onBlur?: () => void;
   contentStyle?: Object;
+  rightIcon?: any;
 };
 
 const DropdownSelect: React.FC<DropdownSelectProps> = ({
@@ -36,6 +38,8 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
   label,
   onBlur,
   contentStyle,
+  inputContainerStyle,
+  rightIcon,
 }) => {
   const [visible, setVisible] = useState(false);
   const hide = () => {
@@ -69,25 +73,28 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         label={label}
         editable={false}
         errorMessage={error}
+        leftIcon={undefined}
         rightIcon={
-          <View>
-            <Icon
-              name="chevron-up"
-              type="feather"
-              size={16}
-              color={Colors.shadow}
-              style={Gutters.tinyRMargin}
-            />
-            <Icon
-              name="chevron-down"
-              type="feather"
-              size={16}
-              color={Colors.shadow}
-              style={Gutters.tinyRMargin}
-            />
-          </View>
+          rightIcon || (
+            <View>
+              <Icon
+                name="chevron-up"
+                type="feather"
+                size={16}
+                color={Colors.shadow}
+                style={Gutters.tinyRMargin}
+              />
+              <Icon
+                name="chevron-down"
+                type="feather"
+                size={16}
+                color={Colors.shadow}
+                style={Gutters.tinyRMargin}
+              />
+            </View>
+          )
         }
-        inputContainerStyle={pressed && Common.pressed}
+        inputContainerStyle={[inputContainerStyle || {}, pressed && Common.pressed]}
       />
     );
   };

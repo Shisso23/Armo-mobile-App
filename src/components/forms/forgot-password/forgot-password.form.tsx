@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
@@ -11,11 +11,15 @@ import { flashService } from '../../../services';
 
 import { ErrorObject } from '../types';
 import { ForgotPasswordProps } from '../../../models';
+import CustomInput from '../../molecules/custom-input';
+import { Colors } from '../../../theme/Variables';
+import { useTheme } from '../../../theme';
 
 type ForgotPasswordFormProps = {
   submitForm: Function;
   onSuccess?: Function;
   initialValues: ForgotPasswordProps;
+  _handleCancel: Function;
 };
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -26,7 +30,9 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
+  _handleCancel,
 }) => {
+  const { Common, Gutters, Layout } = useTheme();
   const _handleSubmission = (
     formData: ForgotPasswordProps,
     actions: FormikHelpers<ForgotPasswordProps>,
@@ -71,15 +77,39 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           getFormError(name, { touched, status, errors });
         return (
           <>
-            <Input
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              label="Email"
-              errorMessage={error('email')}
-            />
-            <Button title="Submit" onPress={handleSubmit} loading={isSubmitting} />
-            {__DEV__ && <Text>{JSON.stringify(values, null, 2)}</Text>}
+            <View style={styles.inputView}>
+              <CustomInput
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                label="Email"
+                errorMessage={error('email')}
+                leftIcon={
+                  <Icon name="user" type="font-awesome" size={20} iconStyle={styles.icon} />
+                }
+                inputContainerStyle={Common.inputContainer}
+                keyboardType="email-address"
+              />
+            </View>
+
+            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
+              <Button
+                title="Send"
+                onPress={handleSubmit}
+                loading={isSubmitting}
+                titleStyle={Common.submitButtonTitle}
+                containerStyle={Common.submitButtonContainer}
+                buttonStyle={Common.submitButton}
+              />
+
+              <Button
+                type="clear"
+                title="Cancel"
+                onPress={_handleCancel}
+                titleStyle={styles.cancelButtonTitle}
+                containerStyle={Gutters.smallTMargin}
+              />
+            </View>
           </>
         );
       }}
@@ -87,4 +117,10 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   );
 };
 
+const styles = StyleSheet.create({
+  buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
+  cancelButtonTitle: { color: Colors.black, opacity: 0.6 },
+  icon: { color: Colors.shadow, opacity: 0.5 },
+  inputView: { width: '85%' },
+});
 export default ForgotPasswordForm;

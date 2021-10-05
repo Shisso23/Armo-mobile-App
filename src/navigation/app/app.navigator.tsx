@@ -8,7 +8,8 @@ import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
 import BackButton from '../../components/atoms/back-button';
 import { Colors } from '../../theme/Variables';
-import SignUpScreen from '../../screens/app/sign-up/sign-up.screen';
+import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
+import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -22,6 +23,18 @@ const AppNavigator = () => {
         component={DrawerNavigator}
         options={{ headerShown: false }}
       />
+
+      <AppStack.Screen
+        name="ReplyToPost"
+        component={ReplyToPostScreen}
+        options={{ headerShown: false }}
+      />
+
+      <AppStack.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ headerShown: false }}
+      />
     </AppStack.Navigator>
   );
 };
@@ -31,19 +44,6 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => (
     <Drawer.Screen
       name="Home"
       component={HomeScreen}
-      options={{
-        headerShown: true,
-        title: '',
-        headerLeft: () => <BackButton onBack={navigation.goBack} />,
-        headerStyle: {
-          backgroundColor: Colors.transparent,
-        },
-      }}
-    />
-
-    <Drawer.Screen
-      name="SignUp"
-      component={SignUpScreen}
       options={{
         headerShown: true,
         title: '',

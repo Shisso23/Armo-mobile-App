@@ -32,6 +32,10 @@ export default () =>
     row: {
       flexDirection: 'row',
     },
+    rowBetween: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
     rowReverse: {
       flexDirection: 'row-reverse',
     },

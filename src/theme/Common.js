@@ -15,7 +15,7 @@ export default ({ Colors, FontFamily }) =>
       backgroundColor: Colors.transparent,
     },
     errorStyle: {
-      color: Colors.danger,
+      color: Colors.error,
       fontFamily: FontFamily.primary,
       fontSize: 15,
       height: 26,
@@ -27,6 +27,17 @@ export default ({ Colors, FontFamily }) =>
     },
     headerLogo: {
       width: 200,
+    },
+    inputContainer: {
+      borderBottomWidth: 0,
+      elevation: 3,
+      shadowColor: Colors.shadow,
+      shadowOffset: {
+        width: 2,
+        height: 3,
+      },
+      shadowOpacity: 0.35,
+      shadowRadius: 8,
     },
     inputWithRoundBorders: {
       backgroundColor: Colors.inputBackground,
@@ -41,6 +52,12 @@ export default ({ Colors, FontFamily }) =>
       color: Colors.secondary,
       fontWeight: 'bold',
     },
+    submitButton: {
+      backgroundColor: Colors.secondary,
+      borderRadius: 20,
+    },
+    submitButtonContainer: { borderRadius: 20, width: '70%' },
+    submitButtonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
     textInput: {
       backgroundColor: Colors.inputBackground,
       borderColor: Colors.text,

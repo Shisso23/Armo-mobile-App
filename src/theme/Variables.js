@@ -11,7 +11,7 @@
 export const Colors = {
   transparent: 'rgba(0,0,0,0)',
   inputBackground: '#FFFFFF',
-  secondary: '#db7f1d',
+  secondary: '#EC890C',
   white: '#ffffff',
   black: '#000',
   text: '#212529',
@@ -21,6 +21,8 @@ export const Colors = {
   error: '#C1666B',
   linkText: '#0645AD',
   shadow: '#5d6564',
+  darkGray: '#555555',
+  gray: '#707070',
 };
 
 export const NavigationColors = {
