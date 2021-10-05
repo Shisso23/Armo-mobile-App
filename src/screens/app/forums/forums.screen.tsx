@@ -51,7 +51,7 @@ const ForumsScreen: React.FC = () => {
     setSearchText(searchKeyWord);
     const results = posts.filter(
       (post: apiPostProps) =>
-        post.title.includes(searchKeyWord) || post.sammury.includes(searchKeyWord),
+        post.title.includes(searchKeyWord) || post.summary.includes(searchKeyWord),
     );
     setSearchResult(results);
   };
