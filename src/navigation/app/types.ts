@@ -6,6 +6,7 @@ export type AppStackList = {
   CreatePost: undefined;
   Services: undefined;
   Forums: undefined;
+  ViewPost: undefined;
 };
 export type AppStackProps = StackNavigationProp<AppStackList>;
 

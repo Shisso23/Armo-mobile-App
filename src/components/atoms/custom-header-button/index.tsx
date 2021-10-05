@@ -1,14 +1,17 @@
-import TouchableItem from '@react-navigation/drawer/src/views/TouchableItem';
-import { Image, Platform } from 'react-native';
 import React from 'react';
+import { Image, Platform } from 'react-native';
+import TouchableItem from '@react-navigation/drawer/src/views/TouchableItem';
+import { useNavigation } from '@react-navigation/native';
 
 import { useTheme } from '../../../theme';
+import BackButton from '../back-button';
 
 type CustomHeaderButtonProps = {
   headerLeftAccessibilityLabel?: string;
   tintColor?: string | String;
   image?: Number;
   onPress: () => void;
+  backButton?: Boolean;
 };
 
 const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
@@ -16,10 +19,14 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
   tintColor = '',
   image = 0,
   onPress,
+  backButton = false,
 }) => {
   const { Custom } = useTheme();
+  const navigation = useNavigation();
 
-  return (
+  return backButton ? (
+    <BackButton onBack={() => navigation.goBack()} />
+  ) : (
     <TouchableItem
       accessible
       accessibilityRole="button"

@@ -3,14 +3,14 @@ import authUrls from './user-auth.urls';
 import authUtils from './user-auth.utils';
 import networkService from '../network-service/network.service';
 import {
-  apiRegistrationUserModel,
-  registrationUserModel,
   apiForgotPasswordModel,
   forgotPasswordModel,
   apiSignInModel,
-  RegisterProps,
   SignInProps,
   ForgotPasswordProps,
+  apiSignUpModel,
+  SignUpProps,
+  signUpFormModel,
 } from '../../../models';
 
 const signIn = (formData: SignInProps) => {
@@ -25,12 +25,14 @@ const signOut = () => {
   return authUtils.removeAccessAndRefreshTokens();
 };
 
-const register = (formData: RegisterProps) => {
+const register = (formData: SignUpProps) => {
   const registerUrl = authUrls.registerUrl();
-  const apiModel = apiRegistrationUserModel(formData);
+  const apiModel = apiSignUpModel(formData);
+  console.log({ apiModel });
 
   return networkService.post(registerUrl, apiModel).catch((err) => {
-    err.errors = registrationUserModel(err.errors);
+    console.log({ err });
+    err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
   });
 };

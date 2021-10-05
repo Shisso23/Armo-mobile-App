@@ -1,12 +1,9 @@
-import React from 'react';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import Header from '../components/atoms/header';
 
 export default ({ Colors, FontFamily }) => ({
   globalNavigatorScreenOptions: {
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     headerBackTitleVisible: false,
-    header: (props) => <Header {...props} />,
     headerStyle: {
       backgroundColor: Colors.secondary,
       shadowRadius: 0,

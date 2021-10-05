@@ -42,9 +42,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) 
             </TouchableOpacity>
           </View>
         )}
-        onPress={() => {
-          onSelect(item);
-        }}
+        onPress={() => onSelect(item)}
         descriptionNumberOfLines={10}
         descriptionStyle={{}}
       />

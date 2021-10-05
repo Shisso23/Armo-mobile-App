@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 import { SignUpForm } from '../../../components/forms';
 import { signUpFormModel } from '../../../models';
@@ -9,14 +10,22 @@ import FormScreenContainer from '../../../components/containers/form-screen-cont
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 import BackButton from '../../../components/atoms/back-button';
+import { signUpAction } from '../../../reducers/user-auth-reducer/user-auth.actions';
 
 const SignUpScreen: React.FC = () => {
   const { Gutters, Layout } = useTheme();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const onSuccess = () => {
+    navigation.navigate('SignIn');
+  };
 
   const submitForm = async (values: Object) => {
-    console.log('submit', values);
+    dispatch(signUpAction(values)).then(() => {
+      onSuccess();
+    });
   };
 
   return (
@@ -29,7 +38,11 @@ const SignUpScreen: React.FC = () => {
           Add your details to sign up
         </Text>
         <View style={Gutters.regularHMargin}>
-          <SignUpForm submitForm={submitForm} initialValues={signUpFormModel()} />
+          <SignUpForm
+            submitForm={submitForm}
+            onSuccess={onSuccess}
+            initialValues={signUpFormModel()}
+          />
         </View>
       </FormScreenContainer>
     </>

@@ -46,7 +46,13 @@ const ForumsScreen: React.FC = () => {
   };
 
   const renderForum = ({ item }: { item: { title: String; description: String; id: any } }) => {
-    return <PostItem item={item} handleJoinForum={handleJoinForum} onSelect={() => {}} />;
+    return (
+      <PostItem
+        item={item}
+        handleJoinForum={handleJoinForum}
+        onSelect={() => navigation.navigate('ViewPost')}
+      />
+    );
   };
 
   return (

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.0",
+    "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/drawer": "^5.11.4",
     "@react-navigation/native": "^5.8.10",
@@ -30,6 +31,8 @@
     "camelcase-keys": "^6.2.2",
     "formik": "^2.2.6",
     "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "ngrok": "^4.2.2",
     "react": "17.0.1",
     "react-native": "0.63.4",
     "react-native-actions-sheet": "0.5.4",

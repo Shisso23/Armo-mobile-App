@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
-import { emailSchema } from '../form-validaton-schemas';
+import { emailSchema, passwordSchema } from '../form-validaton-schemas';
 import { getFormError } from '../form-utils';
 import { flashService } from '../../../services';
 import { SignUpProps } from '../../../models';
@@ -23,7 +23,8 @@ type SignUpFormFormProps = {
 const SignUpSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   name: Yup.string().required('Name is required'),
-  surname: Yup.string().required('Surname is required'),
+  password: passwordSchema,
+  confirmPassword: passwordSchema,
   email: emailSchema,
   region: Yup.string().required('Region is required'),
   company: Yup.string().required('Company is required'),
@@ -49,8 +50,40 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Layout } = useTheme();
+  const { Layout, Common } = useTheme();
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
+  const [passwordsMatched, setPasswordMatched] = useState(true);
+
+  const _showPasswordShort = (type: String) => {
+    setTimeout(() => {
+      if (type === 'confirm') {
+        setIsRetypedPasswordHidden(true);
+      } else {
+        setIsPasswordHidden(true);
+      }
+    }, 3000);
+    if (type === 'confirm') {
+      setIsRetypedPasswordHidden(false);
+    } else {
+      setIsPasswordHidden(false);
+    }
+  };
+
+  const validateConfirmPassword = (password: String, value: String) => {
+    if (password && value) {
+      if (password.substr(0, value.length) !== value || password.length !== value.length) {
+        return setPasswordMatched(false);
+      }
+      return setPasswordMatched(true);
+    }
+    return setPasswordMatched(false);
+  };
+
   const _handleSubmission = async (formData: SignUpProps, actions: FormikHelpers<SignUpProps>) => {
+    if (!passwordsMatched) {
+      return null;
+    }
     try {
       await submitForm(formData);
       actions.setSubmitting(false);
@@ -85,6 +118,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
         touched,
         status,
         setFieldValue,
+        setFieldError,
       }) => {
         const error = (name: string) => getFormError(name, { touched, status, errors });
         return (
@@ -106,6 +140,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
             <CustomInput
               value={values.email}
               onChangeText={handleChange('email')}
+              autoCapitalize="none"
               onBlur={handleBlur('email')}
               label="Email"
               errorMessage={error('email')}
@@ -134,6 +169,51 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               label="Company"
               errorMessage={error('company')}
             />
+            <CustomInput
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              label="Password"
+              errorMessage={error('password')}
+              inputContainerStyle={Common.inputContainer}
+              autoCapitalize="none"
+              secureTextEntry={isPasswordHidden}
+              rightIcon={
+                <Icon
+                  type="material-community"
+                  size={21}
+                  name={isPasswordHidden ? 'eye' : 'eye-off'}
+                  onPress={() => _showPasswordShort('password')}
+                  style={styles.icon}
+                />
+              }
+            />
+
+            <CustomInput
+              value={values.confirmPassword}
+              secureTextEntry={isRetypedPasswordHidden}
+              onChangeText={(text) => {
+                validateConfirmPassword(values.password, text);
+                setFieldValue('confirmPassword', text);
+              }}
+              autoCapitalize="none"
+              onBlur={handleBlur('confirmPassword')}
+              label="Re-Type Password"
+              errorMessage={(!passwordsMatched && 'Did not match password') || ''}
+              onEndEditing={() => {
+                !passwordsMatched && setFieldError('confirmPassword', 'Did not match password');
+              }}
+              inputContainerStyle={Common.inputContainer}
+              rightIcon={
+                <Icon
+                  type="material-community"
+                  size={21}
+                  name={isRetypedPasswordHidden ? 'eye' : 'eye-off'}
+                  onPress={() => _showPasswordShort('confirm')}
+                  style={styles.icon}
+                />
+              }
+            />
             <Button
               title="Submit"
               titleStyle={styles.buttonTitle}
@@ -153,6 +233,7 @@ const styles = StyleSheet.create({
   buttonContainer: { borderRadius: 20, width: '70%' },
   buttonStyle: { backgroundColor: Colors.secondary, borderRadius: 20 },
   buttonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
+  icon: { color: Colors.shadow, opacity: 0.5 },
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,
