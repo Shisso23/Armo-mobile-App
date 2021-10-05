@@ -1,5 +1,5 @@
 export type commentRepliesTypesState = {
-  upVotes: 0;
-  downVotes: 0;
+  totalUpVotes: 0;
+  totalDownVotes: 0;
   isLoadingDeleteComment: false;
 };

@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { commentRepliesTypesState } from './types';
 
 const initialState: commentRepliesTypesState = {
-  upVotes: 0,
-  downVotes: 0,
+  totalUpVotes: 0,
+  totalDownVotes: 0,
   isLoadingDeleteComment: false,
 };
 
@@ -12,10 +12,10 @@ const commentRepliesSlice = createSlice({
   initialState,
   reducers: {
     setUpVotesAction(state: any, action: PayloadAction<commentRepliesTypesState>) {
-      state.upVotes = action.payload;
+      state.totalUpVotes = action.payload;
     },
     setDownVotesAction(state: any, action: PayloadAction<commentRepliesTypesState>) {
-      state.downVotes = action.payload;
+      state.totalDownVotes = action.payload;
     },
     setIsLoadingDeleteCommentAction(state: any, action: PayloadAction<Boolean>) {
       state.isLoadingDeleteComment = action.payload;
