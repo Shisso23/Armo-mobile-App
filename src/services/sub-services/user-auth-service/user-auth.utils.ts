@@ -29,6 +29,7 @@ const constructOAuthSignInData = ({
   grant_type: 'password',
   client_id: appConfig.clientId,
   client_secret: appConfig.clientSecret,
+  scope: appConfig.scope,
 });
 
 const constructOAuthTokenRefreshData = () =>
@@ -36,6 +37,7 @@ const constructOAuthTokenRefreshData = () =>
     grant_type: 'refresh_token',
     client_id: appConfig.clientId,
     client_secret: appConfig.clientSecret,
+    scope: appConfig.scope,
     refresh_token: refreshToken,
   }));
 

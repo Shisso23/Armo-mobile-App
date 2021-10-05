@@ -13,7 +13,7 @@ const { width } = Dimensions.get('window');
 
 const CreatePostScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { Gutters, Layout } = useTheme();
+  const { Gutters, Layout, Fonts } = useTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -36,7 +36,7 @@ const CreatePostScreen: React.FC = () => {
       ]}
     >
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
-        <Text style={styles.title}>Create Post</Text>
+        <Text style={Fonts.title}>Create Post</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
 
@@ -47,6 +47,5 @@ const CreatePostScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  title: { fontSize: 23, fontWeight: '500' },
 });
 export default CreatePostScreen;

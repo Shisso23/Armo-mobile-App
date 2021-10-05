@@ -22,6 +22,7 @@ export const Colors = {
   linkText: '#0645AD',
   shadow: '#5d6564',
   darkGray: '#555555',
+  tertiary: '#EF7C0B',
   gray: '#707070',
   lightGray: '#0000001F',
   darkBrown: '#383838',

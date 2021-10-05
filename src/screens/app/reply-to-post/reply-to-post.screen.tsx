@@ -15,11 +15,11 @@ import _ from 'lodash';
 const { width } = Dimensions.get('window');
 const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
   const navigation = useNavigation();
-  const { Gutters, Layout } = useTheme();
   const dispatch = useDispatch();
   const { params } = route;
   const postId = _.get(params, 'post.id', '');
   const isPostReply = _.get(params, 'isPostReply', false);
+  const { Gutters, Layout, Fonts } = useTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -44,7 +44,7 @@ const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
       ]}
     >
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
-        <Text style={styles.title}>Reply</Text>
+        <Text style={Fonts.title}>Reply</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
       <ReplyToPostForm submitForm={onSubmit} initialValues={ReplyToPostModel()} />
@@ -54,6 +54,5 @@ const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  title: { fontSize: 23, fontWeight: '500' },
 });
 export default ReplyToPostScreen;

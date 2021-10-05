@@ -9,7 +9,5 @@ export const forgotPasswordModel = (_model?: ForgotPasswordProps): ForgotPasswor
 });
 
 export const apiForgotPasswordModel = (_model?: ForgotPasswordProps) => ({
-  user: {
-    email: _.get(_model, 'email', ''),
-  },
+  email: _.get(_model, 'email', ''),
 });

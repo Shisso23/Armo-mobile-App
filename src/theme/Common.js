@@ -32,12 +32,22 @@ export default ({ Colors, FontFamily }) =>
     },
     fabAlignment: {
       bottom: '13%',
-      // margin: 30,
       position: 'absolute',
       right: 30,
     },
     headerLogo: {
       width: 200,
+    },
+    inputContainer: {
+      borderBottomWidth: 0,
+      elevation: 3,
+      shadowColor: Colors.shadow,
+      shadowOffset: {
+        width: 2,
+        height: 3,
+      },
+      shadowOpacity: 0.35,
+      shadowRadius: 8,
     },
     inputWithRoundBorders: {
       backgroundColor: Colors.inputBackground,

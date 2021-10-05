@@ -1,8 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-
-// import HomeScreen from '../../screens/app/home/home.screen';
 import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
@@ -11,7 +9,7 @@ import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
 import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
 import ServicesScreen from '../../screens/app/services/services.screen';
 import ForumsScreen from '../../screens/app/forums/forums.screen';
-import DrawerContent from '../../components/atoms/drawer/drawe.content';
+import DrawerContent from '../../components/atoms/drawer/drawer.content';
 import { StyleSheet } from 'react-native';
 import ViewPostScreen from '../../screens/app/forums/view-post.screen';
 import Header from '../../components/atoms/header';
@@ -20,7 +18,7 @@ const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
 
 const AppNavigator = ({ navigation }: { navigation: any }) => {
-  const { Custom, Images } = useTheme();
+  const { Custom } = useTheme();
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions} headerMode="screen">
       <AppStack.Screen
@@ -38,42 +36,6 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         component={ViewPostScreen}
         options={{
           header: (props) => <Header onBack={() => navigation.goBack()} {...props} backButton />,
-        }}
-        initialParams={{
-          post: {
-            title: 'Cloudiness on Marble Material or Similar',
-            date: new Date(),
-            id: 999,
-            description:
-              'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-            image: Images.logo,
-            replies: [
-              {
-                user: { name: 'User1' },
-                comment:
-                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-                replies: [
-                  {
-                    user: { name: 'User3' },
-                    comment: 'Yes indeed',
-                    replies: [],
-                  },
-                ],
-              },
-              {
-                user: { name: 'User1' },
-                comment:
-                  'We are struggling with cloudiness on our products when we run marble material or similar. Any ideas on how to get surface finish more uniform.',
-                replies: [
-                  {
-                    user: { name: 'User3' },
-                    comment: 'Yes indeed',
-                    replies: [],
-                  },
-                ],
-              },
-            ],
-          },
         }}
       />
 
