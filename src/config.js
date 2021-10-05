@@ -10,4 +10,5 @@ export default {
   clientId: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   environment: ENVIRONMENT,
+  website: 'www.armo.co.za',
 };

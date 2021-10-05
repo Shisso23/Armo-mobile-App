@@ -8,13 +8,13 @@ import { exitAppOnHardwarePressListener } from '../../../helpers';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
+import config from '../../../config';
 
 const { width } = Dimensions.get('window');
 const { CancelToken } = axios;
-
 const ServicesScreen: React.FC = () => {
   const requestSource = CancelToken.source();
-  const armoWebSiteLink = 'www.armo.co.za';
+  const armoWebSiteLink = config.website;
   const navigateToWebsite = () => Linking.openURL(`https://${armoWebSiteLink}`);
   const { Layout, Gutters, Images, Common } = useTheme();
 

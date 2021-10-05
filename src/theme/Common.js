@@ -32,7 +32,6 @@ export default ({ Colors, FontFamily }) =>
     },
     fabAlignment: {
       bottom: '13%',
-      // margin: 30,
       position: 'absolute',
       right: 30,
     },
