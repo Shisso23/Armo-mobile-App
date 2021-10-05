@@ -1,15 +1,17 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import HomeScreen from '../../screens/app/home/home.screen';
 import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
-
 import { AppStackList, DrawerList } from './types';
 import BackButton from '../../components/atoms/back-button';
 import { Colors } from '../../theme/Variables';
 import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
 import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
+import ServicesScreen from '../../screens/app/services/services.screen';
+import ForumsScreen from '../../screens/app/forums/forums.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -19,8 +21,23 @@ const AppNavigator = () => {
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions}>
       <AppStack.Screen
+        name="Forums"
+        component={ForumsScreen}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: Colors.white, shadowColor: Colors.transparent },
+          title: '',
+        }}
+      />
+      <AppStack.Screen
         name="App Home"
         component={DrawerNavigator}
+        options={{ headerShown: false }}
+      />
+
+      <AppStack.Screen
+        name="Services"
+        component={ServicesScreen}
         options={{ headerShown: false }}
       />
 

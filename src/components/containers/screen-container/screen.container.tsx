@@ -9,7 +9,7 @@ type ScreenContainerProps = {
 const ScreenContainer: React.FC<ScreenContainerProps> = (props) => {
   const { Gutters } = useTheme();
   return (
-    <ScrollView {...props} contentContainerStyle={[Gutters.largeHPadding, Gutters.largeTPadding]}>
+    <ScrollView contentContainerStyle={[Gutters.largeHPadding, Gutters.largeTPadding]} {...props}>
       {props.children}
     </ScrollView>
   );

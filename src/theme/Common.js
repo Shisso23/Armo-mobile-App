@@ -14,6 +14,11 @@ export default ({ Colors, FontFamily }) =>
     backgroundReset: {
       backgroundColor: Colors.transparent,
     },
+    cardTitle: {
+      color: Colors.black,
+      fontSize: 20,
+      fontWeight: '500',
+    },
     errorStyle: {
       color: Colors.error,
       fontFamily: FontFamily.primary,
@@ -24,6 +29,11 @@ export default ({ Colors, FontFamily }) =>
       marginTop: 0,
       paddingBottom: 0,
       paddingTop: 0,
+    },
+    fabAlignment: {
+      bottom: '13%',
+      position: 'absolute',
+      right: 30,
     },
     headerLogo: {
       width: 200,

@@ -23,6 +23,7 @@ export const Colors = {
   shadow: '#5d6564',
   darkGray: '#555555',
   gray: '#707070',
+  lightGray: '#0000001F',
 };
 
 export const NavigationColors = {
