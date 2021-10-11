@@ -21,13 +21,13 @@ const EditPostScreen = ({ route }: { route: Object }) => {
   const id = _.get(post, 'id', '');
 
   const goBackToPost = async () => {
-    const editedPost = await dispatch(getPostAction(id));
-    navigation.navigate('ViewPost', { post: editedPost });
+    navigation.goBack();
   };
   const onSubmit = async (formData: EditPostProps) => {
     try {
       await dispatch(editPostAction(formData, id));
-      await goBackToPost();
+      const editedPost = await dispatch(getPostAction(id));
+      navigation.navigate('ViewPost', { post: editedPost });
     } catch (error) {
       console.warn(error);
     }
