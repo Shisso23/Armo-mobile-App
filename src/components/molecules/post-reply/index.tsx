@@ -2,6 +2,7 @@ import React, { useState, createRef } from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
+import { useDispatch } from 'react-redux';
 import { Icon, ListItem, Avatar } from 'react-native-elements';
 import Clipboard from '@react-native-community/clipboard';
 import moment from 'moment';
@@ -16,6 +17,7 @@ import ReportPostModal from '../report-post-modal';
 import { commentsService } from '../../../services';
 import { useSelector } from 'react-redux';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
+import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 
 type PostReplyProps = {
   reply: Object;
@@ -25,6 +27,7 @@ type PostReplyProps = {
 
 const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   const { Gutters, Fonts, Layout } = useTheme();
+  const dispatch = useDispatch();
   const [voteType, setVoteType] = useState('');
   const { totalUpVotes, totalDownVotes } = useSelector(commentRepliesSelector);
   const [upVoted, setUpVoted] = useState(0);
@@ -81,6 +84,10 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   const editComment = () => {
     actionSheetRef.current.setModalVisible(false);
     navigation.navigate('EditComment', { comment: reply });
+  };
+
+  const deleteComment = () => {
+    dispatch(deleteCommentAction(_.get(reply, 'id', '')));
   };
 
   const getVotesBgColor = (type: string) => {
@@ -185,6 +192,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={editComment}
+          onDeletePress={deleteComment}
         />
       </ActionSheet>
       <ReportPostModal

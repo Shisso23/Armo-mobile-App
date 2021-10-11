@@ -26,6 +26,7 @@ import ShareActionContent from '../../../components/molecules/share-action-conte
 import ReportPostModal from '../../../components/molecules/report-post-modal';
 import { deletePostAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
 
 const { width } = Dimensions.get('window');
 
@@ -39,6 +40,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const owner = _.get(post, 'owner', {});
   const dispatch = useDispatch();
   const { isLoadingDeletePost } = useSelector(postsSelector);
+  const { isLoadingDeleteComment } = useSelector(commentRepliesSelector);
   const actionSheetRef = createRef<any>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -120,7 +122,10 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
             {_.get(post, 'content', '-')}
           </ListItem.Subtitle>
-          <ActivityIndicator animating={isLoadingDeletePost} color={Colors.gray} />
+          <ActivityIndicator
+            animating={isLoadingDeletePost || isLoadingDeleteComment}
+            color={Colors.gray}
+          />
           <Pressable onPress={handleOpenImage}>
             {() => (
               <Image
@@ -153,6 +158,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={onEditPost}
+          onDeletePress={onDeletePost}
         />
       </ActionSheet>
     </>
