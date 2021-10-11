@@ -13,6 +13,7 @@ import DrawerContent from '../../components/atoms/drawer/drawer.content';
 import { StyleSheet } from 'react-native';
 import ViewPostScreen from '../../screens/app/forums/view-post.screen';
 import Header from '../../components/atoms/header';
+import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -31,6 +32,13 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         component={ReplyToPostScreen}
         options={{ headerShown: false }}
       />
+
+      <AppStack.Screen
+        name="EditPost"
+        component={EditPostScreen}
+        options={{ headerShown: false }}
+      />
+
       <AppStack.Screen
         name="ViewPost"
         component={ViewPostScreen}

@@ -2,7 +2,12 @@ import _ from 'lodash';
 
 import postUrls from './posts.urls';
 import authNetworkService from '../auth-network-service/auth-network.service';
-import { apiCreatePostModel, apiEditPost, CreatePostProps, EditPostProps } from '../../../models';
+import {
+  apiCreatePostModel,
+  apiEditPostModel,
+  CreatePostProps,
+  EditPostProps,
+} from '../../../models';
 import flashService from '../flash-service/flash.service';
 import { objectToFormData } from '../../../helpers/object-to-form-data.helper.';
 
@@ -42,7 +47,7 @@ const createPost = async (formData: CreatePostProps) => {
 
 const editPost = async (formData: EditPostProps, postId: any) => {
   const url = postUrls.posts();
-  const editPostModel = apiEditPost(formData);
+  const editPostModel = apiEditPostModel(formData);
   try {
     const apiResponse = await authNetworkService.put(`${url}/${postId}`, editPostModel);
     return _.get(apiResponse, 'data', null);

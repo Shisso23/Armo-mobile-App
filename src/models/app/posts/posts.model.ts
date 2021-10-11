@@ -14,8 +14,8 @@ export type GetPostProps = {
 };
 
 export type EditPostProps = {
-  title: string;
-  content: string;
+  topicTitle: string;
+  description: string;
 };
 
 export type apiPostProps = {
@@ -49,14 +49,14 @@ export const apiGetPosts = (_model: GetPostProps) => ({
   PageSize: _.get(_model, 'pageSize', null),
 });
 
-export const editPost = (_model: EditPostProps) => ({
-  title: _.get(_model, 'pageNumber', null),
-  PageSize: _.get(_model, 'pageSize', null),
+export const editPostModel = (_model = {}) => ({
+  topicTitle: _.get(_model, 'topicTitle', ''),
+  description: _.get(_model, 'description', ''),
 });
 
-export const apiEditPost = (_model: EditPostProps) => ({
-  PageNumber: _.get(_model, 'topicTitle', null),
-  PageSize: _.get(_model, 'description', null),
+export const apiEditPostModel = (_model: EditPostProps) => ({
+  title: _.get(_model, 'topicTitle', ''),
+  content: _.get(_model, 'description', ''),
 });
 
 export const constructPostsModels = (apiPostsModel: postsTypesState) =>

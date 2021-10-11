@@ -10,9 +10,10 @@ import {
   View,
 } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Clipboard from '@react-native-community/clipboard';
 import _ from 'lodash';
 
@@ -24,6 +25,7 @@ import PostReplies from '../../../components/molecules/post-replies';
 import ShareActionContent from '../../../components/molecules/share-action-content';
 import ReportPostModal from '../../../components/molecules/report-post-modal';
 import { deletePostAction } from '../../../reducers/posts-reducer/posts.actions';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 
 const { width } = Dimensions.get('window');
 
@@ -36,6 +38,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { post } = params;
   const owner = _.get(post, 'owner', {});
   const dispatch = useDispatch();
+  const { isLoadingDeletePost } = useSelector(postsSelector);
   const actionSheetRef = createRef<any>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -62,8 +65,9 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   const handleOpenImage = () => {};
 
-  const onDeletePost = () => {
-    dispatch(deletePostAction(_.get(post, 'id', '')));
+  const onDeletePost = async () => {
+    await dispatch(deletePostAction(_.get(post, 'id', '')));
+    navigation.goBack();
   };
 
   const onEditPost = () => {
@@ -117,6 +121,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
             {_.get(post, 'content', '-')}
           </ListItem.Subtitle>
+          <ActivityIndicator animating={isLoadingDeletePost} color={Colors.gray} />
           <Pressable onPress={handleOpenImage}>
             {() => (
               <Image

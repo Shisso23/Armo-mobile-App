@@ -40,10 +40,22 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
           </ListItem.Content>
           <Icon name="md-close-circle-outline" type="ionicon" onPress={hidePostOptionsModal} />
         </ListItem>
-        <TouchableOpacity style={Gutters.regularMargin} onPress={handleEdit}>
+        <TouchableOpacity
+          style={Gutters.regularMargin}
+          onPress={() => {
+            handleEdit();
+            setPostOptionsModalVisible(false);
+          }}
+        >
           <Text>Edit Post</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Gutters.regularMargin} onPress={handleDelete}>
+        <TouchableOpacity
+          style={Gutters.regularMargin}
+          onPress={() => {
+            handleDelete();
+            setPostOptionsModalVisible(false);
+          }}
+        >
           <Text>Delete Post</Text>
         </TouchableOpacity>
       </Menu>
