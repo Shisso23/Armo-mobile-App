@@ -1,5 +1,5 @@
 import React, { useState, useCallback, createRef } from 'react';
-import { View, StyleSheet, FlatList, RefreshControl, Keyboard } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
@@ -8,7 +8,6 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
-import { ScreenContainer } from '../../../components';
 import CategoryActionSheet from '../../../components/molecules/category-action-sheet-content';
 import SearchBar from '../../../components/atoms/search-bar';
 import PostItem from '../../../components/molecules/post-item';
@@ -19,13 +18,16 @@ import { apiPostProps } from '../../../models';
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const { posts } = useSelector(postsSelector);
+  const { posts, isLoadingGetPosts } = useSelector(postsSelector);
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
   const [searchResult, setSearchResult] = useState([]);
   const { Layout, Gutters, Common, Fonts } = useTheme();
 
+  const getPosts = () => {
+    dispatch(getPostsAction());
+  };
   useFocusEffect(
     useCallback(() => {
       dispatch(getPostsAction());
@@ -98,22 +100,14 @@ const ForumsScreen: React.FC = () => {
           ]}
         />
       </View>
-      <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
-        <FlatList
-          contentContainerStyle={[Gutters.smallHMargin]}
-          data={searchText.length > 0 ? searchResult : posts}
-          renderItem={renderForum}
-          keyExtractor={(item) => String(item.id)}
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={() => {}}
-              tintColor={Colors.primary}
-              colors={[Colors.primary]}
-            />
-          }
-        />
-      </ScreenContainer>
+      <FlatList
+        contentContainerStyle={[Gutters.smallHMargin]}
+        data={searchText.length > 0 ? searchResult : posts}
+        renderItem={renderForum}
+        keyExtractor={(item) => String(item.id)}
+        onRefresh={getPosts}
+        refreshing={isLoadingGetPosts}
+      />
       <FAB
         style={[Common.fabAlignment, styles.fab]}
         icon="plus"
