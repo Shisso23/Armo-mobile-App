@@ -24,7 +24,7 @@ export const getPostsAction =
     }
   };
 
-export const getPostAction = (id: any) => (dispatch: Function) => {
+export const getPostAction = async (id: any) => (dispatch: Function) => {
   dispatch(setIsLoadingGetPostAction(true));
 
   return postsService
@@ -40,17 +40,18 @@ export const getPostAction = (id: any) => (dispatch: Function) => {
     });
 };
 
-export const editPostAction = (formData: EditPostProps, id: any) => async (dispatch: Function) => {
-  dispatch(setIsLoadingEditPostAction(true));
-  try {
-    let post = await postsService.editPost(formData, id);
-    return post;
-  } catch (error) {
-    flashService.error(error.message);
-  } finally {
-    dispatch(setIsLoadingEditPostAction(false));
-  }
-};
+export const editPostAction =
+  async (formData: EditPostProps, id: any) => async (dispatch: Function) => {
+    dispatch(setIsLoadingEditPostAction(true));
+    try {
+      let post = await postsService.editPost(formData, id);
+      return post;
+    } catch (error) {
+      flashService.error(error.message);
+    } finally {
+      dispatch(setIsLoadingEditPostAction(false));
+    }
+  };
 
 export const createPostAction = async (formData: CreatePostProps) => {
   try {
@@ -60,7 +61,7 @@ export const createPostAction = async (formData: CreatePostProps) => {
   }
 };
 
-export const deletePostAction = (id: any) => (dispatch: Function) => {
+export const deletePostAction = async (id: any) => (dispatch: Function) => {
   dispatch(setIsLoadingDeletePostAction(true));
 
   return postsService

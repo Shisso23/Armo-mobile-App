@@ -18,7 +18,6 @@ type BackButtonProps = {
 const Header: React.FC<BackButtonProps> = (props) => {
   const { Gutters, Layout } = useTheme();
   const navigation = useNavigation<DrawerNavigationProp<any>>();
-  console.log({ props });
   const handleOnPress = () => {
     return navigation.toggleDrawer();
   };

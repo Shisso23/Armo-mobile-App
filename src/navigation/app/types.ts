@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export type AppStackList = {
   'App Home': undefined;
   ReplyToPost: undefined;
+  EditPost: undefined;
   CreatePost: undefined;
   Services: undefined;
   Forums: undefined;
