@@ -5,15 +5,19 @@ type ShareActionContentProps = {
   onReportPress: Function | any;
   onSharePress: Function | any;
   onCopyPress: Function | any;
+  onEditPress: Function | any;
 };
 
 const ShareActionContent: React.FC<ShareActionContentProps> = ({
   onReportPress,
   onSharePress,
   onCopyPress,
+  onEditPress,
 }) => {
   const getActionData = (action: string) => {
     switch (action) {
+      case 'edit':
+        return { icon: 'square-edit-outline', text: 'Edit', function: onEditPress };
       case 'share':
         return { icon: 'share-variant', text: 'Share', function: onSharePress };
       case 'copy':
@@ -40,6 +44,7 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
 
   return (
     <>
+      {renderContent('edit')}
       {renderContent('share')}
       {renderContent('copy')}
       {renderContent('report')}

@@ -12,7 +12,7 @@ import {
 import { Icon, ListItem } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import Clipboard from '@react-native-community/clipboard';
 import _ from 'lodash';
@@ -71,6 +71,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   };
 
   const onEditPost = () => {
+    actionSheetRef.current.setModalVisible(false);
     navigation.navigate('EditPost', { post });
   };
 
@@ -151,6 +152,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           onSharePress={() => {}}
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
+          onEditPress={onEditPost}
         />
       </ActionSheet>
     </>

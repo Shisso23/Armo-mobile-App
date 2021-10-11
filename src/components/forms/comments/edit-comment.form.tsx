@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -9,36 +9,35 @@ import { getFormError } from '../form-utils';
 import { flashService } from '../../../services';
 
 import { ErrorObject } from '../types';
-import { ReplyToPostProps } from '../../../models';
+import { EditCommentProps } from '../../../models';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import DescriptionInput from '../../molecules/description-input';
 
-type ReplyToFormProps = {
+type EditCommentFormProps = {
   submitForm: Function;
   onSuccess?: Function;
-  initialValues: ReplyToPostProps;
+  initialValues: EditCommentProps;
 };
 
-const replyToPostSchema = Yup.object().shape({
+const EditCommentSchema = Yup.object().shape({
   description: Yup.string().required(),
-  imageUri: Yup.string(),
 });
 
-const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
+const EditCommentForm: React.FC<EditCommentFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Common, Gutters, Layout } = useTheme();
+  const { Common, Gutters } = useTheme();
   const _handleSubmission = (
-    formData: ReplyToPostProps,
-    actions: FormikHelpers<ReplyToPostProps>,
+    formData: EditCommentProps,
+    actions: FormikHelpers<EditCommentProps>,
   ) => {
     return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
-        flashService.success('Sent');
+        flashService.success('Comment Edited successfully');
         onSuccess();
       })
       .catch((error: ErrorObject) => {
@@ -56,7 +55,7 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
       initialValues={initialValues}
       initialStatus={{ apiErrors: {} }}
       onSubmit={_handleSubmission}
-      validationSchema={replyToPostSchema}
+      validationSchema={EditCommentSchema}
       enableReinitialize
     >
       {({
@@ -79,27 +78,24 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
               value={values.description}
               error={error}
             />
-
-            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
-              <Button
-                title="Post"
-                icon={
-                  <Icon
-                    name="send-o"
-                    size={15}
-                    color={Colors.white}
-                    type="font-awesome"
-                    style={Gutters.smallRMargin}
-                  />
-                }
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                titleStyle={Common.submitButtonTitle}
-                containerStyle={[Common.submitButtonContainer, styles.postButton]}
-                buttonStyle={Common.submitButton}
-                raised
-              />
-            </View>
+            <Button
+              title="Post"
+              icon={
+                <Icon
+                  name="send-o"
+                  size={15}
+                  color={Colors.white}
+                  type="font-awesome"
+                  style={Gutters.smallRMargin}
+                />
+              }
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              titleStyle={Common.submitButtonTitle}
+              containerStyle={[Common.submitButtonContainer, styles.postButton]}
+              buttonStyle={Common.submitButton}
+              raised
+            />
           </>
         );
       }}
@@ -108,7 +104,6 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
 };
 
 const styles = StyleSheet.create({
-  buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
   postButton: { width: '100%' },
 });
-export default ReplyToPostForm;
+export default EditCommentForm;

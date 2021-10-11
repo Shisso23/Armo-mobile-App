@@ -78,6 +78,11 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
     }
   };
 
+  const editComment = () => {
+    actionSheetRef.current.setModalVisible(false);
+    navigation.navigate('EditComment', { comment: reply });
+  };
+
   const getVotesBgColor = (type: string) => {
     switch (voteType) {
       case type:
@@ -179,6 +184,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
           onSharePress={() => {}}
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
+          onEditPress={editComment}
         />
       </ActionSheet>
       <ReportPostModal

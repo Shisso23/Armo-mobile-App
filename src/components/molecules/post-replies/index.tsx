@@ -35,6 +35,9 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
       if (repliesExpanded) {
         dispatch(getPostCommentsAction(_.get(post, 'id', '')));
       }
+      return () => {
+        setRepliesExpanded(false);
+      };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
