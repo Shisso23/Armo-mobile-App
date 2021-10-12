@@ -42,7 +42,7 @@ export default ({ FontSize, Colors }) =>
     },
     titleRegular: {
       color: Colors.text,
-      fontSize: FontSize.regular * 2,
+      fontSize: FontSize.regular * 1.7,
       fontWeight: 'bold',
     },
     titleSmall: {
