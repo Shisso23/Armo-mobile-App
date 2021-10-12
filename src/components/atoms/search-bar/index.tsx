@@ -10,16 +10,23 @@ type SearchBarProps = {
   onChangeTex: any;
   placeHolder?: string;
   value: any;
+  style?: any;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ clearSearch, onChangeTex, placeHolder, value }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  clearSearch,
+  onChangeTex,
+  placeHolder,
+  value,
+  style,
+}) => {
   return (
     <CustomInput
       value={value}
       onChangeText={onChangeTex}
       label=""
       placeholder={placeHolder}
-      inputContainerStyle={styles.searchInput}
+      inputContainerStyle={[styles.searchInput, style]}
       leftIcon={<Icon name="search" iconStyle={styles.iconsOpacity} />}
       rightIcon={
         <Icon name="clear" size={20} onPress={clearSearch} iconStyle={styles.iconsOpacity} />

@@ -16,5 +16,6 @@ export type AppStackProps = StackNavigationProp<AppStackList>;
 export type DrawerList = {
   Home: undefined;
   Profile: undefined;
+  Sponsors: undefined;
 };
 export type DrawerStackProps = StackNavigationProp<DrawerList>;
