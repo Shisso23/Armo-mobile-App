@@ -14,6 +14,7 @@ import PostItem from '../../../components/molecules/post-item';
 import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
+import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -122,6 +123,7 @@ const ForumsScreen: React.FC = () => {
       >
         <CategoryActionSheet showResults={() => {}} />
       </ActionSheet>
+      <SponsorsFooter />
     </>
   );
 };
