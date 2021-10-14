@@ -44,7 +44,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const actionSheetRef = createRef<any>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const navigation = useNavigation();
-  const { Layout, Gutters, Fonts } = useTheme();
+  const { Layout, Gutters, Fonts, Common } = useTheme();
 
   const openActionSheet = () => {
     actionSheetRef.current.setModalVisible(true);
@@ -118,22 +118,26 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           handlePostEdit={onEditPost}
         />
         <View style={Gutters.regularHPadding}>
-          <Text style={Fonts.titleTiny}>{_.get(post, 'title', '')}</Text>
+          <Text style={[Fonts.titleTiny, Common.cardTitle, styles.postTitle]}>
+            {_.get(post, 'title', '')}
+          </Text>
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
-            {_.get(post, 'content', '-')}
+            {_.get(post, 'content', '').toLowerCase()}
           </ListItem.Subtitle>
+          <Pressable onPress={handleOpenImage}>
+            {() => (
+              <Image
+                source={{
+                  uri: 'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg', //TODO use attachment API to get post attachment
+                }}
+                style={[Gutters.regularTMargin, Layout.alignSelfCenter, styles.image]}
+              />
+            )}
+          </Pressable>
           <ActivityIndicator
             animating={isLoadingDeletePost || isLoadingDeleteComment}
             color={Colors.gray}
           />
-          <Pressable onPress={handleOpenImage}>
-            {() => (
-              <Image
-                source={_.get(post, 'image', null)}
-                style={[Gutters.regularTMargin, Layout.alignSelfCenter]}
-              />
-            )}
-          </Pressable>
         </View>
         <View>
           {renderReplyAndShareButtons()}
@@ -167,6 +171,8 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
 const styles = StyleSheet.create({
   actionSheet: { borderRadius: 25 },
+  image: { height: 150, width: 120 },
+  postTitle: { fontWeight: '400' },
   replyText: { color: Colors.white, fontSize: 17 },
   shareAndReplyContainer: { backgroundColor: Colors.tertiary, left: -10, width },
 });

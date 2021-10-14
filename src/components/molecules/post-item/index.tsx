@@ -19,7 +19,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) 
   return (
     <View style={[Common.inputWithRoundBorders, Gutters.tinyMargin, styles.forumItem]}>
       <List.Item
-        title={item.title}
+        title={item.title.toLocaleLowerCase()}
         titleNumberOfLines={2}
         titleStyle={Common.cardTitle}
         description={() => (
