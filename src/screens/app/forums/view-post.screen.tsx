@@ -34,6 +34,8 @@ type ViewPostScreenProps = {
   route: { params: any };
 };
 
+const imageUri = 'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg';
+
 const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
@@ -65,7 +67,9 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
     setReportModalVisible(false);
   };
 
-  const handleOpenImage = () => {};
+  const handleOpenImage = () => {
+    navigation.navigate('PostImage', { uri: imageUri });
+  };
 
   const onDeletePost = async () => {
     await dispatch(deletePostAction(_.get(post, 'id', '')));
@@ -128,7 +132,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
             {() => (
               <Image
                 source={{
-                  uri: 'https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg', //TODO use attachment API to get post attachment
+                  uri: imageUri, //TODO use attachment API to get post attachment
                 }}
                 style={[Gutters.regularTMargin, Layout.alignSelfCenter, styles.image]}
               />
@@ -137,6 +141,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           <ActivityIndicator
             animating={isLoadingDeletePost || isLoadingDeleteComment}
             color={Colors.gray}
+            style={Gutters.smallTMargin}
           />
         </View>
         <View>

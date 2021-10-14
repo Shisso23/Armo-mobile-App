@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
-import { List } from 'react-native-paper';
-import { apiPostProps } from '../../../models';
+import { List, ActivityIndicator } from 'react-native-paper';
 
+import { apiPostProps } from '../../../models';
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
@@ -11,9 +11,10 @@ type PostItemProps = {
   item: apiPostProps;
   handleJoinForum: any;
   onSelect: any;
+  loading: boolean;
 };
 
-const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) => {
+const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect, loading }) => {
   const { Layout, Common, Gutters } = useTheme();
 
   return (
@@ -25,6 +26,12 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) 
         description={() => (
           <View style={Gutters.smallTMargin}>
             <Text style={Common.cardDescription}>{item.summary}</Text>
+            <ActivityIndicator
+              size={35}
+              style={[Layout.alignSelfCenter, styles.activityIndicator]}
+              animating={loading}
+              color={Colors.lightGray}
+            />
             <TouchableOpacity
               style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
               onPress={handleJoinForum}
@@ -52,6 +59,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect }) 
 };
 
 const styles = StyleSheet.create({
+  activityIndicator: { position: 'absolute' },
   forumItem: {
     shadowOffset: {
       width: 2,

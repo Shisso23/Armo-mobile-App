@@ -25,11 +25,11 @@ const NotificationsScreen = () => {
     <>
       <ListItem onPress={() => {}}>
         <ListItem.Content>
-          <Text>{_.get(item, 'message', '')}</Text>
+          <Text style={styles.message}>{_.get(item, 'message', '')}</Text>
         </ListItem.Content>
         <Text>{moment(_.get(item, 'seenAt', new Date())).fromNow()}</Text>
       </ListItem>
-      <Divider inset={true} insetType="middle" height={1.07} style={Gutters.smallHMargin} />
+      <Divider style={[Gutters.smallHMargin, styles.divider]} />
     </>
   );
 
@@ -60,6 +60,10 @@ NotificationsScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
+  divider: {
+    height: 1.07,
+  },
+  message: { fontSize: 16, lineHeight: 23 },
   title: { fontSize: 20, fontWeight: '500' },
 });
 
