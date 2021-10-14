@@ -56,7 +56,7 @@ const SPONSORS = [
   },
   {
     id: 2,
-    name: 'Consultantss',
+    name: 'Consultants',
     description: 'Lorem ipsum',
     images: [
       {
