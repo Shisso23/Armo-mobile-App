@@ -32,7 +32,7 @@ const SponsorsFooter: React.FC = () => {
     }, [dispatch]),
   );
 
-  const renderDivider = () => <View style={[Gutters.smallVMargin, styles.divider]} />;
+  const renderDivider = () => <View style={[Gutters.regularVMargin, styles.divider]} />;
 
   const renderSponsor = (sponsor: SponsorsProps) => {
     return (
@@ -56,7 +56,7 @@ const SponsorsFooter: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '70%', opacity: 0.5 },
+  divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '55%', opacity: 0.5 },
   footer: {
     backgroundColor: Colors.white,
     bottom: 0,
