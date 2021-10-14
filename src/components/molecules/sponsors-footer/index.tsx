@@ -2,8 +2,7 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { StyleSheet, View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SponsorsProps } from '../../../models/app/sponsors/sponsors.model';
@@ -38,7 +37,7 @@ const SponsorsFooter: React.FC = () => {
   const renderSponsor = (sponsor: SponsorsProps) => {
     return (
       <View style={[Layout.row, Gutters.regularLMargin, Layout.fill]}>
-        <Text style={[Gutters.regularLMargin, Layout.alignSelfCenter]}>
+        <Text style={[Gutters.regularLMargin, Layout.alignSelfCenter, styles.sponsor]}>
           {_.get(sponsor, 'name', '')}
         </Text>
       </View>
@@ -65,6 +64,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
   },
+  sponsor: { fontSize: 16 },
 });
 
 export default SponsorsFooter;
