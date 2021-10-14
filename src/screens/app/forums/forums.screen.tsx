@@ -102,7 +102,7 @@ const ForumsScreen: React.FC = () => {
         />
       </View>
       <FlatList
-        contentContainerStyle={[Gutters.smallHMargin]}
+        contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
         data={searchText.length > 0 ? searchResult : posts}
         renderItem={renderForum}
         keyExtractor={(item) => String(item.id)}

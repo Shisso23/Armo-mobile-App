@@ -23,6 +23,7 @@ const SponsorsFooter: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(getSponsorsAction());
       const interval = setInterval(() => {
         dispatch(getSponsorsAction());
       }, 5000);
@@ -56,9 +57,9 @@ const SponsorsFooter: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  divider: { borderWidth: 0.5, height: '70%' },
+  divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '70%', opacity: 0.5 },
   footer: {
-    backgroundColor: Colors.lightGray,
+    backgroundColor: Colors.white,
     bottom: 0,
     height: 80,
     position: 'absolute',
