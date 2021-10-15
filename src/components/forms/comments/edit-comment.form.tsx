@@ -37,7 +37,7 @@ const EditCommentForm: React.FC<EditCommentFormProps> = ({
     return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
-        flashService.success('Comment Edited successfully');
+        flashService.success('Comment Edited Successfully');
         onSuccess();
       })
       .catch((error: ErrorObject) => {

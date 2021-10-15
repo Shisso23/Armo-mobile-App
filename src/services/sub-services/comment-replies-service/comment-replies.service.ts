@@ -56,7 +56,7 @@ const editComment = async (formData: EditCommentProps, id: any) => {
     const apiResponse = await authNetworkService.put(`${url}`, editCommentModel);
     return _.get(apiResponse, 'data', null);
   } catch (error) {
-    flashService.error(_.get(error, 'message', 'Error Editing comment!'));
+    flashService.error(_.get(error, 'message', 'Error while editing comment!'));
   }
 };
 

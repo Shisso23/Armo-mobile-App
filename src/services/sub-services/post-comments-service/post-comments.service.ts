@@ -23,7 +23,7 @@ const createPostComment = async (formData: ReplyToPostProps, postId: any) => {
     const apiResponse = await authNetworkService.post(url, apiReplyToPostModel(formData));
     return _.get(apiResponse, 'data.data', null);
   } catch (error) {
-    flashService.error(_.get(error, 'message', 'Error Creating post comment!'));
+    flashService.error(_.get(error, 'message', 'Error while creating post comment!'));
   }
 };
 

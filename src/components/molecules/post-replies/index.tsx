@@ -4,11 +4,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Icon, ListItem, Divider } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { postCommentsSelector } from '../../../reducers/post-comments-reducer/post-comments.reducer';
-import _ from 'lodash';
 import PostReply from '../../../components/molecules/post-reply';
 import { getPostCommentsAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
 
@@ -38,8 +38,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
       return () => {
         setRepliesExpanded(false);
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
+    }, [dispatch, post, repliesExpanded]),
   );
 
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
