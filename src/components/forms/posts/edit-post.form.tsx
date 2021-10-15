@@ -36,7 +36,7 @@ const EditPostForm: React.FC<EditPostFormProps> = ({
     return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
-        flashService.success('Post Editd successfully');
+        flashService.success('Post Edited Successfully');
         onSuccess();
       })
       .catch((error: ErrorObject) => {
