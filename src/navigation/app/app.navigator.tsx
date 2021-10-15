@@ -16,6 +16,7 @@ import Header from '../../components/atoms/header';
 import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
 import EditCommentScreen from '../../screens/app/edit-comment/edit-comment.screen';
 import NotificationsScreen from '../../screens/app/notifications/notifications.screen';
+import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -106,6 +107,13 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
           headerStyle: {
             backgroundColor: Colors.transparent,
           },
+        }}
+      />
+      <Drawer.Screen
+        name="Sponsors"
+        component={SponsorsScreen}
+        options={{
+          headerShown: false,
         }}
       />
       <Drawer.Screen
