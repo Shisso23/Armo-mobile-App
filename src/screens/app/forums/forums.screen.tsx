@@ -36,7 +36,9 @@ const ForumsScreen: React.FC = () => {
 
   const getPost = async (id: any) => {
     const post = await dispatch(getPostAction(id));
-    navigation.navigate('ViewPost', { post });
+    if (post) {
+      navigation.navigate('ViewPost', { post });
+    }
   };
 
   const handleJoinForum = () => {};

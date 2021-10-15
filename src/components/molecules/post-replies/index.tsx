@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, FlatList, Text, Dimensions } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Icon, ListItem, Divider } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
-import _ from 'lodash';
+import { postCommentsSelector } from '../../../reducers/post-comments-reducer/post-comments.reducer';
 import PostReply from '../../../components/molecules/post-reply';
+import { getPostCommentsAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
 
 const { width } = Dimensions.get('window');
 
@@ -15,16 +20,36 @@ type PostRepliesProps = {
 
 const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const { Gutters } = useTheme();
+  const dispatch = useDispatch();
+  const { isLoadingGetPostComments, postComments } = useSelector(postCommentsSelector);
   const [repliesExpanded, setRepliesExpanded] = useState(false);
+
+  useEffect(() => {
+    if (repliesExpanded) {
+      dispatch(getPostCommentsAction(_.get(post, 'id', '')));
+    }
+  }, [dispatch, post, repliesExpanded]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (repliesExpanded) {
+        dispatch(getPostCommentsAction(_.get(post, 'id', '')));
+      }
+      return () => {
+        setRepliesExpanded(false);
+      };
+    }, [dispatch, post, repliesExpanded]),
+  );
 
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
     return (
       <>
-        <PostReply reply={item} user={_.get(item, 'user', {})} />
-        {index < _.get(post, 'replies', []).length - 1 && <Divider style={styles.postDivider} />}
+        <PostReply reply={item} user={_.get(item, 'ownerId', {})} />
+        {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );
   };
+
   return (
     <View>
       <ListItem.Accordion
@@ -54,9 +79,15 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
             Remember to keep comments respectful and to follow our Community Guidelines
           </Text>
           <Divider style={styles.fullDivider} />
-          <FlatList data={_.get(post, 'replies', [])} renderItem={renderPostReplies} />
+          <FlatList data={postComments} renderItem={renderPostReplies} />
         </View>
       </ListItem.Accordion>
+      <ActivityIndicator
+        size={35}
+        style={Gutters.smallTMargin}
+        animating={isLoadingGetPostComments}
+        color={Colors.lightGray}
+      />
     </View>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useState, createRef } from 'react';
-import { View, StyleSheet, Text, Dimensions, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
+import { useDispatch } from 'react-redux';
 import { Icon, ListItem, Avatar } from 'react-native-elements';
 import Clipboard from '@react-native-community/clipboard';
 import moment from 'moment';
@@ -13,6 +14,10 @@ import _ from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ShareActionContent from '../share-action-content';
 import ReportPostModal from '../report-post-modal';
+import { commentsService } from '../../../services';
+import { useSelector } from 'react-redux';
+import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
+import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 
 type PostReplyProps = {
   reply: Object;
@@ -20,13 +25,14 @@ type PostReplyProps = {
   key?: any;
 };
 
-const { width } = Dimensions.get('window');
-
 const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   const { Gutters, Fonts, Layout } = useTheme();
-  const [upVotes, setUpVotes] = useState(0);
+  const dispatch = useDispatch();
+  const [voteType, setVoteType] = useState('');
+  const { totalUpVotes, totalDownVotes } = useSelector(commentRepliesSelector);
+  const [upVoted, setUpVoted] = useState(0);
+  const [downVoted, setDownVoted] = useState(0);
   const [reportModalVisible, setReportModalVisible] = useState(false);
-  const [downVotes, setDownVotes] = useState(0);
   const actionSheetRef = createRef<any>();
   const navigation = useNavigation();
 
@@ -44,10 +50,65 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   };
 
   const handleClipBoardCopy = () => {
-    Clipboard.setString(_.get(reply, 'description', ''));
+    Clipboard.setString(_.get(reply, 'content', ''));
     actionSheetRef.current.setModalVisible(false);
     Alert.alert('Copied');
   };
+  const upVote = async () => {
+    setVoteType('upVote');
+    setUpVoted(1);
+    setDownVoted(0);
+
+    await commentsService.upVoteComment(_.get(reply, 'id', ''));
+  };
+
+  const downVote = async () => {
+    setVoteType('downVote');
+    setDownVoted(1);
+    setUpVoted(0);
+    await commentsService.downVoteComment(_.get(reply, 'id', ''));
+  };
+
+  const getVotes = (type: string) => {
+    switch (type) {
+      case 'upVote':
+        return totalUpVotes + upVoted;
+      case 'downVote':
+        return totalDownVotes + downVoted;
+
+      default:
+        return 0;
+    }
+  };
+
+  const editComment = () => {
+    actionSheetRef.current.setModalVisible(false);
+    navigation.navigate('EditComment', { comment: reply });
+  };
+
+  const deleteComment = () => {
+    dispatch(deleteCommentAction(_.get(reply, 'id', '')));
+  };
+
+  const getVotesBgColor = (type: string) => {
+    switch (voteType) {
+      case type:
+        return Colors.secondary;
+
+      default:
+        return Colors.black;
+    }
+  };
+
+  const debounceDownVote = _.debounce(downVote, 800, {
+    leading: false,
+    trailing: true,
+  });
+
+  const debounceUpVote = _.debounce(() => upVote(), 800, {
+    leading: false,
+    trailing: true,
+  });
 
   const handleReportPress = () => {
     actionSheetRef.current.setModalVisible(false);
@@ -62,17 +123,18 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
     actionSheetRef.current.setModalVisible(true);
   };
 
-  const renderVotes = (type: String, numberOfVotes: Number) => {
+  const renderVotes = (type: string) => {
     return (
       <View style={Layout.row}>
         <Icon
           onPress={() => {
-            type === 'upVote' ? setUpVotes(upVotes + 1) : setDownVotes(downVotes + 1);
+            type === 'upVote' ? debounceUpVote() : debounceDownVote();
           }}
+          color={getVotesBgColor(type)}
           name={type === 'upVote' ? 'chevron-up-circle-outline' : 'chevron-down-circle-outline'}
           type="material-community"
         />
-        <Text style={[Gutters.smallLMargin, Gutters.tinyTMargin]}>{numberOfVotes}</Text>
+        <Text style={[Gutters.smallLMargin, Gutters.tinyTMargin]}>{getVotes(type)}</Text>
       </View>
     );
   };
@@ -89,31 +151,31 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
         />
         <ListItem.Content>
           <ListItem.Title>{`${_.get(user, 'name', '')} ${formatDate(
-            _.get(reply, 'date', new Date()),
+            _.get(reply, 'date', new Date()), // TODO
           )}`}</ListItem.Title>
         </ListItem.Content>
       </ListItem>
 
       <ListItem.Subtitle style={[Fonts.textLeft, styles.comment]}>
-        {_.get(reply, 'comment', '-')}
+        {_.get(reply, 'content', '')}
       </ListItem.Subtitle>
 
       <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('ReplyToPost', { post: reply });
+            navigation.navigate('ReplyToPost', { post: reply, isPostReply: false });
           }}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
         >
           <Text>Reply</Text>
         </TouchableOpacity>
 
-        {renderVotes('upVote', upVotes)}
-        {renderVotes('downVote', downVotes)}
+        {renderVotes('upVote')}
+        {renderVotes('downVote')}
         <Icon
           name="dots-horizontal"
           type="material-community"
-          style={{ marginLeft: width * 0.2 }}
+          style={Gutters.largeLMargin}
           onPress={openActionSheet}
         />
       </ListItem>
@@ -129,6 +191,8 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
           onSharePress={() => {}}
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
+          onEditPress={editComment}
+          onDeletePress={deleteComment}
         />
       </ActionSheet>
       <ReportPostModal

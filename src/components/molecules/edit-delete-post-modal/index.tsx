@@ -36,7 +36,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
       >
         <ListItem>
           <ListItem.Content>
-            <ListItem.Title style={styles.postMenuTitle}>Reason</ListItem.Title>
+            <ListItem.Title style={styles.postMenuTitle}>Post</ListItem.Title>
           </ListItem.Content>
           <Icon name="md-close-circle-outline" type="ionicon" onPress={hidePostOptionsModal} />
         </ListItem>

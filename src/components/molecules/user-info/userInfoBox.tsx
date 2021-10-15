@@ -32,7 +32,7 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({
         containerStyle={styles.avatar}
       />
       <ListItem.Content>
-        <ListItem.Title>{_.get(user, 'name', '')}</ListItem.Title>
+        <ListItem.Title>{_.get(user, 'fullName', '')}</ListItem.Title>
         <ListItem.Subtitle>{formatDate(_.get(post, 'date', new Date()))}</ListItem.Subtitle>
       </ListItem.Content>
       <EditDeletePost handleDelete={handlePostDelete} handleEdit={handlePostEdit} />

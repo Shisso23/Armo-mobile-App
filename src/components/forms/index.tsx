@@ -7,3 +7,4 @@ export { default as SignUpForm } from './sign-up/sign-up.form';
 export { default as CreatePostForm } from './posts/create-post.form';
 export { default as ReplyToPostForm } from './posts/reply-post.form';
 export { default as EditPostForm } from './posts/edit-post.form';
+export { default as EditCommentForm } from './comments/edit-comment.form';

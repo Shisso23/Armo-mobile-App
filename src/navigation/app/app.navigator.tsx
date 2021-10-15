@@ -14,6 +14,7 @@ import { StyleSheet } from 'react-native';
 import ViewPostScreen from '../../screens/app/forums/view-post.screen';
 import Header from '../../components/atoms/header';
 import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
+import EditCommentScreen from '../../screens/app/edit-comment/edit-comment.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -36,6 +37,12 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
       <AppStack.Screen
         name="EditPost"
         component={EditPostScreen}
+        options={{ headerShown: false }}
+      />
+
+      <AppStack.Screen
+        name="EditComment"
+        component={EditCommentScreen}
         options={{ headerShown: false }}
       />
 
