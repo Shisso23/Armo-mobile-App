@@ -36,6 +36,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
           type="font-awesome-5"
           name="bell"
           size={20}
+          onPress={() => navigation.navigate('Notifications')}
           containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
         />
 

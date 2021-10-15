@@ -5,6 +5,7 @@ import userReducer from './user-reducer/user.reducer';
 import postsReducer from '../reducers/posts-reducer/posts.reducer';
 import postCommentsReducer from './post-comments-reducer/post-comments.reducer';
 import commentRepliesReducer from './comment-replies-reducer/comment-replies.reducer';
+import notificationsReducer from './notifications-reducer/notifications.reducer';
 
 export default combineReducers({
   userAuthReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   postsReducer,
   postCommentsReducer,
   commentRepliesReducer,
+  notificationsReducer,
 });
