@@ -50,7 +50,7 @@ const SponsorsScreen: React.FC = () => {
         {images.map((image, index) => {
           return (
             <Avatar.Image
-              key={_.get(image, 'uri', index)}
+              key={index}
               size={40}
               source={{ uri: _.get(image, 'uri', undefined) }}
               style={{ left: -index * 10 }}
@@ -102,7 +102,9 @@ const SponsorsScreen: React.FC = () => {
       <FlatList
         data={searchText.length > 0 ? searchResult : sponsors}
         renderItem={renderSponsor}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={(item) => {
+          return String(item.id);
+        }}
         onRefresh={getSponsors}
         refreshing={isLoadingSponsors}
       />
