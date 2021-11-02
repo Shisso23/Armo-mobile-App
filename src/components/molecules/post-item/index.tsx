@@ -30,7 +30,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect, lo
               size={35}
               style={[Layout.alignSelfCenter, styles.activityIndicator]}
               animating={loading}
-              color={Colors.lightGray}
+              color={Colors.secondary}
             />
             <TouchableOpacity
               style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}

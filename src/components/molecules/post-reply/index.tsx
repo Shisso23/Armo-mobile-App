@@ -1,21 +1,21 @@
 import React, { useState, createRef } from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
+import Share from 'react-native-share';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon, ListItem, Avatar } from 'react-native-elements';
 import Clipboard from '@react-native-community/clipboard';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../..';
-import _ from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ShareActionContent from '../share-action-content';
 import ReportPostModal from '../report-post-modal';
 import { commentsService } from '../../../services';
-import { useSelector } from 'react-redux';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
 import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 
@@ -139,6 +139,21 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
     );
   };
 
+  const handleShare = () => {
+    Share.open({
+      title: `Post comment`,
+      message: _.get(reply, 'content', ''),
+      subject: `Post comment`,
+      failOnCancel: false,
+    })
+      .then(() => {
+        hideReportModal();
+      })
+      .catch((error) => {
+        Alert.alert('Oh No!', error.message);
+      });
+  };
+
   return (
     <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
       <ListItem containerStyle={styles.user}>
@@ -188,7 +203,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
         containerStyle={styles.actionSheet}
       >
         <ShareActionContent
-          onSharePress={() => {}}
+          onSharePress={handleShare}
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={editComment}

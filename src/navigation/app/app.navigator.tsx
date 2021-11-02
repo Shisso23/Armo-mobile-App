@@ -17,7 +17,7 @@ import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
 import EditCommentScreen from '../../screens/app/edit-comment/edit-comment.screen';
 import NotificationsScreen from '../../screens/app/notifications/notifications.screen';
 import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
-import PostImageScreeen from '../../screens/app/post-image/post-image.screen';
+import ViewPostMediaScreeen from '../../screens/app/view-post-media/view-post-media.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -86,8 +86,8 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         options={{ headerShown: false }}
       />
       <AppStack.Screen
-        name="PostImage"
-        component={PostImageScreeen}
+        name="ViewPostMedia"
+        component={ViewPostMediaScreeen}
         options={{ headerShown: false }}
       />
     </AppStack.Navigator>

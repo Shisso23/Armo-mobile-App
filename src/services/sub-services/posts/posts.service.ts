@@ -34,7 +34,7 @@ const getPost = async (id: any) => {
 
 const createPost = async (formData: CreatePostProps) => {
   const url = postUrls.posts();
-  const createPostModel = objectToFormData(apiCreatePostModel(formData));
+  const createPostModel = objectToFormData(apiCreatePostModel(formData), 'Media');
   try {
     const apiResponse = await authNetworkService.post(url, createPostModel, {
       headers: { Accept: 'multipart/form-data', 'content-type': 'multipart/form-data' },

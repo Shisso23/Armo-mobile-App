@@ -14,5 +14,5 @@ export const notificationModel = (_model?: NotificationProps) => ({
   seen: _.get(_model, 'seen', false),
 });
 
-export const constructNotificationsModels = (apiNotificationModel: NotificationProps) =>
+export const constructNotificationsModels = (apiNotificationModel: NotificationProps[]) =>
   apiNotificationModel.map((notification: NotificationProps) => notificationModel(notification));
