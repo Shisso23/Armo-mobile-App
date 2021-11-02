@@ -1,8 +1,7 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useLayoutEffect, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
-  Image,
   Pressable,
   Dimensions,
   TouchableOpacity,
@@ -10,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
+import Share from 'react-native-share';
 import { ActivityIndicator } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +27,11 @@ import ReportPostModal from '../../../components/molecules/report-post-modal';
 import { deletePostAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
+import config from '../../../config';
+import CustomCarousel from '../../../components/molecules/custom-carousel';
+import storageService from '../../../services/sub-services/storage-service/storage.service';
+import { getAttchmentsAction } from '../../../reducers/attachments-reducer/attachments.actions';
+import { attachmentsSelector } from '../../../reducers/attachments-reducer/attachment.reducer';
 
 const { width } = Dimensions.get('window');
 
@@ -38,16 +43,61 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
   const owner = _.get(post, 'owner', {});
+  const attachmentIds = _.get(post, 'attachmentIds', []);
   const dispatch = useDispatch();
   const { isLoadingDeletePost } = useSelector(postsSelector);
   const { isLoadingDeleteComment } = useSelector(commentRepliesSelector);
+  const { attachments, isLoadingAttachments } = useSelector(attachmentsSelector);
   const actionSheetRef = createRef<any>();
   const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [attachmentSources, setAttachmentSources] = useState([]);
   const navigation = useNavigation();
-  const { Layout, Gutters, Fonts } = useTheme();
+  const { apiUrl } = config;
+  const { Layout, Gutters, Fonts, Common } = useTheme();
+
+  const getAttachmentSources = async () => {
+    const token = await storageService.getAccessToken();
+    const sources = attachmentIds.map((attachmentId: string) => {
+      const result = {
+        uri: `${apiUrl}/Posts/${post.id}/attachment/${attachmentId}`,
+        timeout: 2000,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      return result;
+    });
+
+    setAttachmentSources(sources);
+  };
+
+  useEffect(() => {
+    dispatch(getAttchmentsAction(post.id, attachmentIds));
+  }, [attachmentIds, dispatch, post.id]);
+
+  useLayoutEffect(() => {
+    getAttachmentSources();
+  });
 
   const openActionSheet = () => {
     actionSheetRef.current.setModalVisible(true);
+  };
+
+  const handleShare = () => {
+    Share.open({
+      urls: attachments,
+      title: `Post content`,
+      message: _.get(post, 'content', ''),
+      subject: `Post content`,
+      failOnCancel: false,
+    })
+      .then(() => {
+        hideReportModal();
+      })
+      .catch((error) => {
+        Alert.alert('Oh No!', error.message);
+      });
   };
 
   const handleClipBoardCopy = () => {
@@ -65,7 +115,9 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
     setReportModalVisible(false);
   };
 
-  const handleOpenImage = () => {};
+  const handleOpenImage = (item: Object) => {
+    navigation.navigate('ViewPostMedia', { item, postId: post.id });
+  };
 
   const onDeletePost = async () => {
     await dispatch(deletePostAction(_.get(post, 'id', '')));
@@ -96,7 +148,11 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           </Pressable>
         </ListItem.Content>
 
-        <TouchableOpacity onPress={openActionSheet} style={Layout.row}>
+        <TouchableOpacity
+          disabled={isLoadingAttachments}
+          onPress={openActionSheet}
+          style={Layout.row}
+        >
           <Icon name="share" color={Colors.white} />
           <ListItem.Title
             style={[Gutters.smallHMargin, Gutters.tinyTMargin, { color: Colors.white }]}
@@ -118,22 +174,25 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           handlePostEdit={onEditPost}
         />
         <View style={Gutters.regularHPadding}>
-          <Text style={Fonts.titleTiny}>{_.get(post, 'title', '')}</Text>
+          <Text style={[Fonts.titleTiny, Common.cardTitle, styles.postTitle]}>
+            {_.get(post, 'title', '')}
+          </Text>
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
-            {_.get(post, 'content', '-')}
+            {_.get(post, 'content', '').toLowerCase()}
           </ListItem.Subtitle>
-          <ActivityIndicator
-            animating={isLoadingDeletePost || isLoadingDeleteComment}
-            color={Colors.gray}
-          />
-          <Pressable onPress={handleOpenImage}>
-            {() => (
-              <Image
-                source={_.get(post, 'image', null)}
-                style={[Gutters.regularTMargin, Layout.alignSelfCenter]}
+          <View
+            style={[Layout.alignItemsCenter, Layout.justifyContentCenter, Gutters.smallTMargin]}
+          >
+            <CustomCarousel sources={attachmentSources} onSelect={handleOpenImage} />
+          </View>
+          {isLoadingDeletePost ||
+            (isLoadingDeleteComment && (
+              <ActivityIndicator
+                animating={true}
+                color={Colors.gray}
+                style={Gutters.smallTMargin}
               />
-            )}
-          </Pressable>
+            ))}
         </View>
         <View>
           {renderReplyAndShareButtons()}
@@ -154,7 +213,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         containerStyle={styles.actionSheet}
       >
         <ShareActionContent
-          onSharePress={() => {}}
+          onSharePress={handleShare}
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={onEditPost}
@@ -167,6 +226,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
 const styles = StyleSheet.create({
   actionSheet: { borderRadius: 25 },
+  postTitle: { fontWeight: '400' },
   replyText: { color: Colors.white, fontSize: 17 },
   shareAndReplyContainer: { backgroundColor: Colors.tertiary, left: -10, width },
 });

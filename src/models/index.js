@@ -6,3 +6,4 @@ export { signUpFormModel, apiSignUpModel, SignUpProps } from './auth/sign-up/sig
 export * from './app/user/user.model';
 export * from './app/posts/posts.model';
 export * from './app/posts/reply.model';
+export * from './app/attachments/attachments.model';

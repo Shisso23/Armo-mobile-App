@@ -34,7 +34,9 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
           <Avatar source={{ uri: media }} title="uri" containerStyle={styles.avatar} />
           <Text numberOfLines={2} style={styles.imageUri}>
             {`${media.slice(0, 15)}...${media.slice(-11)}\n`}
-            <Text style={styles.imageSize}>{`${imageSize} ${imageSize > 1000 ? 'MB' : 'KB'}`}</Text>
+            <Text style={styles.imageSize}>
+              {imageSize > 1024 ? `${imageSize / 1000} MB` : `${imageSize} KB`}
+            </Text>
           </Text>
 
           <Icon

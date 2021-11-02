@@ -7,7 +7,7 @@ import { FormScreenContainer } from '../../../components';
 import { CreatePostForm } from '../../../components/forms';
 import { CreatePostModel, CreatePostProps } from '../../../models';
 import { useTheme } from '../../../theme';
-import { createPostAction } from '../../../reducers/posts-reducer/posts.actions';
+import { postsService } from '../../../services';
 
 const { width } = Dimensions.get('window');
 
@@ -19,10 +19,9 @@ const CreatePostScreen: React.FC = () => {
     navigation.goBack();
   };
   const onSubmit = async (formData: CreatePostProps) => {
-    try {
-      await createPostAction(formData);
-    } catch (error) {
-      console.warn(error);
+    const response = await postsService.createPost(formData);
+    if (response !== undefined) {
+      goBack();
     }
   };
 

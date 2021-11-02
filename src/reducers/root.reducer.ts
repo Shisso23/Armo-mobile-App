@@ -7,6 +7,7 @@ import postCommentsReducer from './post-comments-reducer/post-comments.reducer';
 import commentRepliesReducer from './comment-replies-reducer/comment-replies.reducer';
 import notificationsReducer from './notifications-reducer/notifications.reducer';
 import sponsorsReducer from './sponsors-reducer/sponsors.reducer';
+import attachmentsReducer from './attachments-reducer/attachment.reducer';
 
 export default combineReducers({
   userAuthReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   commentRepliesReducer,
   notificationsReducer,
   sponsorsReducer,
+  attachmentsReducer,
 });

@@ -15,15 +15,17 @@ import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/p
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
+import _ from 'lodash';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const { posts, isLoadingGetPosts } = useSelector(postsSelector);
+  const { posts, isLoadingGetPosts, isLoadingGetPost } = useSelector(postsSelector);
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
   const [searchResult, setSearchResult] = useState([]);
+  const [selectedPost, setSelectedPost] = useState({});
   const { Layout, Gutters, Common, Fonts } = useTheme();
 
   const getPosts = () => {
@@ -72,7 +74,12 @@ const ForumsScreen: React.FC = () => {
       <PostItem
         item={item}
         handleJoinForum={handleJoinForum}
-        onSelect={(post: apiPostProps) => getPost(post.id)}
+        onSelect={(post: apiPostProps) => {
+          setSelectedPost(item);
+          getPost(post.id);
+        }}
+        key={item.id}
+        loading={_.get(selectedPost, 'id', null) === item.id && isLoadingGetPost}
       />
     );
   };
@@ -101,14 +108,16 @@ const ForumsScreen: React.FC = () => {
           ]}
         />
       </View>
-      <FlatList
-        contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={searchText.length > 0 ? searchResult : posts}
-        renderItem={renderForum}
-        keyExtractor={(item) => String(item.id)}
-        onRefresh={getPosts}
-        refreshing={isLoadingGetPosts}
-      />
+      <>
+        <FlatList
+          contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
+          data={searchText.length > 0 ? searchResult : posts}
+          renderItem={renderForum}
+          keyExtractor={(item) => String(item.id)}
+          onRefresh={getPosts}
+          refreshing={isLoadingGetPosts}
+        />
+      </>
       <FAB
         style={[Common.fabAlignment, styles.fab]}
         icon="plus"

@@ -31,7 +31,7 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
         return { icon: 'flag-variant', text: 'Report', function: onReportPress };
 
       default:
-        return {};
+        return { icon: '', text: '', function: () => {} };
     }
   };
 

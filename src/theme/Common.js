@@ -18,6 +18,7 @@ export default ({ Colors, FontFamily }) =>
       color: Colors.black,
       fontSize: 20,
       fontWeight: '500',
+      textTransform: 'capitalize',
     },
     errorStyle: {
       color: Colors.error,

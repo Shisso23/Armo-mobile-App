@@ -17,6 +17,7 @@ import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
 import EditCommentScreen from '../../screens/app/edit-comment/edit-comment.screen';
 import NotificationsScreen from '../../screens/app/notifications/notifications.screen';
 import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
+import ViewPostMediaScreeen from '../../screens/app/view-post-media/view-post-media.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -66,7 +67,6 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         name="Forums"
         component={ForumsScreen}
         options={{
-          headerShown: true,
           header: (props) => (
             <Header onBack={() => navigation.goBack()} backButton={false} {...props} />
           ),
@@ -83,6 +83,11 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
       <AppStack.Screen
         name="CreatePost"
         component={CreatePostScreen}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name="ViewPostMedia"
+        component={ViewPostMediaScreeen}
         options={{ headerShown: false }}
       />
     </AppStack.Navigator>

@@ -32,6 +32,7 @@ const createPostSchema = Yup.object().shape({
 });
 
 const categories = [
+  //TODO use categories endpoint when ready
   'AFR',
   'ARM',
   'ARM-CE',
@@ -73,7 +74,11 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
       });
   };
 
-  const removeMedia = (values: { media: Object }, setFieldValue: Function, uri: string) => {
+  const removeMedia = (
+    values: { media: Array<{ uri: string }> },
+    setFieldValue: Function,
+    uri: string,
+  ) => {
     const remainingMedia = values.media.filter((singleMedia: { uri: string }) => {
       return singleMedia.uri !== uri;
     });
@@ -144,9 +149,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
             />
 
             <>
-              {_.get(values, 'media', []).map((media) => (
+              {_.get(values, 'media', []).map((media: { uri: string }) => (
                 <ImageThumbnail
-                  key={media.url}
+                  key={media.uri}
                   media={media.uri}
                   imageSize={imageSize}
                   deleteImage={(mediaToDelete: any) => {

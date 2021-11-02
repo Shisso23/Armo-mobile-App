@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { postsTypesState } from '../../../reducers/posts-reducer/types';
 
 export type CreatePostProps = {
   category: string;
@@ -32,7 +31,7 @@ export const CreatePostModel = (_model?: CreatePostProps): CreatePostProps => ({
 });
 
 export const apiCreatePostModel = (_model?: CreatePostProps) => ({
-  CategoryId: _.get(_model, 'category', ''),
+  CategoryId: 'fa1ef72d-ba4a-40e2-56af-08d98271f2c3', // TODO _.get(_model, 'category', ''), use categories when ready
   Title: _.get(_model, 'topicTitle', ''),
   Content: _.get(_model, 'description', ''),
   Media: _.get(_model, 'media', []),
@@ -59,5 +58,5 @@ export const apiEditPostModel = (_model: EditPostProps) => ({
   content: _.get(_model, 'description', ''),
 });
 
-export const constructPostsModels = (apiPostsModel: postsTypesState) =>
+export const constructPostsModels = (apiPostsModel: Array<apiPostProps>) =>
   apiPostsModel.map((post: apiPostProps) => apiPost(post));
