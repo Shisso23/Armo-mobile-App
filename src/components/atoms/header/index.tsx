@@ -13,6 +13,8 @@ type BackButtonProps = {
   color?: any;
   style?: any;
   backButton?: Boolean;
+  engagementScoreVisible?: Boolean;
+  notificationBellVisible?: Boolean;
 };
 
 const Header: React.FC<BackButtonProps> = (props) => {
@@ -32,23 +34,27 @@ const Header: React.FC<BackButtonProps> = (props) => {
       />
 
       <View style={[Layout.rowBetween, Gutters.tinyVPadding, Gutters.regularRMargin]}>
-        <Icon
-          type="font-awesome-5"
-          name="bell"
-          size={20}
-          onPress={() => navigation.navigate('Notifications')}
-          containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
-        />
-
-        <View style={[Layout.rowBetween, styles.userView, Gutters.tinyPadding]}>
+        {props.notificationBellVisible !== false && (
           <Icon
-            name="user"
-            type="feather"
-            size={15}
-            containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
+            type="font-awesome-5"
+            name="bell"
+            size={20}
+            onPress={() => navigation.navigate('Notifications')}
+            containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
           />
-          <Text>000</Text>
-        </View>
+        )}
+
+        {props.engagementScoreVisible !== false && ( //TODO use engagaement score endpoint when available
+          <View style={[Layout.rowBetween, styles.engagementScore, Gutters.tinyPadding]}>
+            <Icon
+              name="user"
+              type="feather"
+              size={15}
+              containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
+            />
+            <Text>000</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -57,7 +63,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
 export default Header;
 
 const styles = StyleSheet.create({
-  header: { backgroundColor: Colors.white, height: 90 },
+  engagementScore: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
+  header: { backgroundColor: Colors.transparent, height: 90 },
   iconsOpacity: { opacity: 0.72 },
-  userView: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
 });

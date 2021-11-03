@@ -96,7 +96,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
               )}
               label="Subscriptions"
               labelStyle={styles.labelBlack}
-              onPress={() => navigation.navigate('History')}
+              onPress={() => navigation.navigate('MySubscriptions')}
             />
           </Drawer.Section>
         </View>
