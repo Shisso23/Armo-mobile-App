@@ -80,6 +80,7 @@ const ForumsScreen: React.FC = () => {
         }}
         key={item.id}
         loading={_.get(selectedPost, 'id', null) === item.id && isLoadingGetPost}
+        bottomRightText="Join Forum"
       />
     );
   };

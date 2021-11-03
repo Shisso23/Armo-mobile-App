@@ -12,9 +12,16 @@ type PostItemProps = {
   handleJoinForum: any;
   onSelect: any;
   loading: boolean;
+  bottomRightText: string;
 };
 
-const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect, loading }) => {
+const PostItem: React.FC<PostItemProps> = ({
+  item,
+  handleJoinForum,
+  onSelect,
+  loading,
+  bottomRightText,
+}) => {
   const { Layout, Common, Gutters } = useTheme();
 
   return (
@@ -28,7 +35,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect, lo
             <Text style={Common.cardDescription}>{item.summary}</Text>
             <ActivityIndicator
               size={35}
-              style={[Layout.alignSelfCenter, styles.activityIndicator]}
+              style={[Layout.alignSelfCenter, styles.activityIndicator, styles.indicatorStyle]}
               animating={loading}
               color={Colors.secondary}
             />
@@ -37,7 +44,7 @@ const PostItem: React.FC<PostItemProps> = ({ item, handleJoinForum, onSelect, lo
               onPress={handleJoinForum}
             >
               <Text style={[Common.link, Gutters.tinyRMargin, styles.joinForumText]}>
-                Join Forum
+                {bottomRightText}
               </Text>
               <Icon
                 name="arrow-right-circle"
@@ -69,6 +76,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   iconsOpacity: { opacity: 0.72 },
+  indicatorStyle: { opacity: 0.2 },
   joinForumIcon: { marginTop: 3 },
   joinForumText: { fontWeight: '300' },
 });

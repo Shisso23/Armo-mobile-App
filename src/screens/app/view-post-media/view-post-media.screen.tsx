@@ -36,7 +36,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
     setDeleting(true);
     await attachementsService.deleteAttachment(postId, filename);
     setDeleting(false);
-    navigation.navigate('Forums');
+    navigation.navigate('Home');
   };
 
   const handleDeleteImage = () => {
