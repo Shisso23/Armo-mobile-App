@@ -44,8 +44,8 @@ const Header: React.FC<BackButtonProps> = (props) => {
           />
         )}
 
-        {props.engagementScoreVisible !== false && (
-          <View style={[Layout.rowBetween, styles.userView, Gutters.tinyPadding]}>
+        {props.engagementScoreVisible !== false && ( //TODO use engagaement score endpoint when available
+          <View style={[Layout.rowBetween, styles.engagementScore, Gutters.tinyPadding]}>
             <Icon
               name="user"
               type="feather"
@@ -63,7 +63,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
 export default Header;
 
 const styles = StyleSheet.create({
-  header: { backgroundColor: Colors.white, height: 90 },
+  engagementScore: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
+  header: { backgroundColor: Colors.transparent, height: 90 },
   iconsOpacity: { opacity: 0.72 },
-  userView: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
 });
