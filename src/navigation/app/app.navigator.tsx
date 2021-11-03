@@ -11,13 +11,14 @@ import ServicesScreen from '../../screens/app/services/services.screen';
 import ForumsScreen from '../../screens/app/forums/forums.screen';
 import DrawerContent from '../../components/atoms/drawer/drawer.content';
 import { StyleSheet } from 'react-native';
-import ViewPostScreen from '../../screens/app/forums/view-post.screen';
+import ViewPostScreen from '../../screens/app/view-post/view-post.screen';
 import Header from '../../components/atoms/header';
 import EditPostScreen from '../../screens/app/edit-post/edit-post-screen';
 import EditCommentScreen from '../../screens/app/edit-comment/edit-comment.screen';
 import NotificationsScreen from '../../screens/app/notifications/notifications.screen';
 import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
 import ViewPostMediaScreeen from '../../screens/app/view-post-media/view-post-media.screen';
+import MyPostsScreen from '../../screens/app/my-posts/my-posts.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -64,17 +65,6 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
       />
 
       <AppStack.Screen
-        name="Forums"
-        component={ForumsScreen}
-        options={{
-          header: (props) => (
-            <Header onBack={() => navigation.goBack()} backButton={false} {...props} />
-          ),
-          title: '',
-        }}
-      />
-
-      <AppStack.Screen
         name="Notifications"
         component={NotificationsScreen}
         options={{ headerShown: false }}
@@ -112,6 +102,13 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
           headerStyle: {
             backgroundColor: Colors.transparent,
           },
+        }}
+      />
+      <AppStack.Screen
+        name="MyPosts"
+        component={MyPostsScreen}
+        options={{
+          headerShown: false,
         }}
       />
       <Drawer.Screen

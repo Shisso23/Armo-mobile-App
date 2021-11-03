@@ -74,7 +74,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
               )}
               label="My Posts"
               labelStyle={styles.labelBlack}
-              onPress={() => navigation.navigate('Forums')}
+              onPress={() => navigation.navigate('MyPosts')}
             />
 
             <DrawerItem

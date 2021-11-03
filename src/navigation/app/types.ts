@@ -6,7 +6,7 @@ export type AppStackList = {
   EditPost: undefined;
   CreatePost: undefined;
   Services: undefined;
-  Forums: undefined;
+  MyPosts: undefined;
   ViewPost: undefined;
   EditComment: undefined;
   Notifications: undefined;
@@ -18,5 +18,6 @@ export type DrawerList = {
   Home: undefined;
   Profile: undefined;
   Sponsors: undefined;
+  MyPosts: undefined;
 };
 export type DrawerStackProps = StackNavigationProp<DrawerList>;
