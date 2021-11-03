@@ -33,18 +33,9 @@ const createPostSchema = Yup.object().shape({
 
 const categories = [
   //TODO use categories endpoint when ready
-  'AFR',
-  'ARM',
-  'ARM-CE',
-  'ARMA',
-  'ARMSA',
-  'ANIPAC',
-  'BPF',
-  'IT-RO',
-  'Nordic ARM',
-  'ROTOPOL',
-  'RPC-CPPIA',
-  'StAR',
+  'Mould',
+  'Safety',
+  'Design',
 ];
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({
