@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import { Menu } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 type EditDeletePostProps = {
   handleEdit: Function;
   handleDelete: Function;
+  post: Object;
 };
 
-const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelete }) => {
+const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelete, post }) => {
   const [postOptionsModalVisible, setPostOptionsModalVisible] = useState(false);
+  const { user } = useSelector(userSelector);
+  const owner = _.get(post, 'owner', {});
+  const isOwner = useMemo(() => user.id === owner.id, [owner.id, user.id]);
   const { Gutters, Layout } = useTheme();
 
   const hidePostOptionsModal = () => {
@@ -26,11 +33,13 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
         visible={postOptionsModalVisible}
         onDismiss={hidePostOptionsModal}
         anchor={
-          <Icon
-            name="dots-vertical"
-            type="material-community"
-            onPress={() => setPostOptionsModalVisible(true)}
-          />
+          isOwner && (
+            <Icon
+              name="dots-vertical"
+              type="material-community"
+              onPress={() => setPostOptionsModalVisible(true)}
+            />
+          )
         }
         contentStyle={styles.postMenuContent}
       >

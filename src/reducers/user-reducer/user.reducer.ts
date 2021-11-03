@@ -13,6 +13,8 @@ const initialState: UserReducer = {
   user: userModel(),
 };
 
+export const userSelector = (reducers: any) => reducers.userReducer;
+
 export default function userReducer(state = initialState, action: ActionObject) {
   switch (action.type) {
     case setUser.actionType:

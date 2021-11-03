@@ -7,14 +7,16 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { Avatar, Icon } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 import { signOutAction } from '../../../reducers/user-auth-reducer/user-auth.actions';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
   const { navigation } = props;
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const { Fonts, Gutters, Layout, Common, Images } = useTheme();
 
@@ -26,14 +28,13 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             <Avatar containerStyle={styles.userAvatar} source={Images.signInTop} size={65} />
             <Text
               style={[
-                // TODO -Get name from user data
                 Fonts.textLarge,
                 styles.userFullName,
                 Gutters.regularVMargin,
                 Common.drawerUserText,
               ]}
             >
-              Hyacinthe Shisso
+              {`${user.firstName} ${user.lastName}`}
             </Text>
           </View>
           <Divider style={[Common.backgroundWhite, styles.divider]} />

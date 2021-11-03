@@ -1,5 +1,6 @@
 import { userAuthService } from '../../services';
 import { setIsAuthenticatedAction } from '../user-auth-reducer/user-auth.reducer';
+import { getUserAction } from '../user-reducer/user.actions';
 
 export const initAppAction: Function = () => async (dispatch: Function) => {
   const { doTokensExistInLocalStorage } = userAuthService;
@@ -18,4 +19,5 @@ export const isAuthenticatedFlowAction: Function = () => (dispatch: Function) =>
 
 export const loadAppDataAction: Function = () => () => Promise.all([]);
 
-export const loadAppDataForSignedInUserAction: Function = () => () => Promise.all([]);
+export const loadAppDataForSignedInUserAction: Function = () => (dispatch: Function) =>
+  Promise.all([dispatch(getUserAction())]);

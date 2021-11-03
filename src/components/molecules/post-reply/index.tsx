@@ -208,6 +208,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
           onReportPress={handleReportPress}
           onEditPress={editComment}
           onDeletePress={deleteComment}
+          ownerId={_.get(reply, 'ownerId', '')}
         />
       </ActionSheet>
       <ReportPostModal

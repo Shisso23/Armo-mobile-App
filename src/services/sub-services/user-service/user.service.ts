@@ -3,15 +3,18 @@ import { AxiosResponse } from 'axios';
 import authNetworkService from '../auth-network-service/auth-network.service';
 import { userModel, apiUserModel, UserProps } from '../../../models';
 import userUrls from './user.urls';
+import { mockApi } from '../../../helpers/mock-api/mock-api'; //TODO Use the getCurrentUser api when it's available
 
 const getUser = () => {
-  const url = userUrls.userUrl();
+  const url = userUrls.currentUserUrl();
   const _createAndReturnUserModel = (apiResponse: AxiosResponse): UserProps =>
     userModel(apiResponse.data);
 
-  return authNetworkService
+  return mockApi
     .get(url)
-    .then(_createAndReturnUserModel)
+    .then((response) => {
+      return _createAndReturnUserModel(response.data);
+    })
     .catch((error) => {
       // eslint-disable-next-line no-console
       console.warn(error);
