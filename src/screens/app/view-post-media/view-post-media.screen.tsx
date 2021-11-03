@@ -3,7 +3,7 @@ import { View, Dimensions, StyleSheet, Alert, Text } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { Icon, Image, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 
 import useTheme from '../../../theme/hooks/useTheme';
@@ -11,12 +11,16 @@ import { getNotificationsAction } from '../../../reducers/notifications-reducer/
 import { Colors } from '../../../theme/Variables';
 import { attachementsService } from '../../../services';
 import { shareContent } from '../../../helpers/download-share-content-helper';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const { width } = Dimensions.get('window');
 const ViewPostMediaScreen = ({ route }: { route: Object }) => {
   const { Layout, Gutters, Common } = useTheme();
   const navigation = useNavigation();
   const attachment = _.get(route, 'params.item', undefined);
+  const { user } = useSelector(userSelector);
+  const owner = _.get(route, 'params.owner', '');
+  const isOwner = useMemo(() => user.id === owner.id, [owner.id, user.id]);
   const url = _.get(attachment, 'uri', '');
   const filename = useMemo(() => url.substring(url.lastIndexOf('/') + 1), [url]);
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +102,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
           buttonStyle={Common.submitButton}
           raised
         />
-        {(!isLoading && !deleting && (
+        {(isOwner && !isLoading && !deleting && (
           <Icon
             name="trash"
             color={Colors.darkGray}

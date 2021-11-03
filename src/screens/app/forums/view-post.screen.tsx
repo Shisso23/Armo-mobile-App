@@ -116,7 +116,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   };
 
   const handleOpenImage = (item: Object) => {
-    navigation.navigate('ViewPostMedia', { item, postId: post.id });
+    navigation.navigate('ViewPostMedia', { item, postId: post.id, owner });
   };
 
   const onDeletePost = async () => {
