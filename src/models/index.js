@@ -1,5 +1,4 @@
 export * from './auth/forgot-password/forgot-password.model';
-export * from './auth/registration/registration.model';
 export * from './auth/reset-password/reset-password.model';
 export { signInModel, apiSignInModel, SignInProps } from './auth/sign-in/sign-in.model';
 export { signUpFormModel, apiSignUpModel, SignUpProps } from './auth/sign-up/sign-up.model';

@@ -4,4 +4,5 @@ const { apiUrl } = appConfig;
 
 export default {
   userUrl: () => `${apiUrl}/users`,
+  currentUserUrl: () => `${apiUrl}/user`,
 };

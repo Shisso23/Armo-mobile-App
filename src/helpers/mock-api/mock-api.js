@@ -4,6 +4,14 @@ import MockAdapter from 'axios-mock-adapter';
 import appConfig from '../../config';
 
 const { apiUrl } = appConfig;
+const user = {
+  id: 'c14d0a18-cba4-42b0-9fe6-6eacf363c9e6',
+  firstName: 'Admin',
+  lastName: 'Admin',
+  email: 'admin@codehesion.co.za',
+  roles: ['Administrator'],
+  strikeCount: 0,
+};
 
 const NOTIFICATIONS = [
   {
@@ -98,6 +106,16 @@ mockAdapter.onGet(`${apiUrl}/sponsors`).reply(() => {
   const response = 200;
   const data = {
     data: SPONSORS,
+  };
+
+  return [response, data];
+});
+
+// mocking get current user api
+mockAdapter.onGet(`${apiUrl}/user`).reply(() => {
+  const response = 200;
+  const data = {
+    data: user,
   };
 
   return [response, data];

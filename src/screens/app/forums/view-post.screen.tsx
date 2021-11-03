@@ -218,6 +218,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           onReportPress={handleReportPress}
           onEditPress={onEditPost}
           onDeletePress={onDeletePost}
+          ownerId={owner.id}
         />
       </ActionSheet>
     </>

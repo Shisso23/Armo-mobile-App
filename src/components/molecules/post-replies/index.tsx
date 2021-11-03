@@ -35,9 +35,6 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
       if (repliesExpanded) {
         dispatch(getPostCommentsAction(_.get(post, 'id', '')));
       }
-      return () => {
-        setRepliesExpanded(false);
-      };
     }, [dispatch, post, repliesExpanded]),
   );
 

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Icon, ListItem } from 'react-native-elements';
+import { useSelector } from 'react-redux';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 type ShareActionContentProps = {
   onReportPress: Function | any;
@@ -7,6 +9,7 @@ type ShareActionContentProps = {
   onCopyPress: Function | any;
   onEditPress: Function | any;
   onDeletePress: Function | any;
+  ownerId: string;
 };
 
 const ShareActionContent: React.FC<ShareActionContentProps> = ({
@@ -15,7 +18,10 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
   onCopyPress,
   onEditPress,
   onDeletePress,
+  ownerId,
 }) => {
+  const { user } = useSelector(userSelector);
+  const isHidden = useMemo(() => user.id !== ownerId, [ownerId, user.id]);
   const getActionData = (action: string) => {
     switch (action) {
       case 'edit':
@@ -48,11 +54,11 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
 
   return (
     <>
-      {renderContent('edit')}
-      {renderContent('delete')}
+      {!isHidden && renderContent('edit')}
+      {!isHidden && renderContent('delete')}
       {renderContent('share')}
       {renderContent('copy')}
-      {renderContent('report')}
+      {!isHidden && renderContent('report')}
     </>
   );
 };
