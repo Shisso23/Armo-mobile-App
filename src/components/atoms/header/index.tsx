@@ -13,6 +13,8 @@ type BackButtonProps = {
   color?: any;
   style?: any;
   backButton?: Boolean;
+  engagementScoreVisible?: Boolean;
+  notificationBellVisible?: Boolean;
 };
 
 const Header: React.FC<BackButtonProps> = (props) => {
@@ -32,23 +34,27 @@ const Header: React.FC<BackButtonProps> = (props) => {
       />
 
       <View style={[Layout.rowBetween, Gutters.tinyVPadding, Gutters.regularRMargin]}>
-        <Icon
-          type="font-awesome-5"
-          name="bell"
-          size={20}
-          onPress={() => navigation.navigate('Notifications')}
-          containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
-        />
-
-        <View style={[Layout.rowBetween, styles.userView, Gutters.tinyPadding]}>
+        {props.notificationBellVisible !== false && (
           <Icon
-            name="user"
-            type="feather"
-            size={15}
-            containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
+            type="font-awesome-5"
+            name="bell"
+            size={20}
+            onPress={() => navigation.navigate('Notifications')}
+            containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
           />
-          <Text>000</Text>
-        </View>
+        )}
+
+        {props.engagementScoreVisible !== false && (
+          <View style={[Layout.rowBetween, styles.userView, Gutters.tinyPadding]}>
+            <Icon
+              name="user"
+              type="feather"
+              size={15}
+              containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
+            />
+            <Text>000</Text>
+          </View>
+        )}
       </View>
     </View>
   );

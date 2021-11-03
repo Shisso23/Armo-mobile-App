@@ -19,6 +19,7 @@ import NotificationsScreen from '../../screens/app/notifications/notifications.s
 import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
 import ViewPostMediaScreeen from '../../screens/app/view-post-media/view-post-media.screen';
 import MyPostsScreen from '../../screens/app/my-posts/my-posts.screen';
+import MySubscriptionsScreen from '../../screens/app/my-subscriptions/my-subscriptions.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -121,7 +122,35 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ headerShown: true, title: 'Profile' }}
+        options={{
+          headerShown: true,
+          title: '',
+          header: (props) => (
+            <Header
+              notificationBellVisible={false}
+              engagementScoreVisible={false}
+              onBack={() => navigation.goBack()}
+              {...props}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: Colors.transparent,
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="MySubscriptions"
+        component={MySubscriptionsScreen}
+        options={{
+          headerShown: true,
+          title: '',
+          header: (props) => (
+            <Header engagementScoreVisible={false} onBack={() => navigation.goBack()} {...props} />
+          ),
+          headerStyle: {
+            backgroundColor: Colors.transparent,
+          },
+        }}
       />
     </Drawer.Navigator>
   );

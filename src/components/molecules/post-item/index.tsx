@@ -12,7 +12,7 @@ type PostItemProps = {
   handleJoinForum: any;
   onSelect: any;
   loading: boolean;
-  bottomRightText: string;
+  bottomRightText?: string;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -34,27 +34,29 @@ const PostItem: React.FC<PostItemProps> = ({
           <View style={Gutters.smallTMargin}>
             <Text style={Common.cardDescription}>{item.summary}</Text>
             <ActivityIndicator
-              size={35}
+              size={25}
               style={[Layout.alignSelfCenter, styles.activityIndicator, styles.indicatorStyle]}
               animating={loading}
               color={Colors.secondary}
             />
-            <TouchableOpacity
-              style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
-              onPress={handleJoinForum}
-            >
-              <Text style={[Common.link, Gutters.tinyRMargin, styles.joinForumText]}>
-                {bottomRightText}
-              </Text>
-              <Icon
-                name="arrow-right-circle"
-                type="feather"
-                color={Colors.secondary}
-                iconStyle={styles.iconsOpacity}
-                size={14}
-                containerStyle={styles.joinForumIcon}
-              />
-            </TouchableOpacity>
+            {bottomRightText && (
+              <TouchableOpacity
+                style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
+                onPress={handleJoinForum}
+              >
+                <Text style={[Common.link, Gutters.tinyRMargin, styles.joinForumText]}>
+                  {bottomRightText}
+                </Text>
+                <Icon
+                  name="arrow-right-circle"
+                  type="feather"
+                  color={Colors.secondary}
+                  iconStyle={styles.iconsOpacity}
+                  size={14}
+                  containerStyle={styles.joinForumIcon}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         )}
         onPress={() => onSelect(item)}
@@ -70,10 +72,10 @@ const styles = StyleSheet.create({
   forumItem: {
     shadowOffset: {
       width: 2,
-      height: 3,
+      height: 2,
     },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowRadius: 2,
   },
   iconsOpacity: { opacity: 0.72 },
   indicatorStyle: { opacity: 0.2 },

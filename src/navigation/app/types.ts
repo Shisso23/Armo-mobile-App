@@ -19,5 +19,6 @@ export type DrawerList = {
   Profile: undefined;
   Sponsors: undefined;
   MyPosts: undefined;
+  MySubscriptions: undefined;
 };
 export type DrawerStackProps = StackNavigationProp<DrawerList>;
