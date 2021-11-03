@@ -1,7 +1,7 @@
 import _ from 'lodash';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import attachmentsUrls from './attachments.urls';
-import RNFetchBlob from 'rn-fetch-blob';
 import authNetworkService from '../auth-network-service/auth-network.service';
 import { apiAttachmentModel, AttachmentProps } from '../../../models';
 import flashService from '../flash-service/flash.service';
