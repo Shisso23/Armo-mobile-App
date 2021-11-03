@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import authNetworkService from '../auth-network-service/auth-network.service';
 import { userModel, apiUserModel, UserProps } from '../../../models';
 import userUrls from './user.urls';
-import { mockApi } from '../../../helpers/mock-api/mock-api';
+import { mockApi } from '../../../helpers/mock-api/mock-api'; //TODO Use the getCurrentUser api when it's available
 
 const getUser = () => {
   const url = userUrls.currentUserUrl();
