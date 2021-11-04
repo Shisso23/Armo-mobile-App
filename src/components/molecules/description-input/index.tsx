@@ -50,7 +50,9 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
               fontWeight: textBold ? 'bold' : 'normal',
               textAlign: textAlignCenter ? 'center' : 'left',
             },
+            { height: 180, textAlignVertical: 'top' },
           ]}
+          containerStyle={{ elevation: 0 }}
           inputContainerStyle={Common.inputContainer}
           leftIcon={undefined}
           inputHeight={180}
@@ -68,22 +70,19 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
             name="bold"
             type="font-awesome"
             size={19}
-            color={Colors.white}
-            style={{ opacity: textBold ? 1 : 0.6 }}
+            color={textBold ? Colors.white : Colors.semiTransparent}
             onPress={() => setTextBold(!textBold)}
           />
           <Icon
             name="italic"
             type="feather"
             size={19}
-            color={Colors.white}
-            style={{ opacity: textItalics ? 1 : 0.6 }}
+            color={textItalics ? Colors.white : Colors.semiTransparent}
             onPress={() => setTextItalics(!textItalics)}
           />
           <Icon
             name="format-align-center"
-            color={Colors.white}
-            style={{ opacity: textAlignCenter ? 1 : 0.6 }}
+            color={textAlignCenter ? Colors.white : Colors.semiTransparent}
             onPress={() => setTextAlignCenter(!textAlignCenter)}
           />
           <Icon
@@ -103,11 +102,11 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
   image: { height: 70, width: width * 0.65 },
-  inputStyle: { fontSize: 14, height: '100%' },
+  inputStyle: { borderBottomLeftRadius: 0, fontSize: 14, height: '100%' },
   textFormater: {
     backgroundColor: Colors.gray,
     borderRadius: 10,
-    bottom: 23,
+    bottom: 20,
     minHeight: 30,
     position: 'absolute',
     width: '100%',

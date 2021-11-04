@@ -26,6 +26,9 @@ export const Colors = {
   gray: '#707070',
   lightGray: '#0000001F',
   darkBrown: '#383838',
+  semiTransparent: '#c2bebe',
+  fourtyPercentSecondary: '#eba959',
+  fourtyPercentBlack: '#363330',
 };
 
 export const NavigationColors = {

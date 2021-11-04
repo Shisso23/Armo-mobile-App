@@ -35,23 +35,29 @@ const PostItem: React.FC<PostItemProps> = ({
             <Text style={Common.cardDescription}>{item.summary}</Text>
             <ActivityIndicator
               size={25}
-              style={[Layout.alignSelfCenter, styles.activityIndicator, styles.indicatorStyle]}
+              style={[Layout.alignSelfCenter, styles.activityIndicator]}
               animating={loading}
-              color={Colors.secondary}
+              color={Colors.fourtyPercentSecondary}
             />
             {bottomRightText && (
               <TouchableOpacity
                 style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
                 onPress={handleJoinForum}
               >
-                <Text style={[Common.link, Gutters.tinyRMargin, styles.joinForumText]}>
+                <Text
+                  style={[
+                    Common.link,
+                    { color: Colors.fourtyPercentSecondary },
+                    Gutters.tinyRMargin,
+                    styles.joinForumText,
+                  ]}
+                >
                   {bottomRightText}
                 </Text>
                 <Icon
                   name="arrow-right-circle"
                   type="feather"
-                  color={Colors.secondary}
-                  iconStyle={styles.iconsOpacity}
+                  color={Colors.fourtyPercentSecondary}
                   size={14}
                   containerStyle={styles.joinForumIcon}
                 />
@@ -77,8 +83,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
   },
-  iconsOpacity: { opacity: 0.72 },
-  indicatorStyle: { opacity: 0.2 },
   joinForumIcon: { marginTop: 3 },
   joinForumText: { fontWeight: '300' },
 });

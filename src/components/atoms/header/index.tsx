@@ -18,7 +18,7 @@ type BackButtonProps = {
 };
 
 const Header: React.FC<BackButtonProps> = (props) => {
-  const { Gutters, Layout } = useTheme();
+  const { Gutters, Common, Layout } = useTheme();
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   const handleOnPress = () => {
     return navigation.toggleDrawer();
@@ -50,7 +50,11 @@ const Header: React.FC<BackButtonProps> = (props) => {
               name="user"
               type="feather"
               size={15}
-              containerStyle={[styles.iconsOpacity, Gutters.tinyRMargin]}
+              containerStyle={[
+                styles.iconsOpacity,
+                Common.android60PercentWhite,
+                Gutters.tinyRMargin,
+              ]}
             />
             <Text>000</Text>
           </View>

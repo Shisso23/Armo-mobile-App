@@ -183,7 +183,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
                   size={21}
                   name={isPasswordHidden ? 'eye' : 'eye-off'}
                   onPress={() => _showPasswordShort('password')}
-                  style={styles.icon}
+                  color={Colors.gray}
                 />
               }
             />
@@ -208,7 +208,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
                   size={21}
                   name={isRetypedPasswordHidden ? 'eye' : 'eye-off'}
                   onPress={() => _showPasswordShort('confirm')}
-                  style={styles.icon}
+                  color={Colors.gray}
                 />
               }
             />
@@ -231,7 +231,6 @@ const styles = StyleSheet.create({
   buttonContainer: { borderRadius: 20, width: '70%' },
   buttonStyle: { backgroundColor: Colors.secondary, borderRadius: 20 },
   buttonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
-  icon: { color: Colors.shadow, opacity: 0.5 },
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,

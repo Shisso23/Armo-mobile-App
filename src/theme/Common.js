@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 /**
  *
@@ -8,6 +8,7 @@ import { StyleSheet } from 'react-native';
 
 export default ({ Colors, FontFamily }) =>
   StyleSheet.create({
+    android60PercentWhite: Platform.OS === 'android' ? { color: '#c2bebe' } : {},
     backgroundPrimary: {
       backgroundColor: Colors.primary,
     },

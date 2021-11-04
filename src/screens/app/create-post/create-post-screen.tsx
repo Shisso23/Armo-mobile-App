@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
@@ -9,8 +9,6 @@ import { CreatePostModel, CreatePostProps } from '../../../models';
 import { useTheme } from '../../../theme';
 import { postsService } from '../../../services';
 
-const { width } = Dimensions.get('window');
-
 const CreatePostScreen: React.FC = () => {
   const navigation = useNavigation();
   const { Gutters, Layout, Fonts } = useTheme();
@@ -18,6 +16,34 @@ const CreatePostScreen: React.FC = () => {
   const goBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      header: () => (
+        <View
+          style={[
+            Layout.rowBetween,
+            Gutters.regularBMargin,
+            Gutters.regularHMargin,
+            Layout.alignItemsEnd,
+            styles.header,
+          ]}
+        >
+          <Text style={Fonts.title}>Create Post</Text>
+          <Icon name="close-a" type="fontisto" size={17} onPress={() => navigation.goBack()} />
+        </View>
+      ),
+    });
+  }, [
+    Fonts.title,
+    Gutters.regularBMargin,
+    Gutters.regularHMargin,
+    Layout.alignItemsEnd,
+    Layout.rowBetween,
+    navigation,
+  ]);
+
   const onSubmit = async (formData: CreatePostProps) => {
     const response = await postsService.createPost(formData);
     if (response !== undefined) {
@@ -26,25 +52,15 @@ const CreatePostScreen: React.FC = () => {
   };
 
   return (
-    <FormScreenContainer
-      contentContainerStyle={[
-        Gutters.regularPadding,
-        Layout.fill,
-        Gutters.largeHPadding,
-        styles.container,
-      ]}
-    >
-      <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
-        <Text style={Fonts.title}>Create Post</Text>
-        <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
-      </View>
-
-      <CreatePostForm submitForm={onSubmit} initialValues={CreatePostModel()} />
-    </FormScreenContainer>
+    <>
+      <FormScreenContainer contentContainerStyle={[Gutters.regularPadding, Gutters.largeHPadding]}>
+        <CreatePostForm submitForm={onSubmit} initialValues={CreatePostModel()} />
+      </FormScreenContainer>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { paddingTop: width * 0.17 },
+  header: { height: 90 },
 });
 export default CreatePostScreen;

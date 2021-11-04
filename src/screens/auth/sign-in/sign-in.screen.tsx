@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, StatusBar, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -25,7 +25,12 @@ const SignInScreen: React.FC = () => {
   return (
     <>
       {isFocused && <StatusBar hidden />}
-      <FormScreenContainer contentContainerStyle={[Layout.scrollCenter]}>
+      <FormScreenContainer
+        contentContainerStyle={[Layout.scrollCenter]}
+        enableOnAndroid
+        extraHeight={25}
+        extraScrollHeight={25}
+      >
         <View
           style={[
             Gutters.regularPadding,
@@ -50,8 +55,13 @@ const SignInScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
-  image: { height: 70, width: width * 0.65 },
-  topImage: { height: width * 1.19, position: 'absolute', top: -width * 0.718, width },
+  image: { aspectRatio: 4 / 1, height: 70, width: width * 0.65 },
+  topImage: {
+    height: width * 1.19,
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? -width * 0.718 : -width * 0.65,
+    width,
+  },
 });
 
 export default SignInScreen;

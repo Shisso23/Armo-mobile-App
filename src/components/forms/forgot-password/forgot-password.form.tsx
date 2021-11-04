@@ -86,7 +86,12 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
                 label="Email"
                 errorMessage={error('email')}
                 leftIcon={
-                  <Icon name="user" type="font-awesome" size={20} iconStyle={styles.icon} />
+                  <Icon
+                    name="user"
+                    type="font-awesome"
+                    size={20}
+                    iconStyle={[styles.icon, Common.android60PercentWhite]}
+                  />
                 }
                 inputContainerStyle={Common.inputContainer}
                 keyboardType="email-address"
@@ -120,7 +125,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
 
 const styles = StyleSheet.create({
   buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
-  cancelButtonTitle: { color: Colors.black, opacity: 0.6 },
+  cancelButtonTitle: { color: Colors.gray },
   icon: { color: Colors.shadow, opacity: 0.5 },
   inputView: { width: '85%' },
 });

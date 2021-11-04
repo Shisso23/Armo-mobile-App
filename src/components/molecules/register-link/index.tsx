@@ -29,7 +29,7 @@ const RegisterLink: React.FC<RegisterLinkProps> = ({ containerStyle }) => {
 };
 
 const styles = StyleSheet.create({
-  signUpMessage: { color: Colors.black, fontSize: 15, opacity: 0.7 },
+  signUpMessage: { color: Colors.gray, fontSize: 15 },
 });
 
 export default RegisterLink;

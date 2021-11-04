@@ -124,7 +124,7 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
 };
 
 const styles = StyleSheet.create({
-  clearButtonTitle: { color: Colors.black, opacity: 0.6 },
+  clearButtonTitle: { color: Colors.gray },
   showResultsButton: { maxHeight: 45 },
   showResultsButtonStyle: { height: '100%' },
   title: { fontSize: 18, fontWeight: '500' },

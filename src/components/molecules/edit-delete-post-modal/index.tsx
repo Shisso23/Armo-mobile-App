@@ -75,22 +75,22 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
 const styles = StyleSheet.create({
   menu: {
     ...Platform.select({
-      android: { elevation: 3, backgroundColor: Colors.transparent },
+      android: { backgroundColor: Colors.transparent },
       ios: {},
     }),
     borderRadius: 15,
     marginBottom: 100,
     shadowColor: Colors.black,
     shadowOffset: {
-      height: 3,
-      width: 0,
+      height: 0.2,
+      width: 0.2,
     },
     shadowOpacity: 0.16,
-    shadowRadius: 16,
+    shadowRadius: 2,
     top: '35%',
     width: '80%',
   },
   postMenuContent: { borderRadius: 15, height: '100%', width: '100%' },
-  postMenuTitle: { fontWeight: '500' },
+  postMenuTitle: { fontWeight: Platform.OS === 'ios' ? '600' : 'bold' },
 });
 export default EditDeletePost;

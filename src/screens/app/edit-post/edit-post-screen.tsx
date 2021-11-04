@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
@@ -11,8 +11,6 @@ import { useTheme } from '../../../theme';
 import { editPostAction, getPostAction } from '../../../reducers/posts-reducer/posts.actions';
 import _ from 'lodash';
 
-const { width } = Dimensions.get('window');
-
 const EditPostScreen = ({ route }: { route: Object }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -20,39 +18,51 @@ const EditPostScreen = ({ route }: { route: Object }) => {
   const post = _.get(route, 'params.post', {});
   const id = _.get(post, 'id', '');
 
-  const goBackToPost = async () => {
-    navigation.goBack();
-  };
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      header: () => (
+        <View
+          style={[
+            Layout.rowBetween,
+            styles.header,
+            Gutters.regularBMargin,
+            Gutters.regularHMargin,
+            Layout.alignItemsEnd,
+          ]}
+        >
+          <Text style={Fonts.title}>Edit Post</Text>
+          <Icon name="close-a" type="fontisto" size={17} onPress={() => navigation.goBack()} />
+        </View>
+      ),
+    });
+  }, [
+    Fonts.title,
+    Gutters.regularBMargin,
+    Gutters.regularHMargin,
+    Layout.alignItemsEnd,
+    Layout.rowBetween,
+    navigation,
+  ]);
+
   const onSubmit = async (formData: EditPostProps) => {
     try {
       await dispatch(editPostAction(formData, id));
       const editedPost = await dispatch(getPostAction(id));
       navigation.navigate('ViewPost', { post: editedPost });
     } catch (error) {
-      console.warn(error);
+      return error;
     }
   };
 
   return (
-    <FormScreenContainer
-      contentContainerStyle={[
-        Gutters.regularPadding,
-        Layout.fill,
-        Gutters.largeHPadding,
-        styles.container,
-      ]}
-    >
-      <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
-        <Text style={Fonts.title}>Edit Post</Text>
-        <Icon name="close-a" type="fontisto" size={17} onPress={goBackToPost} />
-      </View>
-
+    <FormScreenContainer contentContainerStyle={[Gutters.regularPadding, Gutters.largeHPadding]}>
       <EditPostForm submitForm={onSubmit} initialValues={editPostModel()} />
     </FormScreenContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { paddingTop: width * 0.17 },
+  header: { height: 90 },
 });
 export default EditPostScreen;

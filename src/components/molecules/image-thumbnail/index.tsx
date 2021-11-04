@@ -32,9 +32,9 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
           ]}
         >
           <Avatar source={{ uri: media }} title="uri" containerStyle={styles.avatar} />
-          <Text numberOfLines={2} style={styles.imageUri}>
+          <Text numberOfLines={2} style={[styles.imageUri, Gutters.smallHMargin]}>
             {`${media.slice(0, 15)}...${media.slice(-11)}\n`}
-            <Text style={styles.imageSize}>
+            <Text style={[styles.imageSize, Common.android60PercentWhite]}>
               {imageSize > 1024 ? `${imageSize / 1000} MB` : `${imageSize} KB`}
             </Text>
           </Text>
@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 60,
     overflow: 'hidden',
-    width: 75,
+    width: 63,
   },
   container: { backgroundColor: Colors.gray, bottom: 18, minHeight: 60, width: '100%' },
   imageSize: { color: Colors.white, opacity: 0.5 },
-  imageUri: { color: Colors.white, fontSize: 16, maxHeight: 40 },
+  imageUri: { color: Colors.white, fontSize: 14, maxHeight: 35 },
 });
 export default ImageThumbnail;

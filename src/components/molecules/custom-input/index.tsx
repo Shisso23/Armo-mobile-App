@@ -19,7 +19,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <Input
       labelStyle={styles.label}
-      leftIcon={<Icon name="lock" type="fontiso" size={18} iconStyle={styles.icon} />}
+      leftIcon={<Icon name="lock" type="fontiso" size={18} color={Colors.gray} />}
       inputContainerStyle={[
         Common.inputWithRoundBorders,
         Gutters.smallLPadding,
@@ -30,8 +30,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
       ]}
       inputStyle={[
         styles.inputStyle,
-        { height: inputHeight },
         multiline && styles.verticalAlignTextTop,
+        { height: inputHeight },
       ]}
       errorStyle={styles.errorStyle}
       multiline={multiline}
@@ -45,24 +45,22 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: -5,
   },
-  icon: { color: Colors.shadow, opacity: 0.5 },
   inputContainer: {
     borderBottomWidth: 0,
-    elevation: 15,
+    elevation: 3,
     shadowColor: Colors.shadow,
     shadowOffset: {
       width: 3,
-      height: 10,
+      height: 3,
     },
     shadowOpacity: 0.4,
-    shadowRadius: 20,
+    shadowRadius: 5,
   },
   inputStyle: { fontSize: 14, height: '100%' },
   label: {
-    color: Colors.black,
+    color: Colors.gray,
     fontSize: 15,
     fontWeight: '400',
-    opacity: 0.7,
   },
   verticalAlignTextTop: {
     textAlignVertical: 'top',

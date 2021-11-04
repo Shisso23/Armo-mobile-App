@@ -21,7 +21,7 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
   ownerId,
 }) => {
   const { user } = useSelector(userSelector);
-  const isHidden = useMemo(() => user.id !== ownerId, [ownerId, user.id]);
+  const isOwner = useMemo(() => user.id === ownerId, [ownerId, user.id]);
   const getActionData = (action: string) => {
     switch (action) {
       case 'edit':
@@ -54,11 +54,11 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
 
   return (
     <>
-      {!isHidden && renderContent('edit')}
-      {!isHidden && renderContent('delete')}
+      {isOwner && renderContent('edit')}
+      {isOwner && renderContent('delete')}
       {renderContent('share')}
       {renderContent('copy')}
-      {!isHidden && renderContent('report')}
+      {!isOwner && renderContent('report')}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, createRef } from 'react';
-import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard, Platform } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
@@ -100,7 +100,8 @@ const ForumsScreen: React.FC = () => {
           name={actionSheetIsVisible ? 'filter' : 'equalizer'}
           type={actionSheetIsVisible ? 'feather' : 'simple-line-icon'}
           onPress={handleFilterPress}
-          iconStyle={styles.iconsOpacity}
+          color={Colors.gray}
+          size={27}
           containerStyle={[
             Common.inputWithRoundBorders,
             Gutters.smallPadding,
@@ -139,16 +140,20 @@ const ForumsScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  actionSheet: { borderRadius: 25 },
+  actionSheet: {
+    borderRadius: Platform.OS === 'ios' ? 25 : 0,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   fab: { backgroundColor: Colors.secondary, borderRadius: 10 },
   filterIconContainer: {
     borderColor: Colors.secondary,
     borderWidth: 1.5,
-    bottom: '2%',
+    bottom: '2.2%',
+    padding: 10,
     right: '25%',
     transform: [{ rotate: '90deg' }],
   },
-  iconsOpacity: { opacity: 0.72 },
   title: { fontWeight: '500', marginLeft: '5%' },
 });
 

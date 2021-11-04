@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Platform, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import { Menu } from 'react-native-paper';
-import { Icon, ListItem } from 'react-native-elements';
+import { Icon, ListItem, Text } from 'react-native-elements';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -9,7 +9,7 @@ import { useTheme } from '../../../theme';
 type ReportPostModalProps = {
   handleReport: Function;
   onDismiss: Function;
-  visible: Boolean;
+  visible: boolean;
   style?: any;
 };
 
@@ -71,7 +71,7 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
 const styles = StyleSheet.create({
   menu: {
     ...Platform.select({
-      android: { elevation: 3, backgroundColor: Colors.transparent },
+      android: { backgroundColor: Colors.transparent },
       ios: {},
     }),
     borderRadius: 15,
@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
-  reportMenuTitle: { fontWeight: '500' },
+  reportMenuTitle: { fontWeight: Platform.OS === 'ios' ? '500' : 'bold' },
 });
 export default ReportPostModal;

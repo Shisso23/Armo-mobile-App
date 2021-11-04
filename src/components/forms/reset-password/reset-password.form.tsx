@@ -123,7 +123,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
                     size={21}
                     name={isPasswordHidden ? 'eye' : 'eye-off'}
                     onPress={() => _showPasswordShort('password')}
-                    style={styles.icon}
+                    color={Colors.gray}
                   />
                 }
               />
@@ -182,7 +182,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
 
 const styles = StyleSheet.create({
   buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
-  cancelButtonTitle: { color: Colors.black, opacity: 0.6 },
+  cancelButtonTitle: { color: Colors.gray },
   icon: { color: Colors.shadow, opacity: 0.5 },
   inputView: { marginTop: '25%', width: '85%' },
 });

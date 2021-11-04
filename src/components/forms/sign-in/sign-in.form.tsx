@@ -96,9 +96,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
                 onBlur={handleBlur('username')}
                 label="Username"
                 errorMessage={error('username')}
-                leftIcon={
-                  <Icon name="user" type="font-awesome" size={20} iconStyle={styles.icon} />
-                }
+                leftIcon={<Icon name="user" type="font-awesome" size={20} color={Colors.gray} />}
                 inputContainerStyle={Common.inputContainer}
               />
               <CustomInput
@@ -116,7 +114,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
                     size={21}
                     name={isPasswordHidden ? 'eye' : 'eye-off'}
                     onPress={() => _showPasswordShort()}
-                    style={styles.icon}
+                    color={Colors.gray}
                   />
                 }
               />
@@ -142,7 +140,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
 
 const styles = StyleSheet.create({
   buttonsView: { width: '100%' },
-  icon: { color: Colors.shadow, opacity: 0.5 },
+  // icon: { color: Colors.shadow, opacity: 0.5 },
   inputView: { marginTop: '25%', width: '85%' },
 });
 

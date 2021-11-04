@@ -7,15 +7,13 @@ type FormScreenContainerProps = {
   contentContainerStyle?: ViewStyle | Array<ViewStyle>;
 };
 
-const FormScreenContainer: React.FC<FormScreenContainerProps> = ({
-  children,
-  contentContainerStyle,
-}) => (
+const FormScreenContainer: React.FC<FormScreenContainerProps> = (props) => (
   <KeyboardAwareScrollView
-    contentContainerStyle={contentContainerStyle}
+    contentContainerStyle={props.contentContainerStyle}
     keyboardShouldPersistTaps="handled"
+    {...props}
   >
-    {children}
+    {props.children}
   </KeyboardAwareScrollView>
 );
 

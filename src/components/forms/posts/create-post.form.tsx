@@ -118,7 +118,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
                   type="material-community"
                   size={21}
                   name="chevron-right"
-                  style={styles.icon}
+                  color={Colors.gray}
                 />
               }
             />
@@ -191,8 +191,8 @@ const styles = StyleSheet.create({
   categoryContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,
+    marginRight: 11.8,
   },
-  icon: { color: Colors.shadow, opacity: 0.65 },
   postButton: { width: '100%' },
 });
 export default CreatePostForm;

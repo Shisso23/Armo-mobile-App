@@ -1,5 +1,5 @@
 import React, { useState, createRef } from 'react';
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert, Platform } from 'react-native';
 import Share from 'react-native-share';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
@@ -222,7 +222,11 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
 };
 
 const styles = StyleSheet.create({
-  actionSheet: { borderRadius: 25 },
+  actionSheet: {
+    borderRadius: Platform.OS === 'ios' ? 25 : 0,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   avatar: { borderColor: Colors.darkBrown, borderWidth: 1 },
   comment: { fontSize: 16.5, lineHeight: 23, marginLeft: '14%', marginTop: -15 },
   replyText: { marginLeft: '11%' },

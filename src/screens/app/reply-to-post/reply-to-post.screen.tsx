@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
-import { FormScreenContainer } from '../../../components';
 import { ReplyToPostForm } from '../../../components/forms';
 import { commentsService, postCommentsService } from '../../../services';
 import { ReplyToPostModel, ReplyToPostProps } from '../../../models';
@@ -32,20 +31,13 @@ const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
   };
 
   return (
-    <FormScreenContainer
-      contentContainerStyle={[
-        Gutters.regularPadding,
-        Layout.fill,
-        Gutters.largeHPadding,
-        styles.container,
-      ]}
-    >
+    <View style={[Gutters.regularPadding, Gutters.largeHPadding, styles.container]}>
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
         <Text style={Fonts.title}>Reply</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
       <ReplyToPostForm submitForm={onSubmit} initialValues={ReplyToPostModel()} />
-    </FormScreenContainer>
+    </View>
   );
 };
 

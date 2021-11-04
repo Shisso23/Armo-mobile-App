@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   View,
+  Platform,
 } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import Share from 'react-native-share';
@@ -226,7 +227,11 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  actionSheet: { borderRadius: 25 },
+  actionSheet: {
+    borderRadius: Platform.OS === 'ios' ? 25 : 0,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   postTitle: { fontWeight: '400' },
   replyText: { color: Colors.white, fontSize: 17 },
   shareAndReplyContainer: { backgroundColor: Colors.tertiary, left: -10, width },

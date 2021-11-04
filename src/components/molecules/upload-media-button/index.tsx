@@ -16,7 +16,7 @@ type UploadMediaButtonProps = {
   style: any;
   disabled: Boolean;
 };
-const actionSheetRef = createRef();
+const actionSheetRef = createRef<{ setModalVisible: Function }>();
 const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
   onImageSelect,
   errorMessage = '',
@@ -25,9 +25,11 @@ const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
 
   const openActionSheet = () => {
     Keyboard.dismiss();
-    return actionSheetRef.current.setModalVisible(true);
+    if (actionSheetRef.current !== null) {
+      return actionSheetRef.current.setModalVisible(true);
+    }
   };
-  const closeActionSheet = () => actionSheetRef.current.setModalVisible(false);
+  const closeActionSheet = () => actionSheetRef.current?.setModalVisible(false);
 
   const _handlePhotoLibrary = () => {
     openUserGallery().then((selectedImage) => {
@@ -89,13 +91,15 @@ const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
 
 const styles = StyleSheet.create({
   uploadButtonContainer: {
-    borderBottomWidth: 0.5,
-    borderColor: Colors.gray,
-    borderWidth: 0.8,
     width: '100%',
   },
-  uploadButtonStyle: { borderRadius: 20, borderWidth: 0 },
-  uploadButtonTitle: { color: Colors.black, opacity: 0.6 },
+  uploadButtonStyle: {
+    borderBottomWidth: 0.8,
+    borderColor: Colors.gray,
+    borderRadius: 20,
+    borderWidth: 0.8,
+  },
+  uploadButtonTitle: { color: Colors.gray },
 });
 
 export default UploadMediaButton;
