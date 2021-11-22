@@ -82,6 +82,32 @@ const getCategories = async () => {
     });
 };
 
+const subscribe = async (postId: string) => {
+  const url = postUrls.subscribe(postId);
+  return authNetworkService
+    .post(url, { postId })
+    .then((apiResponse) => {
+      console.log({ apiResponse });
+      return apiResponse;
+    })
+    .catch((error) => {
+      console.log({ error });
+      flashService.error(_.get(error, 'message', 'Error while subscribing to post!'));
+    });
+};
+
+const unsubscribe = async (postId: string) => {
+  const url = postUrls.unsubscribe(postId);
+  return authNetworkService
+    .post(url, { postId })
+    .then((apiResponse) => {
+      return apiResponse;
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error while unsubscribing to post!'));
+    });
+};
+
 export default {
   getPosts,
   getPost,
@@ -89,4 +115,6 @@ export default {
   editPost,
   deletePost,
   getCategories,
+  subscribe,
+  unsubscribe,
 };

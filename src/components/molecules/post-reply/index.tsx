@@ -21,11 +21,11 @@ import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/c
 
 type PostReplyProps = {
   reply: Object;
-  user: Object;
   key?: any;
+  users: [];
 };
 
-const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
+const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
   const { Gutters, Fonts, Layout } = useTheme();
   const dispatch = useDispatch();
   const [voteType, setVoteType] = useState('');
@@ -37,13 +37,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
   const navigation = useNavigation();
 
   const nestedComments = _.get(reply, 'replies', []).map((chilComment: any, index: Number) => {
-    return (
-      <PostReply
-        key={_.get(chilComment, 'id', index)}
-        reply={chilComment}
-        user={_.get(chilComment, 'user', {})}
-      />
-    );
+    return <PostReply key={_.get(chilComment, 'id', index)} reply={chilComment} users={users} />;
   });
   const formatDate = (date: any) => {
     return moment(date).fromNow();
@@ -79,6 +73,14 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
       default:
         return 0;
     }
+  };
+
+  const getUser = (comment: Object) => {
+    return users.find(
+      (owner: Object) => _.get(owner, 'id', '') === _.get(comment, 'ownerId', ''),
+
+      {},
+    );
   };
 
   const editComment = () => {
@@ -165,8 +167,8 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, user }) => {
           containerStyle={styles.avatar}
         />
         <ListItem.Content>
-          <ListItem.Title>{`${_.get(user, 'name', '')} ${formatDate(
-            _.get(reply, 'date', new Date()), // TODO
+          <ListItem.Title>{`${_.get(getUser(reply), 'firstName', '')} ${formatDate(
+            _.get(reply, 'createDate', new Date()),
           )}`}</ListItem.Title>
         </ListItem.Content>
       </ListItem>

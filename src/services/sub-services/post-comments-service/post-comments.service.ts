@@ -4,13 +4,14 @@ import postCommentsUrls from './post-comments.urls';
 import authNetworkService from '../auth-network-service/auth-network.service';
 import { apiReplyToPostModel, ReplyToPostProps } from '../../../models';
 import flashService from '../flash-service/flash.service';
+import { constructPostCommentsModels } from '../../../models/app/post-replies/post-replies.model';
 
 const getPostComments = async (id: any) => {
   const url = postCommentsUrls.getPostComments(id);
   return authNetworkService
     .get(url)
     .then((apiResponse) => {
-      return _.get(apiResponse, 'data.data', null);
+      return constructPostCommentsModels(_.get(apiResponse, 'data.data', []));
     })
     .catch((error) => {
       flashService.error(_.get(error, 'message', 'Error fetching post comments!'));

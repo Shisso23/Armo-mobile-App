@@ -20,6 +20,7 @@ import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 import _ from 'lodash';
+import { postsService } from '../../../services';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -49,7 +50,9 @@ const ForumsScreen: React.FC = () => {
     }
   };
 
-  const handleJoinForum = () => {};
+  const handleJoinForum = (post: { id: string }) => {
+    postsService.subscribe(post.id);
+  };
 
   const handleFilterPress = () => {
     Keyboard.dismiss();
@@ -78,7 +81,7 @@ const ForumsScreen: React.FC = () => {
     return (
       <PostItem
         item={item}
-        handleJoinForum={handleJoinForum}
+        handleJoinForum={() => handleJoinForum(item)}
         onSelect={(post: apiPostProps) => {
           setSelectedPost(item);
           getPost(post.id);

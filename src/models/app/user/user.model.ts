@@ -7,6 +7,8 @@ export type UserProps = {
   id: string;
   roles: Array<string>;
   strikeCount: number;
+  region: string;
+  company: string;
 };
 
 export type UserApiProps = {
@@ -22,6 +24,8 @@ export const userModel = (_model?: UserApiProps): UserProps => ({
   lastName: _.get(_model, 'lastName', ''),
   roles: _.get(_model, 'roles', ''),
   strikeCount: _.get(_model, 'strikeCount', ''),
+  region: _.get(_model, 'region', ''),
+  company: _.get(_model, 'company', ''),
 });
 
 export const apiUserModel = (_model?: UserApiProps) => ({
