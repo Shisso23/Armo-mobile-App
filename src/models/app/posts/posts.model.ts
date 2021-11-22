@@ -31,7 +31,7 @@ export const CreatePostModel = (_model?: CreatePostProps): CreatePostProps => ({
 });
 
 export const apiCreatePostModel = (_model?: CreatePostProps) => ({
-  CategoryId: 'fa1ef72d-ba4a-40e2-56af-08d98271f2c3', // TODO _.get(_model, 'category', ''), use categories when ready
+  CategoryId: _.get(_model, 'category.id'),
   Title: _.get(_model, 'topicTitle', ''),
   Content: _.get(_model, 'description', ''),
   Media: _.get(_model, 'media', []),
@@ -47,6 +47,14 @@ export const apiGetPosts = (_model: GetPostProps) => ({
   PageNumber: _.get(_model, 'pageNumber', null),
   PageSize: _.get(_model, 'pageSize', null),
 });
+
+export const postCategoriesModel = (_model: Array<{ id: string; name: string }>) => {
+  let categoriesArray: { id: string; name: string }[] = [];
+  Object.keys(_model).map((catId) => {
+    categoriesArray.push({ id: catId, name: _.get(_model, `${catId}`, '') });
+  });
+  return categoriesArray;
+};
 
 export const editPostModel = (_model = {}) => ({
   topicTitle: _.get(_model, 'topicTitle', ''),

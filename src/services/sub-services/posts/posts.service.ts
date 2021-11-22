@@ -7,6 +7,7 @@ import {
   apiEditPostModel,
   CreatePostProps,
   EditPostProps,
+  postCategoriesModel,
 } from '../../../models';
 import flashService from '../flash-service/flash.service';
 import { objectToFormData } from '../../../helpers/object-to-form-data.helper.';
@@ -68,10 +69,24 @@ const deletePost = async (id: any) => {
     });
 };
 
+const getCategories = async () => {
+  const url = postUrls.categories();
+  return authNetworkService
+    .get(url)
+    .then((apiResponse) => {
+      const categories = postCategoriesModel(_.get(apiResponse, 'data.data', null));
+      return categories;
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error fetching categories!'));
+    });
+};
+
 export default {
   getPosts,
   getPost,
   createPost,
   editPost,
   deletePost,
+  getCategories,
 };

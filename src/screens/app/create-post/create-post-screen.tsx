@@ -2,16 +2,21 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { FormScreenContainer } from '../../../components';
 import { CreatePostForm } from '../../../components/forms';
 import { CreatePostModel, CreatePostProps } from '../../../models';
 import { useTheme } from '../../../theme';
 import { postsService } from '../../../services';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { getCategoriesAction } from '../../../reducers/posts-reducer/posts.actions';
 
 const CreatePostScreen: React.FC = () => {
   const navigation = useNavigation();
   const { Gutters, Layout, Fonts } = useTheme();
+  const dispatch = useDispatch();
+  const { categories } = useSelector(postsSelector);
 
   const goBack = () => {
     navigation.goBack();
@@ -35,14 +40,8 @@ const CreatePostScreen: React.FC = () => {
         </View>
       ),
     });
-  }, [
-    Fonts.title,
-    Gutters.regularBMargin,
-    Gutters.regularHMargin,
-    Layout.alignItemsEnd,
-    Layout.rowBetween,
-    navigation,
-  ]);
+    dispatch(getCategoriesAction());
+  });
 
   const onSubmit = async (formData: CreatePostProps) => {
     const response = await postsService.createPost(formData);
@@ -54,7 +53,11 @@ const CreatePostScreen: React.FC = () => {
   return (
     <>
       <FormScreenContainer contentContainerStyle={[Gutters.regularPadding, Gutters.largeHPadding]}>
-        <CreatePostForm submitForm={onSubmit} initialValues={CreatePostModel()} />
+        <CreatePostForm
+          submitForm={onSubmit}
+          initialValues={CreatePostModel()}
+          categories={categories}
+        />
       </FormScreenContainer>
     </>
   );

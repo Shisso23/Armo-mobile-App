@@ -31,7 +31,7 @@ const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
   };
 
   return (
-    <View style={[Gutters.regularPadding, Gutters.largeHPadding, styles.container]}>
+    <View style={[Gutters.regularPadding, Gutters.largeHPadding, styles.container, Layout.fill]}>
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
         <Text style={Fonts.title}>Reply</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />

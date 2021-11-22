@@ -4,6 +4,8 @@ import {
   setIsLoadingGetPostsAction,
   setIsLoadingDeletePostAction,
   setPostsAction,
+  setCategoriesAction,
+  setIsLoadingCategoriesAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
@@ -74,5 +76,22 @@ export const deletePostAction = async (id: any) => (dispatch: Function) => {
     })
     .finally(() => {
       dispatch(setIsLoadingDeletePostAction(false));
+    });
+};
+
+export const getCategoriesAction = async () => (dispatch: Function) => {
+  dispatch(setIsLoadingCategoriesAction(true));
+
+  return postsService
+    .getCategories()
+    .then((categories) => {
+      dispatch(setCategoriesAction(categories));
+      return categories;
+    })
+    .catch((error) => {
+      flashService.error(error.message);
+    })
+    .finally(() => {
+      dispatch(setIsLoadingCategoriesAction(false));
     });
 };

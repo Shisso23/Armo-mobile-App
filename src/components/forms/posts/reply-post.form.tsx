@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -30,7 +30,7 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
   onSuccess = () => null,
   initialValues,
 }) => {
-  const { Common, Gutters, Layout } = useTheme();
+  const { Common, Gutters } = useTheme();
   const _handleSubmission = (
     formData: ReplyToPostProps,
     actions: FormikHelpers<ReplyToPostProps>,
@@ -80,26 +80,24 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
               error={error}
             />
 
-            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
-              <Button
-                title="Post"
-                icon={
-                  <Icon
-                    name="send-o"
-                    size={15}
-                    color={Colors.white}
-                    type="font-awesome"
-                    style={Gutters.smallRMargin}
-                  />
-                }
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                titleStyle={Common.submitButtonTitle}
-                containerStyle={[Common.submitButtonContainer, styles.postButton]}
-                buttonStyle={Common.submitButton}
-                raised
-              />
-            </View>
+            <Button
+              title="Post"
+              icon={
+                <Icon
+                  name="send-o"
+                  size={15}
+                  color={Colors.white}
+                  type="font-awesome"
+                  style={Gutters.smallRMargin}
+                />
+              }
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              titleStyle={Common.submitButtonTitle}
+              containerStyle={[Common.submitButtonContainer, styles.postButton]}
+              buttonStyle={Common.submitButton}
+              raised
+            />
           </>
         );
       }}
@@ -108,7 +106,6 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
 };
 
 const styles = StyleSheet.create({
-  buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
   postButton: { width: '100%' },
 });
 export default ReplyToPostForm;

@@ -7,13 +7,15 @@ const initialState: postsTypesState = {
   isLoadingGetPost: false,
   isLoadingEditPost: false,
   isLoadingDeletePost: false,
+  categories: [],
+  isLoadingCategories: false,
 };
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    setPostsAction(state: any, action: PayloadAction<postsTypesState>) {
+    setPostsAction(state: any, action: PayloadAction<Array<Object>>) {
       state.posts = action.payload;
     },
     setIsLoadingGetPostsAction(state: any, action: PayloadAction<Boolean>) {
@@ -28,6 +30,14 @@ const postsSlice = createSlice({
     setIsLoadingDeletePostAction(state: any, action: PayloadAction<Boolean>) {
       state.isLoadingDeletePost = action.payload;
     },
+
+    setCategoriesAction(state: any, action: PayloadAction<Array<{ id: string; name: string }>>) {
+      state.categories = action.payload;
+    },
+
+    setIsLoadingCategoriesAction(state: any, action: PayloadAction<Boolean>) {
+      state.isLoadingCategories = action.payload;
+    },
   },
 });
 
@@ -37,6 +47,8 @@ export const {
   setIsLoadingGetPostsAction,
   setIsLoadingEditPostAction,
   setIsLoadingDeletePostAction,
+  setCategoriesAction,
+  setIsLoadingCategoriesAction,
 } = postsSlice.actions;
 
 export const postsSelector = (reducers: any) => reducers.postsReducer;
