@@ -1,7 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Dimensions, StyleSheet, Alert, Text } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
-import { Icon, Image, Button } from 'react-native-elements';
+import {
+  View,
+  Dimensions,
+  StyleSheet,
+  Alert,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
+import { ActivityIndicator, Menu } from 'react-native-paper';
+import { Icon, Image, ListItem } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -15,7 +23,7 @@ import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const { width } = Dimensions.get('window');
 const ViewPostMediaScreen = ({ route }: { route: Object }) => {
-  const { Layout, Gutters, Common } = useTheme();
+  const { Layout, Gutters } = useTheme();
   const navigation = useNavigation();
   const attachment = _.get(route, 'params.item', undefined);
   const { user } = useSelector(userSelector);
@@ -23,8 +31,8 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
   const isOwner = useMemo(() => user.id === owner.id, [owner.id, user.id]);
   const url = _.get(attachment, 'uri', '');
   const filename = useMemo(() => url.substring(url.lastIndexOf('/') + 1), [url]);
-  const [isLoading, setIsLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const postId = _.get(route, 'params.postId', '');
   const dispatch = useDispatch();
 
@@ -61,6 +69,65 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
     shareContent({ filename, content: '', url, headers: _.get(attachment, 'headers', {}) });
   };
 
+  const hidePostOptionsModal = () => {
+    setModalVisible(false);
+  };
+
+  const renderModal = () => {
+    return (
+      <Menu
+        style={[Layout.alignSelfCenter, styles.menu]}
+        visible={modalVisible}
+        onDismiss={hidePostOptionsModal}
+        anchor={
+          <Icon
+            name="dots-vertical"
+            type="material-community"
+            onPress={() => setModalVisible(true)}
+            style={Layout.alignSelfEnd}
+          />
+        }
+        contentStyle={styles.modalContent}
+      >
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title style={styles.modalTitle}>Image</ListItem.Title>
+          </ListItem.Content>
+          <Icon name="md-close-circle-outline" type="ionicon" onPress={hidePostOptionsModal} />
+        </ListItem>
+
+        <>
+          <ActivityIndicator
+            animating={deleting}
+            color={Colors.lightGray}
+            style={styles.loadingIndicator}
+            size={25}
+          />
+          {isOwner && (
+            <TouchableOpacity
+              style={Gutters.regularMargin}
+              onPress={() => {
+                handleDeleteImage();
+                setModalVisible(false);
+              }}
+            >
+              <Text>Delete Image</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={Gutters.regularMargin}
+            onPress={() => {
+              handleShare();
+              setModalVisible(false);
+            }}
+          >
+            <Text>Download image</Text>
+          </TouchableOpacity>
+        </>
+      </Menu>
+    );
+  };
+
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill, styles.container]}>
       <Icon
@@ -70,12 +137,10 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
         onPress={() => navigation.goBack()}
         style={Layout.alignSelfStart}
       />
-
+      {renderModal()}
       <Image
         source={attachment}
         style={[styles.image, Layout.alignSelfCenter, Gutters.largeTMargin]}
-        onLoadStart={() => setIsLoading(true)}
-        onLoadEnd={() => setIsLoading(false)}
         PlaceholderContent={
           <>
             <ActivityIndicator animating={true} color={Colors.secondary} size={40} />
@@ -83,44 +148,6 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
           </>
         }
       />
-      <View style={[styles.bottomView, Gutters.smallBPadding]}>
-        <Button
-          title="Download"
-          icon={
-            <Icon
-              name="download"
-              size={15}
-              color={Colors.white}
-              type="font-awesome"
-              style={Gutters.smallRMargin}
-            />
-          }
-          onPress={handleShare}
-          disabled={isLoading}
-          titleStyle={Common.submitButtonTitle}
-          containerStyle={[Common.submitButtonContainer, styles.postButton]}
-          buttonStyle={Common.submitButton}
-          raised
-        />
-        {(isOwner && !isLoading && !deleting && (
-          <Icon
-            name="trash"
-            color={Colors.darkGray}
-            type="fontisto"
-            size={45}
-            containerStyle={Gutters.smallTMargin}
-            onPress={handleDeleteImage}
-          />
-        )) ||
-          (deleting && (
-            <ActivityIndicator
-              animating={true}
-              color={Colors.secondary}
-              size={40}
-              style={Gutters.smallTMargin}
-            />
-          ))}
-      </View>
     </View>
   );
 };
@@ -130,11 +157,32 @@ ViewPostMediaScreen.propTypes = {};
 ViewPostMediaScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
-  bottomView: { bottom: 25, left: 10, position: 'absolute', right: 10 },
   container: { paddingTop: width * 0.17 },
-  image: { height: '82%' },
+  image: { height: '90%' },
+  loadingIndicator: {
+    alignSelf: 'center',
+    position: 'absolute',
+  },
   loadingText: { fontSize: 23 },
-  postButton: { position: 'relative', width: '100%' },
+  menu: {
+    ...Platform.select({
+      android: { backgroundColor: Colors.transparent },
+      ios: {},
+    }),
+    borderRadius: 15,
+    marginBottom: 100,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      height: 0.2,
+      width: 0.2,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 2,
+    top: '35%',
+    width: '80%',
+  },
+  modalContent: { borderRadius: 15, height: '100%', width: '100%' },
+  modalTitle: { fontWeight: Platform.OS === 'ios' ? '600' : 'bold' },
 });
 
 export default ViewPostMediaScreen;
