@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, Platform, ScrollView } from 'react-native';
-import { Menu } from 'react-native-paper';
+import { ActivityIndicator, Menu } from 'react-native-paper';
 import { Icon, ListItem, Text } from 'react-native-elements';
 
 import { Colors } from '../../../theme/Variables';
@@ -11,6 +11,7 @@ type ReportPostModalProps = {
   onDismiss: Function;
   visible: boolean;
   style?: any;
+  loading: boolean;
 };
 
 const ReportPostModal: React.FC<ReportPostModalProps> = ({
@@ -18,6 +19,7 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
   visible = false,
   onDismiss,
   style = {},
+  loading = false,
 }) => {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const { Gutters, Layout } = useTheme();
@@ -57,6 +59,12 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
           <Icon name="md-close-circle-outline" type="ionicon" onPress={hideReportModal} />
         </ListItem>
         <ScrollView>
+          <ActivityIndicator
+            animating={loading}
+            color={Colors.lightGray}
+            style={styles.loadingIndicator}
+            size={25}
+          />
           {renderReportingReson('Spam')}
           {renderReportingReson('Hatred and Bullying')}
           {renderReportingReson('False Information')}
@@ -69,6 +77,10 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
 };
 
 const styles = StyleSheet.create({
+  loadingIndicator: {
+    alignSelf: 'center',
+    position: 'absolute',
+  },
   menu: {
     ...Platform.select({
       android: { backgroundColor: Colors.transparent },

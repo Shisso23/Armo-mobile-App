@@ -18,6 +18,9 @@ import ReportPostModal from '../report-post-modal';
 import { commentsService } from '../../../services';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
 import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
+import { reportUserAction } from '../../../reducers/posts-reducer/posts.actions';
 
 type PostReplyProps = {
   reply: Object;
@@ -30,6 +33,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
   const dispatch = useDispatch();
   const [voteType, setVoteType] = useState('');
   const { totalUpVotes, totalDownVotes } = useSelector(commentRepliesSelector);
+  const { isLoadingReportUser } = useSelector(postsSelector);
   const [upVoted, setUpVoted] = useState(0);
   const [downVoted, setDownVoted] = useState(0);
   const [reportModalVisible, setReportModalVisible] = useState(false);
@@ -133,6 +137,10 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
     );
   };
 
+  const reportUserPost = async (formData: reportUserTypes) => {
+    await dispatch(reportUserAction(formData));
+  };
+
   const handleShare = () => {
     Share.open({
       title: `Post comment`,
@@ -207,9 +215,12 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
       </ActionSheet>
       <ReportPostModal
         style={Gutters.regularLMargin}
-        handleReport={() => {}}
+        handleReport={(reason: string) => {
+          reportUserPost({ postId: null, reason, commentId: _.get(reply, 'id', '') });
+        }}
         visible={reportModalVisible}
         onDismiss={hideReportModal}
+        loading={isLoadingReportUser}
       />
     </ScreenContainer>
   );

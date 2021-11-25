@@ -21,8 +21,9 @@ export const postReplyModel = (_model: Object) => ({
   downVotes: _.get(_model, 'downVotes', 0),
   upVotes: _.get(_model, 'upVotes', 0),
   id: _.get(_model, 'id', ''),
-  ownerId: _.get(_model, 'ownerId', ''),
   replies: sortByDate(_.get(_model, 'replies', [])),
+  hasVoted: _.get(_model, 'hasVoted', false),
+  owner: _.get(_model, 'owner', {}),
 });
 
 export const postCommentModel = (_model: Object) => ({
@@ -33,6 +34,8 @@ export const postCommentModel = (_model: Object) => ({
   id: _.get(_model, 'id', ''),
   ownerId: _.get(_model, 'ownerId', ''),
   replies: sortByDate(_.get(_model, 'replies', [])),
+  hasVoted: _.get(_model, 'hasVoted', false),
+  owner: _.get(_model, 'owner', {}),
 });
 
 export const constructPostCommentsModels = (apiPostCommentsModel: Array<{ createDate: string }>) =>

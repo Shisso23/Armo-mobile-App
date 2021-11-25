@@ -8,10 +8,14 @@ import {
   setIsLoadingCategoriesAction,
   setIsLoadingSubscribeToPostAction,
   setIsLoadingUnsubscribeToPostAction,
+  setIsLoadingReportUserAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
 import { constructPostsModels, CreatePostProps, EditPostProps } from '../../models';
+import reportUserService, {
+  reportUserTypes,
+} from '../../services/sub-services/report-user-service/report-user.service';
 
 export const getPostsAction =
   (pageNumber = null, pageSize = null) =>
@@ -132,4 +136,11 @@ export const unsubscribeToPostAction = async (postId: string) => (dispatch: Func
       dispatch(setIsLoadingGetPostsAction(false));
       dispatch(setIsLoadingUnsubscribeToPostAction(false));
     });
+};
+
+export const reportUserAction = async (formData: reportUserTypes) => async (dispatch: Function) => {
+  dispatch(setIsLoadingReportUserAction(true));
+  return await reportUserService.reportUser(formData).finally(() => {
+    dispatch(setIsLoadingReportUserAction(false));
+  });
 };

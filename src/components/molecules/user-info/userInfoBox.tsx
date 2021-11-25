@@ -11,6 +11,7 @@ type UserInfoBoxProps = {
   post?: Object;
   handlePostDelete: Function;
   handlePostEdit: Function;
+  handlePostReport: Function;
 };
 
 const UserInfoBox: React.FC<UserInfoBoxProps> = ({
@@ -18,6 +19,7 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({
   post,
   handlePostEdit,
   handlePostDelete,
+  handlePostReport,
 }) => {
   const formatDate = (date: any) => {
     return moment(date).fromNow();
@@ -35,7 +37,12 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({
         <ListItem.Title>{_.get(user, 'fullName', '')}</ListItem.Title>
         <ListItem.Subtitle>{formatDate(_.get(post, 'createDate', new Date()))}</ListItem.Subtitle>
       </ListItem.Content>
-      <EditDeletePost handleDelete={handlePostDelete} handleEdit={handlePostEdit} post={post} />
+      <EditDeletePost
+        handleDelete={handlePostDelete}
+        handleEdit={handlePostEdit}
+        post={post}
+        handleReport={handlePostReport}
+      />
     </ListItem>
   );
 };

@@ -14,4 +14,5 @@ export type postsTypesState = {
   isLoadingCategories: boolean;
   isLoadingSubscribeToPost: boolean;
   isLoadingUnsubscribeToPost: boolean;
+  isLoadingReportUser: boolean;
 };
