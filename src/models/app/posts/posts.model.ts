@@ -41,6 +41,10 @@ export const apiPost = (_model: apiPostProps) => ({
   title: _.get(_model, 'title', ''),
   summary: _.get(_model, 'summary', ''),
   id: _.get(_model, 'id', ''),
+  owner: _.get(_model, 'owner', {}),
+  category: _.get(_model, 'category', ''),
+  createDate: _.get(_model, 'createDate', new Date()),
+  isSubscribed: _.get(_model, 'isSubscribed', false),
 });
 
 export const apiGetPosts = (_model: GetPostProps) => ({

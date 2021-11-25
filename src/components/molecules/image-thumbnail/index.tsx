@@ -10,18 +10,13 @@ import { promptConfirm } from '../../../helpers/prompt.helper';
 type ImageThumbnailProps = {
   media: any;
   deleteImage: Function;
-  imageSize: any;
 };
 
-const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
-  media,
-  deleteImage = () => null,
-  imageSize = 0,
-}) => {
+const ImageThumbnail: React.FC<ImageThumbnailProps> = ({ media, deleteImage = () => null }) => {
   const { Gutters, Layout, Common } = useTheme();
   return (
     <>
-      {!_.isEmpty(media) && (
+      {!_.isEmpty(media.uri) && (
         <View
           style={[
             Layout.rowBetween,
@@ -31,11 +26,13 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
             styles.container,
           ]}
         >
-          <Avatar source={{ uri: media }} title="uri" containerStyle={styles.avatar} />
+          <Avatar source={{ uri: media.uri }} title="uri" containerStyle={styles.avatar} />
           <Text numberOfLines={2} style={[styles.imageUri, Gutters.smallHMargin]}>
-            {`${media.slice(0, 15)}...${media.slice(-11)}\n`}
+            {`${media.uri.slice(0, 15)}...${media.uri.slice(-11)}\n`}
             <Text style={[styles.imageSize, Common.android60PercentWhite]}>
-              {imageSize > 1024 ? `${imageSize / 1000} MB` : `${imageSize} KB`}
+              {_.get(media, 'size', 0) > 1024
+                ? `${_.get(media, 'size', 0) / 1000} MB`
+                : `${_.get(media, 'size', 0)} KB`}
             </Text>
           </Text>
 
@@ -46,7 +43,7 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({
             color={Colors.white}
             onPress={() => {
               promptConfirm('', 'Are you sure you want to delete this item?', 'Delete', () =>
-                deleteImage(media),
+                deleteImage(media.uri),
               );
             }}
           />

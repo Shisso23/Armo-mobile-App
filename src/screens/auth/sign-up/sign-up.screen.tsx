@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { SignUpForm } from '../../../components/forms';
-import { signUpFormModel } from '../../../models';
+import { signUpFormModel, SignUpProps } from '../../../models';
 import FormScreenContainer from '../../../components/containers/form-screen-container/form-screen.container';
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
@@ -16,14 +16,13 @@ const SignUpScreen: React.FC = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  const onSuccess = () => {
-    navigation.navigate('SignIn');
-  };
-
-  const submitForm = async (values: Object) => {
-    await userAuthService.register(values).then(() => {
-      onSuccess();
-    });
+  const submitForm = async (values: SignUpProps) => {
+    try {
+      await userAuthService.register(values);
+      navigation.navigate('SignIn');
+    } catch (error) {
+      console.warn({ error });
+    }
   };
 
   return (
@@ -36,11 +35,7 @@ const SignUpScreen: React.FC = () => {
           Add your details to sign up
         </Text>
         <View style={Gutters.regularHMargin}>
-          <SignUpForm
-            submitForm={submitForm}
-            onSuccess={onSuccess}
-            initialValues={signUpFormModel()}
-          />
+          <SignUpForm submitForm={submitForm} initialValues={signUpFormModel()} />
         </View>
       </FormScreenContainer>
     </>

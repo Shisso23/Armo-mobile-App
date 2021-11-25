@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { Formik, FormikHelpers } from 'formik';
@@ -39,7 +39,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
   categories,
 }) => {
   const { Common, Gutters, Layout } = useTheme();
-  const [imageSize, setImageSize] = useState(0);
   const _handleSubmission = (
     formData: CreatePostProps,
     actions: FormikHelpers<CreatePostProps>,
@@ -138,8 +137,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               {_.get(values, 'media', []).map((media: { uri: string }) => (
                 <ImageThumbnail
                   key={media.uri}
-                  media={media.uri}
-                  imageSize={imageSize}
+                  media={media}
                   deleteImage={(mediaToDelete: any) => {
                     removeMedia(values, setFieldValue, mediaToDelete);
                   }}
@@ -153,7 +151,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               disabled={isSubmitting}
               errorMessage={error('media')}
               onImageSelect={(media: any) => {
-                setImageSize(_.get(media[0], 'size', 0));
                 setFieldValue('media', [...values.media, ...media]);
               }}
             />

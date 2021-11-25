@@ -12,4 +12,6 @@ export type postsTypesState = {
   isLoadingDeletePost: boolean;
   categories: Array<any>;
   isLoadingCategories: boolean;
+  isLoadingSubscribeToPost: boolean;
+  isLoadingUnsubscribeToPost: boolean;
 };

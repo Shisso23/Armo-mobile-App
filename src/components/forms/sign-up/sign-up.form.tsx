@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import _ from 'lodash';
 import { Button, Icon } from 'react-native-elements';
 
-import { emailSchema, passwordSchema } from '../form-validaton-schemas';
+import { emailSchema, registerPasswordSchema } from '../form-validaton-schemas';
 import { getFormError } from '../form-utils';
 import { flashService } from '../../../services';
 import { SignUpProps } from '../../../models';
@@ -23,8 +23,10 @@ type SignUpFormFormProps = {
 const SignUpSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   name: Yup.string().required('Name is required'),
-  password: passwordSchema,
-  confirmPassword: passwordSchema,
+  password: registerPasswordSchema,
+  confirmPassword: Yup.string()
+    .required()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   email: emailSchema,
   region: Yup.string().required('Region is required'),
   company: Yup.string().required('Company is required'),
@@ -53,7 +55,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   const { Layout } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
-  const [passwordsMatched, setPasswordMatched] = useState(true);
 
   const _showPasswordShort = (type: String) => {
     setTimeout(() => {
@@ -70,20 +71,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
     }
   };
 
-  const validateConfirmPassword = (password: String, value: String) => {
-    if (password && value) {
-      if (password.substr(0, value.length) !== value || password.length !== value.length) {
-        return setPasswordMatched(false);
-      }
-      return setPasswordMatched(true);
-    }
-    return setPasswordMatched(false);
-  };
-
   const _handleSubmission = async (formData: SignUpProps, actions: FormikHelpers<SignUpProps>) => {
-    if (!passwordsMatched) {
-      return null;
-    }
     try {
       await submitForm(formData);
       actions.setSubmitting(false);
@@ -118,7 +106,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
         touched,
         status,
         setFieldValue,
-        setFieldError,
       }) => {
         const error = (name: string) => getFormError(name, { touched, status, errors });
         return (
@@ -192,16 +179,12 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               value={values.confirmPassword}
               secureTextEntry={isRetypedPasswordHidden}
               onChangeText={(text) => {
-                validateConfirmPassword(values.password, text);
                 setFieldValue('confirmPassword', text);
               }}
               autoCapitalize="none"
               onBlur={handleBlur('confirmPassword')}
               label="Re-Type Password"
-              errorMessage={(!passwordsMatched && 'Did not match password') || ''}
-              onEndEditing={() => {
-                !passwordsMatched && setFieldError('confirmPassword', 'Did not match password');
-              }}
+              errorMessage={error('confirmPassword')}
               rightIcon={
                 <Icon
                   type="material-community"
@@ -234,6 +217,7 @@ const styles = StyleSheet.create({
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,
+    marginRight: 15,
   },
 });
 

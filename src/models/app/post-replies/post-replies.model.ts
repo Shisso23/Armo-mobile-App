@@ -1,12 +1,18 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 const sortByDate = (comments: Array<{ createDate: string }>) => {
-  return comments.sort(function (a: { createDate: string }, b: { createDate: string }) {
-    var dateA = new Date(a.createDate),
-      dateB = new Date(b.createDate);
-    const sorted = dateA - dateB;
-    return sorted;
+  comments = comments.sort((a: { createDate: string }, b: { createDate: string }) => {
+    const date1 = moment(new Date(a.createDate)).format('YYYY-MM-DD:hh:mm:ss');
+    const date2 = moment(new Date(b.createDate)).format('YYYY-MM-DD:hh:mm:ss');
+    if (date1 > date2) {
+      return -1;
+    } else if (date2 > date1) {
+      return 1;
+    }
+    return 0;
   });
+  return comments;
 };
 
 export const postReplyModel = (_model: Object) => ({
@@ -29,5 +35,5 @@ export const postCommentModel = (_model: Object) => ({
   replies: sortByDate(_.get(_model, 'replies', [])),
 });
 
-export const constructPostCommentsModels = (apiPostCommentsModel: Array<Object>) =>
-  apiPostCommentsModel.map((comment: Object) => postCommentModel(comment));
+export const constructPostCommentsModels = (apiPostCommentsModel: Array<{ createDate: string }>) =>
+  sortByDate(apiPostCommentsModel).map((comment: Object) => postCommentModel(comment));

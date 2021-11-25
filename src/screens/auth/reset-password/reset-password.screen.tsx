@@ -11,7 +11,7 @@ const { width } = Dimensions.get('window');
 const ResetPasswordScreen: React.FC = () => {
   const { Gutters, Layout, Images } = useTheme();
   const onSubmit = async (formData: ResetPasswordProps) => {
-    console.log(formData);
+    console.log(formData); //TODO reset password
     return null;
   };
   return (
