@@ -38,6 +38,6 @@ export const apiSignUpModel = (_model?: SignUpProps) => ({
   company: _.get(_model, 'company', ''),
   confirmPassword: _.get(_model, 'confirmPassword', ''),
   password: _.get(_model, 'password', ''),
-  lastName: _.get(_model, 'lastName', 'none'),
+  lastName: _.get(_model, 'lastName', ''),
   firstName: _.get(_model, 'name', ''),
 });

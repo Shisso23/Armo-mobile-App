@@ -109,7 +109,14 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
         name="MyPosts"
         component={MyPostsScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: '',
+          header: (props) => (
+            <Header engagementScoreVisible={false} onBack={() => navigation.goBack()} {...props} />
+          ),
+          headerStyle: {
+            backgroundColor: Colors.transparent,
+          },
         }}
       />
       <Drawer.Screen
