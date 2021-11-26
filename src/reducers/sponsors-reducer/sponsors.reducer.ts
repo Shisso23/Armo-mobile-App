@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SponsorsProps } from '../../models/app/sponsors/sponsors.model';
 import { sponsorsTypesState } from './types';
 
 const initialState: sponsorsTypesState = {
@@ -10,7 +11,7 @@ const sponsorsSlice = createSlice({
   name: 'sponsors',
   initialState,
   reducers: {
-    setsponsorsAction(state: any, action: PayloadAction<sponsorsTypesState>) {
+    setsponsorsAction(state: any, action: PayloadAction<Array<SponsorsProps>>) {
       state.sponsors = action.payload;
     },
 

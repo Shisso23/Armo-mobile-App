@@ -2,5 +2,5 @@ import config from '../../../config';
 const { apiUrl } = config;
 
 export default {
-  getSponsors: () => `${apiUrl}/sponsors`,
+  promostions: () => `${apiUrl}/BackOffice/Promotions`, //TODO use App promotions
 };

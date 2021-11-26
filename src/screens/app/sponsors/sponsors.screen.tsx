@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Text, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { List, Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -10,7 +10,7 @@ import { useTheme } from '../../../theme';
 import SearchBar from '../../../components/atoms/search-bar';
 import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.reducer';
 import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.actions';
-import { SponsorsProps } from '../../../models/app/sponsors/sponsors.model';
+import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 
 const { width } = Dimensions.get('window');
 const SponsorsScreen: React.FC = () => {
@@ -18,8 +18,19 @@ const SponsorsScreen: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const { sponsors, isLoadingSponsors } = useSelector(sponsorsSelector);
   const dispatch = useDispatch();
-  const [searchResult, setSearchResult] = useState([]);
   const { Layout, Gutters, Common } = useTheme();
+
+  const debounce = useMemo(
+    () =>
+      _.throttle(
+        async (searchKeyWord: string) => {
+          await dispatch(getSponsorsAction({ keyword: searchKeyWord, PageNumber: 1 }));
+        },
+        1000,
+        undefined,
+      ),
+    [dispatch],
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -31,48 +42,32 @@ const SponsorsScreen: React.FC = () => {
     return dispatch(getSponsorsAction());
   };
 
-  const searchSponsors = (searchKeyWord: string) => {
-    setSearchText(searchKeyWord);
-    const results = sponsors.filter(
-      (sponsor: SponsorsProps) =>
-        sponsor.name.includes(searchKeyWord) || sponsor.description.includes(searchKeyWord),
-    );
-    setSearchResult(results);
-  };
-
   const clearSearch = () => {
     setSearchText('');
   };
 
-  const renderAvatars = (images: Array<{ uri: string }>) => {
+  const renderAvatars = (logo: { uri: string }) => {
     return (
-      <View style={[Layout.row, Gutters.smallTMargin]}>
-        {images.map((image, index) => {
-          return (
-            <Avatar.Image
-              key={index}
-              size={40}
-              source={{ uri: _.get(image, 'uri', undefined) }}
-              style={{ left: -index * 10 }}
-            />
-          );
-        })}
+      <View style={Gutters.smallTMargin}>
+        <Avatar.Image size={40} source={{ uri: _.get(logo, 'uri', undefined) }} />
       </View>
     );
   };
 
-  const renderSponsor = ({ item }: { item: SponsorsProps }) => {
+  const renderSponsor = ({ item }: { item: sponsorTypes }) => {
     return (
-      <View style={[Common.inputWithRoundBorders, Gutters.tinyMargin, styles.sponsorItem]}>
+      <View
+        style={[
+          Common.inputWithRoundBorders,
+          Gutters.tinyMargin,
+          Gutters.smallVPadding,
+          styles.sponsorItem,
+        ]}
+      >
         <List.Item
-          title={item.name}
+          title={item.company}
           titleNumberOfLines={2}
           titleStyle={[Common.cardTitle, styles.sponsorTitle]}
-          description={() => (
-            <View style={Gutters.smallTMargin}>
-              <Text style={Common.cardDescription}>{item.description}</Text>
-            </View>
-          )}
           descriptionNumberOfLines={10}
           descriptionStyle={{}}
           right={() => renderAvatars(_.get(item, 'images', []))}
@@ -95,14 +90,17 @@ const SponsorsScreen: React.FC = () => {
       <SearchBar
         value={searchText}
         clearSearch={clearSearch}
-        onChangeTex={searchSponsors}
+        onChangeTex={(search: string) => {
+          setSearchText(search);
+          debounce(search);
+        }}
         placeHolder="Search sponsors"
         style={[Gutters.tinyLMargin, Gutters.tinyRMargin]}
       />
       <FlatList
-        data={searchText.length > 0 ? searchResult : sponsors}
+        data={sponsors}
         renderItem={renderSponsor}
-        keyExtractor={(item) => {
+        keyExtractor={(item: sponsorTypes) => {
           return String(item.id);
         }}
         onRefresh={getSponsors}
