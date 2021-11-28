@@ -77,7 +77,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   useEffect(() => {
     dispatch(getAttchmentsAction(post.id, attachmentIds));
-  }, [attachmentIds, dispatch, post.id]);
+  }, [attachmentIds, dispatch, post]);
 
   useLayoutEffect(() => {
     getAttachmentSources();
@@ -232,7 +232,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           ownerId={owner.id}
         />
       </ActionSheet>
-      <SponsorsFooter />
+      <SponsorsFooter categoryId={_.get(post, 'category.id', null)} />
     </>
   );
 };

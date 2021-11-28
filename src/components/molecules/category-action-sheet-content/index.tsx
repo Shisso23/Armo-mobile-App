@@ -10,11 +10,13 @@ import CategoryItem from '../category-item';
 type CategoryActionSheetContentProps = {
   showResults: Function;
   categories: Array<{ id: string; name: string }>;
+  isLoadingGetPosts: boolean;
 };
 
 const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
   showResults,
   categories,
+  isLoadingGetPosts,
 }) => {
   const { Gutters, Common, Layout } = useTheme();
   const [sortBy, setSortBy] = useState('New');
@@ -27,18 +29,18 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
     };
   }, []);
 
-  const onSelectCategory = (item: Object) => {
+  const onSelectCategory = (item: { name: string }) => {
     if (selectedCategories.some((category) => _.get(category, 'id') === _.get(item, 'id'))) {
       const updatedCategories = selectedCategories.filter(
         (category) => _.get(category, 'id') !== _.get(item, 'id'),
       );
       if (_.get(item, 'selected', false)) {
-        setSelectedCategories([...updatedCategories, item]);
+        setSelectedCategories([...updatedCategories, item.name]);
       } else {
         setSelectedCategories(updatedCategories);
       }
     } else {
-      setSelectedCategories([...selectedCategories, item]);
+      setSelectedCategories([...selectedCategories, item.name]);
     }
   };
 
@@ -96,8 +98,10 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
       <View style={[Layout.rowBetween, Gutters.regularMargin]}>
         <Button
           title="Show results"
-          onPress={showResults}
-          loading={false}
+          onPress={() => {
+            showResults(selectedCategories, sortBy);
+          }}
+          loading={isLoadingGetPosts}
           containerStyle={[Common.submitButtonContainer, styles.showResultsButton]}
           buttonStyle={[Common.submitButton, styles.showResultsButtonStyle]}
         />

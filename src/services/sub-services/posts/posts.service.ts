@@ -12,10 +12,28 @@ import {
 import flashService from '../flash-service/flash.service';
 import { objectToFormData } from '../../../helpers/object-to-form-data.helper.';
 
-const getPosts = async (pageNumber = null, pageSize = null) => {
+export type getPostsTypes = {
+  keyword?: string | null;
+  ascendingOrder?: boolean | null;
+  pageNumber?: number | null;
+  pageSize?: number | null;
+  categories?: Array<string> | null;
+};
+
+const getPosts = async (params?: getPostsTypes) => {
   const url = postUrls.posts();
-  const params = pageNumber && pageSize ? `/PageNumber=${pageNumber}/PageSize=${pageSize}` : '';
-  const apiResponse = await authNetworkService.get(`${url}${params}`);
+  const apiResponse = await authNetworkService.get(
+    url,
+    params && {
+      params: {
+        'Filter.Search': params.keyword,
+        'Filter.Ascending': params.ascendingOrder,
+        PageNumber: params.pageNumber,
+        PageSize: params.pageSize,
+        'Filter.Categories': params.categories,
+      },
+    },
+  );
 
   return _.get(apiResponse, 'data.data', null);
 };

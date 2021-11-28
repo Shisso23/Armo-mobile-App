@@ -1,4 +1,4 @@
-import React, { useState, useCallback, createRef } from 'react';
+import React, { useState, useCallback, createRef, useMemo } from 'react';
 import { View, StyleSheet, FlatList, Keyboard, Platform, Alert } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
@@ -39,9 +39,25 @@ const ForumsScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
-  const [searchResult, setSearchResult] = useState([]);
   const [selectedPost, setSelectedPost] = useState({});
   const { Layout, Gutters, Common, Fonts } = useTheme();
+
+  const debounce = useMemo(
+    () =>
+      _.throttle(
+        async (searchKeyWord: string) => {
+          await dispatch(
+            getPostsAction({
+              keyword: searchKeyWord,
+              pageSize: 15,
+            }),
+          );
+        },
+        1500,
+        undefined,
+      ),
+    [dispatch],
+  );
 
   const getPosts = () => {
     dispatch(getPostsAction());
@@ -58,6 +74,16 @@ const ForumsScreen: React.FC = () => {
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
+  };
+
+  const filterCategories = async (selectedCategories: Array<string>, order: string) => {
+    await dispatch(
+      getPostsAction({
+        categories: selectedCategories,
+        ascendingOrder: order === 'Old',
+        pageSize: 15,
+      }),
+    );
   };
 
   const handleJoinForum = async (post: apiPostProps) => {
@@ -89,17 +115,9 @@ const ForumsScreen: React.FC = () => {
     actionSheetRef.current.setModalVisible(true);
   };
 
-  const searchForums = (searchKeyWord: string) => {
-    setSearchText(searchKeyWord);
-    const results = posts.filter(
-      (post: apiPostProps) =>
-        post.title.includes(searchKeyWord) || post.summary.includes(searchKeyWord),
-    );
-    setSearchResult(results);
-  };
-
   const clearSearch = () => {
     setSearchText('');
+    getPosts();
   };
 
   const onActionSheetClose = () => {
@@ -144,7 +162,10 @@ const ForumsScreen: React.FC = () => {
         <SearchBar
           value={searchText}
           clearSearch={clearSearch}
-          onChangeTex={searchForums}
+          onChangeTex={(text: string) => {
+            setSearchText(text);
+            debounce(text);
+          }}
           placeHolder="Search forums"
         />
 
@@ -165,7 +186,7 @@ const ForumsScreen: React.FC = () => {
       <>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
-          data={searchText.length > 0 ? searchResult : posts}
+          data={posts}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           onRefresh={getPosts}
@@ -184,7 +205,11 @@ const ForumsScreen: React.FC = () => {
         containerStyle={styles.actionSheet}
         onClose={onActionSheetClose}
       >
-        <CategoryActionSheet showResults={() => {}} categories={categories} />
+        <CategoryActionSheet
+          showResults={filterCategories}
+          categories={categories}
+          isLoadingGetPosts={isLoadingGetPosts}
+        />
       </ActionSheet>
       <SponsorsFooter />
     </>
