@@ -34,6 +34,7 @@ import storageService from '../../../services/sub-services/storage-service/stora
 import { getAttchmentsAction } from '../../../reducers/attachments-reducer/attachments.actions';
 import { attachmentsSelector } from '../../../reducers/attachments-reducer/attachment.reducer';
 import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
+import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 
 const { width } = Dimensions.get('window');
 
@@ -201,7 +202,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
               />
             ))}
         </View>
-        <View>
+        <View style={styles.repliesContainer}>
           {renderReplyAndShareButtons()}
           <PostReplies post={post} />
         </View>
@@ -231,6 +232,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           ownerId={owner.id}
         />
       </ActionSheet>
+      <SponsorsFooter />
     </>
   );
 };
@@ -242,6 +244,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
   },
   postTitle: { fontWeight: '400' },
+  repliesContainer: { paddingBottom: 150 },
   replyText: { color: Colors.white, fontSize: 17 },
   shareAndReplyContainer: { backgroundColor: Colors.tertiary, left: -10, width },
 });

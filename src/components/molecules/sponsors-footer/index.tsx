@@ -1,10 +1,10 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SponsorsProps } from '../../../models/app/sponsors/sponsors.model';
+import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.actions';
 import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.reducer';
 import useTheme from '../../../theme/hooks/useTheme';
@@ -31,15 +31,18 @@ const SponsorsFooter: React.FC = () => {
     }, [dispatch]),
   );
 
-  const renderDivider = () => <View style={[Gutters.regularVMargin, styles.divider]} />;
+  const renderDivider = () => <View style={[styles.divider]} />;
 
-  const renderSponsor = (sponsor: SponsorsProps) => {
+  const renderSponsor = (sponsor: sponsorTypes) => {
     return (
-      <View style={[Layout.row, Gutters.regularLMargin, Layout.fill]}>
-        <Text style={[Gutters.regularLMargin, Layout.alignSelfCenter, styles.sponsor]}>
+      <ImageBackground
+        source={{ uri: _.get(sponsor, 'logo', '') }}
+        style={[Layout.row, Layout.fill, Gutters.tinyHMargin, styles.logo]}
+      >
+        <Text style={[Gutters.regularLMargin, Layout.alignSelfEnd, styles.sponsor]}>
           {_.get(sponsor, 'company', '')}
         </Text>
-      </View>
+      </ImageBackground>
     );
   };
 
@@ -55,7 +58,7 @@ const SponsorsFooter: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '55%', opacity: 0.5 },
+  divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '95%', opacity: 0.5 },
   footer: {
     backgroundColor: Colors.white,
     bottom: 0,
@@ -63,7 +66,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
   },
-  sponsor: { fontSize: 16 },
+  logo: {
+    height: 75,
+    resizeMode: 'contain',
+    width: '100%',
+  },
+  sponsor: {
+    backgroundColor: Colors.fourtyPercentBlack,
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default SponsorsFooter;
