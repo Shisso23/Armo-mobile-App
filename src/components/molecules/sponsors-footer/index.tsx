@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
   divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '95%', opacity: 0.5 },
   footer: {
     backgroundColor: Colors.white,
-    bottom: 0,
-    height: 80,
+    bottom: 15,
+    height: 75,
     position: 'absolute',
     width: '100%',
   },

@@ -23,6 +23,7 @@ import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 import _ from 'lodash';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
+import { getPostsTypes } from '../../../services/sub-services/posts/posts.service';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -38,6 +39,11 @@ const ForumsScreen: React.FC = () => {
   const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
+  const [filterParams, setFilterParams] = useState<getPostsTypes>({
+    categories: null,
+    ascendingOrder: null,
+    pageSize: null,
+  });
   const actionSheetRef = createRef<any>();
   const [selectedPost, setSelectedPost] = useState({});
   const { Layout, Gutters, Common, Fonts } = useTheme();
@@ -60,13 +66,13 @@ const ForumsScreen: React.FC = () => {
   );
 
   const getPosts = () => {
-    dispatch(getPostsAction());
+    dispatch(getPostsAction(filterParams));
   };
   useFocusEffect(
     useCallback(() => {
-      dispatch(getPostsAction());
+      dispatch(getPostsAction(filterParams));
       dispatch(getCategoriesAction());
-    }, [dispatch]),
+    }, [dispatch, filterParams]),
   );
 
   const getPost = async (id: any) => {
@@ -77,6 +83,11 @@ const ForumsScreen: React.FC = () => {
   };
 
   const filterCategories = async (selectedCategories: Array<string>, order: string) => {
+    setFilterParams({
+      categories: selectedCategories,
+      ascendingOrder: order === 'Old',
+      pageSize: 15,
+    });
     await dispatch(
       getPostsAction({
         categories: selectedCategories,
