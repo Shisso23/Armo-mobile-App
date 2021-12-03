@@ -11,12 +11,14 @@ type CategoryActionSheetContentProps = {
   showResults: Function;
   categories: Array<{ id: string; name: string }>;
   isLoadingGetPosts: boolean;
+  closeActionSheet: Function;
 };
 
 const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
   showResults,
   categories,
   isLoadingGetPosts,
+  closeActionSheet,
 }) => {
   const { Gutters, Common, Layout } = useTheme();
   const [sortBy, setSortBy] = useState('New');
@@ -98,8 +100,10 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
       <View style={[Layout.rowBetween, Gutters.regularMargin]}>
         <Button
           title="Show results"
-          onPress={() => {
-            showResults(selectedCategories, sortBy);
+          onPress={async () => {
+            showResults(selectedCategories, sortBy).then(() => {
+              closeActionSheet();
+            });
           }}
           loading={isLoadingGetPosts}
           containerStyle={[Common.submitButtonContainer, styles.showResultsButton]}

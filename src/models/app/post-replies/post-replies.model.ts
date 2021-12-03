@@ -23,6 +23,8 @@ export const postReplyModel = (_model: Object) => ({
   id: _.get(_model, 'id', ''),
   replies: sortByDate(_.get(_model, 'replies', [])),
   hasVoted: _.get(_model, 'hasVoted', false),
+  upVoted: _.get(_model, 'upVoted', false), //TODO
+  downVoted: _.get(_model, 'downVoted', false), //TODO
   owner: _.get(_model, 'owner', {}),
 });
 
@@ -35,6 +37,8 @@ export const postCommentModel = (_model: Object) => ({
   ownerId: _.get(_model, 'ownerId', ''),
   replies: sortByDate(_.get(_model, 'replies', [])),
   hasVoted: _.get(_model, 'hasVoted', false),
+  upVoted: _.get(_model, 'upVoted', false), //TODO
+  downVoted: _.get(_model, 'downVoted', false), //TODO
   owner: _.get(_model, 'owner', {}),
 });
 
