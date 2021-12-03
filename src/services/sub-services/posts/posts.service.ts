@@ -34,6 +34,7 @@ const getPosts = async (params?: getPostsTypes) => {
       },
     },
   );
+  console.log({ apiResponse });
 
   return _.get(apiResponse, 'data.data', null);
 };

@@ -18,7 +18,7 @@ import reportUserService, {
 } from '../../services/sub-services/report-user-service/report-user.service';
 import { getPostsTypes } from '../../services/sub-services/posts/posts.service';
 
-export const getPostsAction = (params?: getPostsTypes) => async (dispatch: Function) => {
+export const getPostsAction = async (params?: getPostsTypes) => async (dispatch: Function) => {
   dispatch(setIsLoadingGetPostsAction(true));
   try {
     const response = await postsService.getPosts(params);
