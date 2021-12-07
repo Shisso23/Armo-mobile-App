@@ -23,4 +23,12 @@ export type postsTypesState = {
     hasNextPage: boolean;
   }>;
   isLoadingGetMyPosts: boolean;
+  subscribedPosts: Array<{
+    items: Array<any>;
+    pageIndex: number;
+    totalPages: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+  }>;
+  isLoadingGetSubscribedPosts: boolean;
 };
