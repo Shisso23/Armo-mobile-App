@@ -8,7 +8,7 @@ import { FormScreenContainer } from '../../../components';
 import { CreatePostForm } from '../../../components/forms';
 import { CreatePostModel, CreatePostProps } from '../../../models';
 import { useTheme } from '../../../theme';
-import { postsService } from '../../../services';
+import { flashService, postsService } from '../../../services';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { getCategoriesAction } from '../../../reducers/posts-reducer/posts.actions';
 
@@ -54,10 +54,13 @@ const CreatePostScreen: React.FC = () => {
   }, [dispatch]);
 
   const onSubmit = async (formData: CreatePostProps) => {
-    const response = await postsService.createPost(formData);
-    if (response !== undefined) {
-      goBack();
-    }
+    return postsService.createPost(formData).then((response) => {
+      flashService.success('Post created successfully');
+      if (response !== undefined) {
+        return goBack();
+      }
+      return null;
+    });
   };
 
   return (

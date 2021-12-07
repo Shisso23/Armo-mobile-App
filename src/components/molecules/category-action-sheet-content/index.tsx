@@ -31,18 +31,18 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
     };
   }, []);
 
-  const onSelectCategory = (item: { name: string }) => {
+  const onSelectCategory = (item: { name: string; id: string }) => {
     if (selectedCategories.some((category) => _.get(category, 'id') === _.get(item, 'id'))) {
       const updatedCategories = selectedCategories.filter(
         (category) => _.get(category, 'id') !== _.get(item, 'id'),
       );
       if (_.get(item, 'selected', false)) {
-        setSelectedCategories([...updatedCategories, item.name]);
+        setSelectedCategories([...updatedCategories, item.id]);
       } else {
         setSelectedCategories(updatedCategories);
       }
     } else {
-      setSelectedCategories([...selectedCategories, item.name]);
+      setSelectedCategories([...selectedCategories, item.id]);
     }
   };
 
