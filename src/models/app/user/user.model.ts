@@ -9,6 +9,7 @@ export type UserProps = {
   strikeCount: number;
   region: string;
   company: string;
+  engagementScore: number;
 };
 
 export type UserApiProps = {
@@ -26,6 +27,7 @@ export const userModel = (_model?: UserApiProps): UserProps => ({
   strikeCount: _.get(_model, 'strikeCount', ''),
   region: _.get(_model, 'region', ''),
   company: _.get(_model, 'company', ''),
+  engagementScore: _.get(_model, 'engagementScore', 0),
 });
 
 export const apiUserModel = (_model?: UserApiProps) => ({
