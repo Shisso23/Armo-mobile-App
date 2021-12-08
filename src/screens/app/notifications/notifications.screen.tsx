@@ -27,7 +27,7 @@ const NotificationsScreen = () => {
         <ListItem.Content>
           <Text style={styles.message}>{_.get(item, 'message', '')}</Text>
         </ListItem.Content>
-        <Text>{moment(_.get(item, 'seenAt', new Date())).fromNow()}</Text>
+        <Text>{moment(_.get(item, 'seenAt', new Date())).add({ hours: 2 }).fromNow()}</Text>
       </ListItem>
       <Divider style={[Gutters.smallHMargin, styles.divider]} />
     </>
