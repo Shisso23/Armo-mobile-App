@@ -4,11 +4,10 @@ import notificationsUrls from './notifications.urls';
 import authNetworkService from '../auth-network-service/auth-network.service';
 import flashService from '../flash-service/flash.service';
 import { constructNotificationsModels } from '../../../models/app/notifications/notifications.model';
-import { mockApi } from '../../../helpers/mock-api/mock-api';
 
 const getNotifications = async () => {
   const url = notificationsUrls.getNotifications();
-  return mockApi
+  return authNetworkService
     .get(url)
     .then((apiResponse) => {
       return constructNotificationsModels(_.get(apiResponse, 'data.data', []));
