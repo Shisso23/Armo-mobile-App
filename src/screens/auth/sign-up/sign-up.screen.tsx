@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import _ from 'lodash';
 
 import { SignUpForm } from '../../../components/forms';
 import { signUpFormModel, SignUpProps } from '../../../models';
@@ -9,7 +10,7 @@ import FormScreenContainer from '../../../components/containers/form-screen-cont
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 import BackButton from '../../../components/atoms/back-button';
-import { userAuthService } from '../../../services';
+import { flashService, userAuthService } from '../../../services';
 
 const SignUpScreen: React.FC = () => {
   const { Gutters, Layout } = useTheme();
@@ -17,12 +18,14 @@ const SignUpScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const submitForm = async (values: SignUpProps) => {
-    try {
-      await userAuthService.register(values);
-      navigation.navigate('SignIn');
-    } catch (error) {
-      console.warn({ error });
-    }
+    return userAuthService.register(values).then((response) => {
+      const status = _.get(response, 'status', null);
+      if (status === 200 || status === 204) {
+        flashService.success('Successfully Signed Up ');
+        return navigation.navigate('SignIn');
+      }
+      return response;
+    });
   };
 
   return (
