@@ -1,7 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
 import { Colors } from '../../theme/Variables';
@@ -124,25 +123,6 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
         component={SponsorsScreen}
         options={{
           headerShown: false,
-        }}
-      />
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          headerShown: true,
-          title: '',
-          header: (props) => (
-            <Header
-              notificationBellVisible={false}
-              engagementScoreVisible={false}
-              onBack={() => navigation.goBack()}
-              {...props}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: Colors.transparent,
-          },
         }}
       />
       <Drawer.Screen

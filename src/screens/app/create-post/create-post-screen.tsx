@@ -40,18 +40,11 @@ const CreatePostScreen: React.FC = () => {
         </View>
       ),
     });
-  }, [
-    Fonts.title,
-    Gutters.regularBMargin,
-    Gutters.regularHMargin,
-    Layout.alignItemsEnd,
-    Layout.rowBetween,
-    navigation,
-  ]);
+  }, []);
 
   useEffect(() => {
     dispatch(getCategoriesAction());
-  }, [dispatch]);
+  }, []);
 
   const onSubmit = async (formData: CreatePostProps) => {
     return postsService.createPost(formData).then((response) => {

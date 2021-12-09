@@ -29,7 +29,7 @@ const MyPostsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getMyPostsAction());
-    }, [dispatch]),
+    }, []),
   );
 
   const getPost = async (id: any) => {

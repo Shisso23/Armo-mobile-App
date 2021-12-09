@@ -34,7 +34,7 @@ const SignUpScreen: React.FC = () => {
 
   useEffect(() => {
     dispatch(getRegionsAction());
-  }, [dispatch, regions]);
+  }, []);
 
   return (
     <>

@@ -32,7 +32,7 @@ const MySubscriptionsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getSubscribedPostsAction());
-    }, [dispatch]),
+    }, []),
   );
 
   const getPost = async (id: any) => {

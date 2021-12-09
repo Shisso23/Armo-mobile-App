@@ -46,7 +46,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
             <Icon
               type="font-awesome-5"
               name="bell"
-              size={20}
+              size={23}
               containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
             />
             {unOpenedNotifications > 0 && (

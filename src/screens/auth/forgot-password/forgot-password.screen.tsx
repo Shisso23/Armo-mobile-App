@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Dimensions, Platform } from 'react-native';
+import { Image, StyleSheet, Dimensions } from 'react-native';
 import { Text } from 'react-native-elements';
 
 import { FormScreenContainer } from '../../../components';
@@ -26,12 +26,11 @@ const ForgotPasswordScreen: React.FC = () => {
   return (
     <FormScreenContainer
       enableOnAndroid
-      extraHeight={Platform.OS === 'ios' ? 25 : 50}
-      extraScrollHeight={Platform.OS === 'ios' ? 25 : 50}
+      extraHeight={25}
+      extraScrollHeight={25}
       contentContainerStyle={[
         Gutters.regularPadding,
         Layout.alignItemsCenter,
-        Layout.fill,
         Gutters.largeHPadding,
         styles.container,
       ]}

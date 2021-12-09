@@ -31,7 +31,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     if (repliesExpanded) {
       dispatch(getPostCommentsAction(_.get(post, 'id', '')));
     }
-  }, [dispatch, post, repliesExpanded]);
+  }, [repliesExpanded]);
 
   useFocusEffect(
     useCallback(() => {
@@ -39,7 +39,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
         dispatch(getPostCommentsAction(_.get(post, 'id', '')));
       }
       dispatch(getUsersAction());
-    }, [dispatch, post, repliesExpanded]),
+    }, [repliesExpanded]),
   );
 
   const onVote = () => {

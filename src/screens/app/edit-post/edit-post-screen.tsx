@@ -36,14 +36,7 @@ const EditPostScreen = ({ route }: { route: Object }) => {
         </View>
       ),
     });
-  }, [
-    Fonts.title,
-    Gutters.regularBMargin,
-    Gutters.regularHMargin,
-    Layout.alignItemsEnd,
-    Layout.rowBetween,
-    navigation,
-  ]);
+  }, []);
 
   const onSubmit = async (formData: EditPostProps) => {
     try {

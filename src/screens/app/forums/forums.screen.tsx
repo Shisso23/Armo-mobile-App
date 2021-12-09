@@ -74,7 +74,7 @@ const ForumsScreen: React.FC = () => {
     useCallback(() => {
       dispatch(getPostsAction(filterParams));
       dispatch(getCategoriesAction());
-    }, [dispatch, filterParams]),
+    }, []),
   );
 
   const getPost = async (id: any) => {

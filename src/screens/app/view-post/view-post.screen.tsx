@@ -1,14 +1,5 @@
 import React, { createRef, useState, useLayoutEffect, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  Pressable,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-  View,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Text, Pressable, Dimensions, Alert, View, Platform } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import Share from 'react-native-share';
 import { ActivityIndicator } from 'react-native-paper';
@@ -35,6 +26,7 @@ import { getAttchmentsAction } from '../../../reducers/attachments-reducer/attac
 import { attachmentsSelector } from '../../../reducers/attachments-reducer/attachment.reducer';
 import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('window');
 
@@ -77,7 +69,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   useEffect(() => {
     dispatch(getAttchmentsAction(post.id, attachmentIds));
-  }, [attachmentIds, dispatch, post]);
+  }, []);
 
   useLayoutEffect(() => {
     getAttachmentSources();
@@ -148,24 +140,35 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         <Icon name="reply" color={Colors.white} style={Gutters.tinyLMargin} />
         <ListItem.Content>
           <Pressable
-            hitSlop={{ left: 40, right: 20 }}
+            hitSlop={{ left: 80, right: 30, bottom: 20, top: 20 }}
             onPress={() => navigation.navigate('ReplyToPost', { post, isPostReply: true })}
           >
-            {() => <Text style={styles.replyText}>Reply</Text>}
+            {({ pressed }) => (
+              <Text
+                style={[
+                  styles.replyText,
+                  { backgroundColor: pressed ? Colors.semiTransparent : Colors.transparent },
+                ]}
+              >
+                Reply
+              </Text>
+            )}
           </Pressable>
         </ListItem.Content>
 
         <TouchableOpacity
           disabled={isLoadingAttachments}
-          onPress={openActionSheet}
+          onPressOut={openActionSheet}
           style={Layout.row}
         >
-          <Icon name="share" color={Colors.white} />
-          <ListItem.Title
-            style={[Gutters.smallHMargin, Gutters.tinyTMargin, { color: Colors.white }]}
-          >
-            Share
-          </ListItem.Title>
+          <>
+            <Icon name="share" color={Colors.white} />
+            <ListItem.Title
+              style={[Gutters.smallHMargin, Gutters.tinyTMargin, { color: Colors.white }]}
+            >
+              Share
+            </ListItem.Title>
+          </>
         </TouchableOpacity>
       </ListItem>
     );

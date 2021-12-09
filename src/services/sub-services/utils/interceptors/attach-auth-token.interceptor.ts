@@ -3,7 +3,6 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios';
 const createAttachTokenInterceptor = (axiosInstance: AxiosInstance, getAccessToken: Function) => {
   const _attachAccessToken = (config: AxiosRequestConfig) =>
     getAccessToken().then((accessToken: string) => {
-      console.log({ accessToken });
       config.headers.Authorization = `Bearer ${accessToken}`;
       return config;
     });

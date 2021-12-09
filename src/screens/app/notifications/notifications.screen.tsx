@@ -22,7 +22,7 @@ const NotificationsScreen = () => {
 
   useEffect(() => {
     dispatch(getNotificationsAction());
-  }, [dispatch]);
+  }, []);
 
   const renderNotification = ({ item }: { item: Object }) => <Notification notification={item} />;
 

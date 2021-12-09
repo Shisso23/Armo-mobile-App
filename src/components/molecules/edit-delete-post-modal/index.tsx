@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Platform, Pressable } from 'react-native';
 import { Menu } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
@@ -47,11 +47,23 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
         visible={postOptionsModalVisible}
         onDismiss={hidePostOptionsModal}
         anchor={
-          <Icon
-            name="dots-vertical"
-            type="material-community"
+          <Pressable
             onPress={() => setPostOptionsModalVisible(true)}
-          />
+            hitSlop={{ top: 30, bottom: 30, left: 70, right: 50 }}
+          >
+            {({ pressed }) => {
+              return (
+                <Icon
+                  name="dots-vertical"
+                  type="material-community"
+                  size={28}
+                  containerStyle={{
+                    backgroundColor: pressed ? Colors.semiTransparent : Colors.transparent,
+                  }}
+                />
+              );
+            }}
+          </Pressable>
         }
         contentStyle={styles.postMenuContent}
       >

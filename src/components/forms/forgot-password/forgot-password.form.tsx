@@ -32,7 +32,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   initialValues,
   _handleCancel,
 }) => {
-  const { Common, Gutters, Layout } = useTheme();
+  const { Common, Gutters } = useTheme();
   const _handleSubmission = (
     formData: ForgotPasswordProps,
     actions: FormikHelpers<ForgotPasswordProps>,
@@ -97,25 +97,22 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
                 keyboardType="email-address"
               />
             </View>
+            <Button
+              title="Send"
+              onPress={handleSubmit}
+              loading={isSubmitting}
+              titleStyle={Common.submitButtonTitle}
+              containerStyle={Common.submitButtonContainer}
+              buttonStyle={Common.submitButton}
+            />
 
-            <View style={[styles.buttonsView, Layout.alignSelfCenter, Layout.alignItemsCenter]}>
-              <Button
-                title="Send"
-                onPress={handleSubmit}
-                loading={isSubmitting}
-                titleStyle={Common.submitButtonTitle}
-                containerStyle={Common.submitButtonContainer}
-                buttonStyle={Common.submitButton}
-              />
-
-              <Button
-                type="clear"
-                title="Cancel"
-                onPress={_handleCancel}
-                titleStyle={styles.cancelButtonTitle}
-                containerStyle={Gutters.smallTMargin}
-              />
-            </View>
+            <Button
+              type="clear"
+              title="Cancel"
+              onPress={_handleCancel}
+              titleStyle={styles.cancelButtonTitle}
+              containerStyle={Gutters.smallTMargin}
+            />
           </>
         );
       }}
@@ -124,7 +121,6 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
 };
 
 const styles = StyleSheet.create({
-  buttonsView: { bottom: 50, position: 'absolute', width: '100%' },
   cancelButtonTitle: { color: Colors.gray },
   icon: { color: Colors.shadow, opacity: 0.5 },
   inputView: { width: '85%' },

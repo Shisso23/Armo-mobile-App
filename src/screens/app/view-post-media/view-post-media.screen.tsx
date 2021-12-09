@@ -38,7 +38,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
 
   useEffect(() => {
     dispatch(getNotificationsAction());
-  }, [dispatch]);
+  }, []);
 
   const deleteImage = async () => {
     setDeleting(true);
