@@ -128,6 +128,8 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
     await dispatch(reportUserAction(formData));
   };
 
+  const goToReplyToPost = () => navigation.navigate('ReplyToPost', { post, isPostReply: true });
+
   const renderReplyAndShareButtons = () => {
     return (
       <ListItem
@@ -141,7 +143,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         <ListItem.Content>
           <Pressable
             hitSlop={{ left: 80, right: 30, bottom: 20, top: 20 }}
-            onPress={() => navigation.navigate('ReplyToPost', { post, isPostReply: true })}
+            onPress={goToReplyToPost}
           >
             {({ pressed }) => (
               <Text

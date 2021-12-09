@@ -42,6 +42,22 @@ const Notification = ({ notification }: { notification: Object }) => {
     return !image ? null : image;
   };
 
+  const renderLeftContent = () => (
+    <View style={[Layout.justifyContentCenter]}>
+      <Avatar.Image
+        rounded
+        size={35}
+        style={{ backgroundColor: Colors.semiTransparent }}
+        source={_setImageUrl(Images.logo)}
+      />
+    </View>
+  );
+
+  const renderRightContent = () =>
+    !isSeen && (
+      <Badge status="error" badgeStyle={[{ backgroundColor: Colors.tertiary }, styles.badge]} />
+    );
+
   const renderNotification = () => {
     const accordionStyle = {
       borderBottomColor: Colors.darkGray,
@@ -51,24 +67,8 @@ const Notification = ({ notification }: { notification: Object }) => {
       <List.Accordion
         title={`${title}`}
         description={`${formatDate(datePublished)}`}
-        left={() => (
-          <View style={[Layout.justifyContentCenter]}>
-            <Avatar.Image
-              rounded
-              size={35}
-              style={{ backgroundColor: Colors.semiTransparent }}
-              source={_setImageUrl(Images.logo)}
-            />
-          </View>
-        )}
-        right={() =>
-          !isSeen && (
-            <Badge
-              status="error"
-              badgeStyle={[{ backgroundColor: Colors.tertiary }, styles.badge]}
-            />
-          )
-        }
+        left={renderLeftContent}
+        right={renderRightContent}
         onPress={_handleCollapse}
         style={[Gutters.smallBMargin, accordionStyle]}
       >

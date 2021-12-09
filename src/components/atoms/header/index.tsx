@@ -31,6 +31,8 @@ const Header: React.FC<BackButtonProps> = (props) => {
     return navigation.toggleDrawer();
   };
 
+  const goToNotifications = () => navigation.navigate('Notifications');
+
   return (
     <View style={[Layout.rowBetween, Layout.alignItemsEnd, styles.header]}>
       <CustomHeaderButton
@@ -42,7 +44,7 @@ const Header: React.FC<BackButtonProps> = (props) => {
 
       <View style={[Layout.rowBetween, Gutters.tinyVPadding, Gutters.regularRMargin]}>
         {props.notificationBellVisible !== false && (
-          <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
+          <TouchableOpacity onPress={goToNotifications}>
             <Icon
               type="font-awesome-5"
               name="bell"

@@ -102,7 +102,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
                     type="material-community"
                     size={21}
                     name={isPasswordHidden ? 'eye' : 'eye-off'}
-                    onPress={() => _showPasswordShort()}
+                    onPress={_showPasswordShort}
                     color={Colors.gray}
                   />
                 }

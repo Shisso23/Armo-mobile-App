@@ -55,6 +55,10 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     );
   };
 
+  const toggleExpandReplies = () => {
+    setRepliesExpanded(!repliesExpanded);
+  };
+
   return (
     <View>
       <ListItem.Accordion
@@ -74,9 +78,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
         }
         containerStyle={{ backgroundColor: Colors.transparent }}
         isExpanded={repliesExpanded}
-        onPress={() => {
-          setRepliesExpanded(!repliesExpanded);
-        }}
+        onPress={toggleExpandReplies}
       >
         <View style={Gutters.tinyHPadding}>
           <Divider style={styles.fullDivider} />

@@ -27,6 +27,10 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handl
     setTextItalics(false);
   };
 
+  const toggleTextBold = () => setTextBold(!textBold);
+  const toggleTextItalics = () => setTextItalics(!textItalics);
+  const toggleTextCenter = () => setTextAlignCenter(!textAlignCenter);
+
   return (
     <>
       <View>
@@ -64,19 +68,19 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handl
             type="font-awesome"
             size={19}
             color={textBold ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextBold(!textBold)}
+            onPress={toggleTextBold}
           />
           <Icon
             name="italic"
             type="feather"
             size={19}
             color={textItalics ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextItalics(!textItalics)}
+            onPress={toggleTextItalics}
           />
           <Icon
             name="format-align-center"
             color={textAlignCenter ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextAlignCenter(!textAlignCenter)}
+            onPress={toggleTextCenter}
           />
           <Icon
             name="rotate-left"

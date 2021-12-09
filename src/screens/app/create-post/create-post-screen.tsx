@@ -36,7 +36,7 @@ const CreatePostScreen: React.FC = () => {
           ]}
         >
           <Text style={Fonts.title}>Create Post</Text>
-          <Icon name="close-a" type="fontisto" size={17} onPress={() => navigation.goBack()} />
+          <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
         </View>
       ),
     });

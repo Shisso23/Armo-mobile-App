@@ -67,6 +67,8 @@ const ForumsScreen: React.FC = () => {
     [dispatch],
   );
 
+  const goToCreatePost = () => navigation.navigate('CreatePost');
+
   const getPosts = () => {
     dispatch(getPostsAction(filterParams));
   };
@@ -231,7 +233,7 @@ const ForumsScreen: React.FC = () => {
         style={[Common.fabAlignment, styles.fab]}
         icon="plus"
         color={Colors.white}
-        onPress={() => navigation.navigate('CreatePost')}
+        onPress={goToCreatePost}
       />
       <ActionSheet
         ref={actionSheetRef}

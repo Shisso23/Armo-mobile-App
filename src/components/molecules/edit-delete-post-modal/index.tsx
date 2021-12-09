@@ -36,6 +36,10 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
     setPostOptionsModalVisible(false);
   };
 
+  const showPostOptionsModal = () => {
+    setPostOptionsModalVisible(true);
+  };
+
   const hideReportModal = () => {
     setReportModalVisible(false);
   };
@@ -48,7 +52,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
         onDismiss={hidePostOptionsModal}
         anchor={
           <Pressable
-            onPress={() => setPostOptionsModalVisible(true)}
+            onPress={showPostOptionsModal}
             hitSlop={{ top: 30, bottom: 30, left: 70, right: 50 }}
           >
             {({ pressed }) => {
@@ -79,7 +83,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
               style={Gutters.regularMargin}
               onPress={() => {
                 handleEdit();
-                setPostOptionsModalVisible(false);
+                hidePostOptionsModal();
               }}
             >
               <Text>Edit Post</Text>
@@ -88,7 +92,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
               style={Gutters.regularMargin}
               onPress={() => {
                 handleDelete();
-                setPostOptionsModalVisible(false);
+                hidePostOptionsModal();
               }}
             >
               <Text>Delete Post</Text>

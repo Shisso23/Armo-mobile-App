@@ -40,15 +40,18 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
       </TouchableOpacity>
     );
   };
+
+  const _onDismiss = () => {
+    hideReportModal();
+    onDismiss();
+  };
+
   return (
     <>
       <Menu
         style={[Layout.alignSelfCenter, styles.menu, style]}
         visible={reportModalVisible}
-        onDismiss={() => {
-          hideReportModal();
-          onDismiss();
-        }}
+        onDismiss={_onDismiss}
         anchor={<Text />}
         contentStyle={styles.reportMenuContent}
       >
