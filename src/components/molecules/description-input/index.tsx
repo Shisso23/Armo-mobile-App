@@ -12,16 +12,10 @@ const { width } = Dimensions.get('window');
 type DescriptionInputProps = {
   handleChange: Function;
   handleBlur: Function;
-  value: string;
   error: Function;
 };
 
-const DescriptionInput: React.FC<DescriptionInputProps> = ({
-  handleChange,
-  handleBlur,
-  value,
-  error,
-}) => {
+const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handleBlur, error }) => {
   const [textAlignCenter, setTextAlignCenter] = useState(false);
   const [textBold, setTextBold] = useState(false);
   const [textItalics, setTextItalics] = useState(false);
@@ -37,7 +31,6 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
     <>
       <View>
         <CustomInput
-          value={value}
           onChangeText={handleChange('description')}
           onBlur={handleBlur('description')}
           label="Description"

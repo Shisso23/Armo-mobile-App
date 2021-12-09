@@ -102,28 +102,24 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
         return (
           <>
             <CustomInput
-              value={values.username}
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               label="Username"
               errorMessage={error('username')}
             />
             <CustomInput
-              value={values.name}
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
               label="Name"
               errorMessage={error('name')}
             />
             <CustomInput
-              value={values.lastName}
               onChangeText={handleChange('lastName')}
               onBlur={handleBlur('lastName')}
               label="Last Name"
               errorMessage={error('lastName')}
             />
             <CustomInput
-              value={values.email}
               onChangeText={handleChange('email')}
               autoCapitalize="none"
               onBlur={handleBlur('email')}
@@ -133,7 +129,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
             />
 
             <DropdownSelect
-              value={values.region}
               label="Region"
               onChange={(region: any) => {
                 setFieldValue('region', region);
@@ -147,7 +142,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               contentStyle={styles.regionContent}
             />
             <CustomInput
-              value={values.company}
               onChangeText={handleChange('company')}
               onBlur={handleBlur('company')}
               label="Company"
