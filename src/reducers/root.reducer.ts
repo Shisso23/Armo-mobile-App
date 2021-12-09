@@ -8,6 +8,7 @@ import commentRepliesReducer from './comment-replies-reducer/comment-replies.red
 import notificationsReducer from './notifications-reducer/notifications.reducer';
 import sponsorsReducer from './sponsors-reducer/sponsors.reducer';
 import attachmentsReducer from './attachments-reducer/attachment.reducer';
+import regionsReducer from './regions-reducer/regions.reducer';
 
 export default combineReducers({
   userAuthReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   notificationsReducer,
   sponsorsReducer,
   attachmentsReducer,
+  regionsReducer,
 });

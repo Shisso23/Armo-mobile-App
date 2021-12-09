@@ -19,6 +19,7 @@ type SignUpFormFormProps = {
   submitForm: Function;
   onSuccess?: Function;
   initialValues: SignUpProps;
+  regions: Array<string>;
 };
 
 const SignUpSchema = Yup.object().shape({
@@ -34,25 +35,11 @@ const SignUpSchema = Yup.object().shape({
   company: Yup.string().required('Company is required'),
 });
 
-const regions = [
-  'AFR',
-  'ARM',
-  'ARM-CE',
-  'ARMA',
-  'ARMSA',
-  'ANIPAC',
-  'BPF',
-  'IT-RO',
-  'Nordic ARM',
-  'ROTOPOL',
-  'RPC-CPPIA',
-  'StAR',
-];
-
 const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
+  regions,
 }) => {
   const { Layout } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);

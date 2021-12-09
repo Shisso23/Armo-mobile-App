@@ -20,7 +20,7 @@ const Notification = ({ notification }: { notification: Object }) => {
   const datePublished = _.get(notification, 'datePublished', new Date());
   const title = _.get(notification, 'title', '');
   const message = _.get(notification, 'message', '');
-  const seen = _.get(notification, 'seen', false) === 'Yes';
+  const seen = _.get(notification, 'seen', false);
 
   const { Layout, Images, Colors, Gutters } = useTheme();
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -35,7 +35,7 @@ const Notification = ({ notification }: { notification: Object }) => {
     setIsCollapsed(!isCollapsed);
   };
   const formatDate = (date: string) => {
-    return Moment(date).add({ hours: 2 }).fromNow();
+    return Moment(date).fromNow();
   };
 
   const _setImageUrl = (image: AvatarImageSource) => {

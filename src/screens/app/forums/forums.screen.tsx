@@ -28,7 +28,7 @@ import postsService, { getPostsTypes } from '../../../services/sub-services/post
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const [extraData, setExtraData] = useState([]);
   const {
     posts,
@@ -160,6 +160,12 @@ const ForumsScreen: React.FC = () => {
     }
   };
 
+  const postsWithoutDups = (allPosts: Array<apiPostProps>) => {
+    return [
+      ...new Map(allPosts.map((post: apiPostProps) => [_.get(post, 'id', ''), post])).values(),
+    ];
+  };
+
   const renderForum = ({ item }: { item: apiPostProps }) => {
     return (
       <PostItem
@@ -211,7 +217,7 @@ const ForumsScreen: React.FC = () => {
       <>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
-          data={Array.from(new Set([...posts, ...extraData]))}
+          data={postsWithoutDups([...posts, ...extraData])}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           onRefresh={getPosts}
