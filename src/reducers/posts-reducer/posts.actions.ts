@@ -11,6 +11,8 @@ import {
   setIsLoadingReportUserAction,
   setMyPostsAction,
   setIsLoadingGetMyPostsAction,
+  setIsLoadingGetSubscribedPostsAction,
+  setSubscribedPostsAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
@@ -19,6 +21,7 @@ import reportUserService, {
   reportUserTypes,
 } from '../../services/sub-services/report-user-service/report-user.service';
 import { getPostsTypes } from '../../services/sub-services/posts/posts.service';
+import _ from 'lodash';
 
 export const getPostsAction = async (params?: getPostsTypes) => async (dispatch: Function) => {
   dispatch(setIsLoadingGetPostsAction(true));
@@ -27,7 +30,7 @@ export const getPostsAction = async (params?: getPostsTypes) => async (dispatch:
     dispatch(setPostsAction(constructPostsModels(response.items)));
     return response;
   } catch (error) {
-    flashService.error(error.message);
+    flashService.error(_.get(error, 'message', ''));
   } finally {
     dispatch(setIsLoadingGetPostsAction(false));
   }
@@ -40,11 +43,25 @@ export const getMyPostsAction = async (params?: getPostsTypes) => async (dispatc
     dispatch(setMyPostsAction(constructPostsModels(response.items)));
     return response;
   } catch (error) {
-    flashService.error(error.message);
+    flashService.error(_.get(error, 'message', ''));
   } finally {
     dispatch(setIsLoadingGetMyPostsAction(false));
   }
 };
+
+export const getSubscribedPostsAction =
+  async (params?: getPostsTypes) => async (dispatch: Function) => {
+    dispatch(setIsLoadingGetSubscribedPostsAction(true));
+    try {
+      const response = await postsService.getSubscribedPosts(params);
+      dispatch(setSubscribedPostsAction(constructPostsModels(response.items)));
+      return response;
+    } catch (error) {
+      flashService.error(_.get(error, 'message', ''));
+    } finally {
+      dispatch(setIsLoadingGetSubscribedPostsAction(false));
+    }
+  };
 
 export const getPostAction = async (id: any) => (dispatch: Function) => {
   dispatch(setIsLoadingGetPostAction(true));
@@ -69,7 +86,7 @@ export const editPostAction =
       let post = await postsService.editPost(formData, id);
       return post;
     } catch (error) {
-      flashService.error(error.message);
+      flashService.error(_.get(error, 'message', ''));
     } finally {
       dispatch(setIsLoadingEditPostAction(false));
     }
@@ -79,7 +96,7 @@ export const createPostAction = async (formData: CreatePostProps) => {
   try {
     await postsService.createPost(formData);
   } catch (error) {
-    flashService.error(error.message);
+    flashService.error(_.get(error, 'message', ''));
   }
 };
 

@@ -7,38 +7,51 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../../../theme';
 
 import PostItem from '../../../components/molecules/post-item';
-import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
+import {
+  getPostAction,
+  getSubscribedPostsAction,
+} from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import _ from 'lodash';
+import { postsService } from '../../../services';
 
 const MySubscriptionsScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { posts, isLoadingGetPosts, isLoadingGetPost } = useSelector(postsSelector);
+  const { subscribedPosts, isLoadingGetSubscribedPosts, isLoadingGetPost } =
+    useSelector(postsSelector);
   const dispatch = useDispatch();
   const [selectedPost, setSelectedPost] = useState({});
+  const [pageNumber, setPageNumber] = useState(1);
+  const [extraData, setExtraData] = useState([]);
   const { Layout, Gutters } = useTheme();
 
   const getPosts = () => {
-    dispatch(getPostsAction()); //TODO use get subscribed posts endpoint
+    dispatch(getSubscribedPostsAction());
   };
   useFocusEffect(
     useCallback(() => {
-      dispatch(getPostsAction());
+      dispatch(getSubscribedPostsAction());
     }, [dispatch]),
   );
-
-  const filterSubscribedPosts = () => {
-    return posts.filter((post: apiPostProps) => {
-      return _.get(post, 'isSubscribed', false) === true;
-    });
-  };
 
   const getPost = async (id: any) => {
     const post = await dispatch(getPostAction(id));
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
+  };
+
+  const fetchMorePosts = async () => {
+    postsService
+      .getSubscribedPosts({ pageNumber, pageSize: 10 })
+
+      .then((resp) => {
+        setExtraData(resp.items);
+        if (_.get(resp, 'hasNextPage', false)) {
+          setPageNumber(pageNumber + 1);
+        }
+      });
   };
 
   const onSelectPost = (item: apiPostProps) => {
@@ -65,11 +78,13 @@ const MySubscriptionsScreen: React.FC = () => {
       </Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={filterSubscribedPosts()}
+        data={[...subscribedPosts, ...extraData]}
         renderItem={renderSubScription}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}
-        refreshing={isLoadingGetPosts}
+        refreshing={isLoadingGetSubscribedPosts}
+        onEndReached={fetchMorePosts}
+        onEndReachedThreshold={0.2}
         ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>

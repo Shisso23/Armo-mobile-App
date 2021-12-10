@@ -65,6 +65,21 @@ const getPost = async (id: any) => {
     });
 };
 
+const getSubscribedPosts = async (params?: getPostsTypes) => {
+  const url = postUrls.posts();
+  const apiResponse = await authNetworkService.get(
+    `${url}/subscribed`,
+    params && {
+      params: {
+        PageNumber: params.pageNumber,
+        PageSize: params.pageSize,
+      },
+    },
+  );
+
+  return _.get(apiResponse, 'data.data', null);
+};
+
 const createPost = async (formData: CreatePostProps) => {
   const url = postUrls.posts();
   const createPostModel = objectToFormData(apiCreatePostModel(formData), 'Media');
@@ -143,6 +158,7 @@ export default {
   getPosts,
   getPost,
   getMyPosts,
+  getSubscribedPosts,
   createPost,
   editPost,
   deletePost,
