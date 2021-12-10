@@ -7,41 +7,48 @@ import _ from 'lodash';
 
 import { useTheme } from '../../../theme';
 import PostItem from '../../../components/molecules/post-item';
-import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
+import { getMyPostsAction, getPostAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
-import { userSelector } from '../../../reducers/user-reducer/user.reducer';
+import { postsService } from '../../../services';
 
 const { width } = Dimensions.get('window');
 
 const MyPostsScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { posts, isLoadingGetPosts, isLoadingGetPost } = useSelector(postsSelector);
-  const { user } = useSelector(userSelector);
+  const { myPosts, isLoadingGetMyPosts, isLoadingGetPost } = useSelector(postsSelector);
   const dispatch = useDispatch();
   const [selectedPost, setSelectedPost] = useState({});
+  const [pageNumber, setPageNumber] = useState(1);
+  const [extraData, setExtraData] = useState([]);
   const { Layout, Gutters } = useTheme();
 
   const getPosts = () => {
-    dispatch(getPostsAction());
+    dispatch(getMyPostsAction());
   };
   useFocusEffect(
     useCallback(() => {
-      dispatch(getPostsAction());
+      dispatch(getMyPostsAction());
     }, [dispatch]),
   );
-
-  const filterUsersPosts = () => {
-    return posts.filter((post: apiPostProps) => {
-      return _.get(post, 'owner.id', '') === _.get(user, 'id', '');
-    });
-  };
 
   const getPost = async (id: any) => {
     const post = await dispatch(getPostAction(id));
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
+  };
+
+  const fetchMorePosts = async () => {
+    postsService
+      .getMyPosts({ pageNumber, pageSize: 10 })
+
+      .then((resp) => {
+        setExtraData(resp.items);
+        if (_.get(resp, 'hasNextPage', false)) {
+          setPageNumber(pageNumber + 1);
+        }
+      });
   };
 
   const onSelectPost = (item: apiPostProps) => {
@@ -67,11 +74,13 @@ const MyPostsScreen: React.FC = () => {
       <Text style={[Gutters.regularLMargin, Gutters.smallBMargin, styles.title]}>My Posts</Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={filterUsersPosts()}
+        data={[...myPosts, ...extraData]}
         renderItem={renderForum}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}
-        refreshing={isLoadingGetPosts}
+        refreshing={isLoadingGetMyPosts}
+        onEndReached={fetchMorePosts}
+        onEndReachedThreshold={0.2}
         ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>

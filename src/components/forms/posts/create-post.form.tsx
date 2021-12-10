@@ -46,7 +46,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
     return submitForm(formData)
       .then(() => {
         actions.setSubmitting(false);
-        flashService.success('Post created successfully');
         onSuccess();
       })
       .catch((error: ErrorObject) => {

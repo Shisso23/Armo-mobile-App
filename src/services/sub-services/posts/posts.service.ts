@@ -38,9 +38,23 @@ const getPosts = async (params?: getPostsTypes) => {
   return _.get(apiResponse, 'data.data', null);
 };
 
+const getMyPosts = async (params?: getPostsTypes) => {
+  const url = postUrls.posts();
+  const apiResponse = await authNetworkService.get(
+    `${url}/mine`,
+    params && {
+      params: {
+        PageNumber: params.pageNumber,
+        PageSize: params.pageSize,
+      },
+    },
+  );
+
+  return _.get(apiResponse, 'data.data', null);
+};
+
 const getPost = async (id: any) => {
   const url = postUrls.posts();
-
   return authNetworkService
     .get(`${url}/${id}`)
     .then((apiResponse) => {
@@ -56,6 +70,7 @@ const createPost = async (formData: CreatePostProps) => {
   const createPostModel = objectToFormData(apiCreatePostModel(formData), 'Media');
   try {
     const apiResponse = await authNetworkService.post(url, createPostModel, {
+      timeout: 10000,
       headers: { Accept: 'multipart/form-data', 'content-type': 'multipart/form-data' },
     });
     return _.get(apiResponse, 'data', null);
@@ -127,6 +142,7 @@ const unsubscribe = async (postId: string) => {
 export default {
   getPosts,
   getPost,
+  getMyPosts,
   createPost,
   editPost,
   deletePost,

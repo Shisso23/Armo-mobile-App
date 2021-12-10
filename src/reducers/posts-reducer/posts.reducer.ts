@@ -3,6 +3,8 @@ import { postsTypesState } from './types';
 
 const initialState: postsTypesState = {
   posts: [],
+  myPosts: [],
+  isLoadingGetMyPosts: false,
   isLoadingGetPosts: false,
   isLoadingGetPost: false,
   isLoadingEditPost: false,
@@ -24,6 +26,14 @@ const postsSlice = createSlice({
     setIsLoadingGetPostsAction(state: any, action: PayloadAction<Boolean>) {
       state.isLoadingGetPosts = action.payload;
     },
+    //
+    setMyPostsAction(state: any, action: PayloadAction<Array<Object>>) {
+      state.myPosts = action.payload;
+    },
+    setIsLoadingGetMyPostsAction(state: any, action: PayloadAction<Boolean>) {
+      state.isLoadingGetMyPosts = action.payload;
+    },
+    //
     setIsLoadingGetPostAction(state: any, action: PayloadAction<Boolean>) {
       state.isLoadingGetPost = action.payload;
     },
@@ -65,6 +75,8 @@ export const {
   setIsLoadingSubscribeToPostAction,
   setIsLoadingUnsubscribeToPostAction,
   setIsLoadingReportUserAction,
+  setMyPostsAction,
+  setIsLoadingGetMyPostsAction,
 } = postsSlice.actions;
 
 export const postsSelector = (reducers: any) => reducers.postsReducer;

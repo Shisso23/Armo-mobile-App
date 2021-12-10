@@ -15,4 +15,12 @@ export type postsTypesState = {
   isLoadingSubscribeToPost: boolean;
   isLoadingUnsubscribeToPost: boolean;
   isLoadingReportUser: boolean;
+  myPosts: Array<{
+    items: Array<any>;
+    pageIndex: number;
+    totalPages: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+  }>;
+  isLoadingGetMyPosts: boolean;
 };

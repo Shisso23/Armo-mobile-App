@@ -9,6 +9,8 @@ import {
   setIsLoadingSubscribeToPostAction,
   setIsLoadingUnsubscribeToPostAction,
   setIsLoadingReportUserAction,
+  setMyPostsAction,
+  setIsLoadingGetMyPostsAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
@@ -28,6 +30,19 @@ export const getPostsAction = async (params?: getPostsTypes) => async (dispatch:
     flashService.error(error.message);
   } finally {
     dispatch(setIsLoadingGetPostsAction(false));
+  }
+};
+
+export const getMyPostsAction = async (params?: getPostsTypes) => async (dispatch: Function) => {
+  dispatch(setIsLoadingGetMyPostsAction(true));
+  try {
+    const response = await postsService.getMyPosts(params);
+    dispatch(setMyPostsAction(constructPostsModels(response.items)));
+    return response;
+  } catch (error) {
+    flashService.error(error.message);
+  } finally {
+    dispatch(setIsLoadingGetMyPostsAction(false));
   }
 };
 
