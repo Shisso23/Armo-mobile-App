@@ -25,7 +25,7 @@ import UserInfoBox from '../../../components/molecules/user-info/userInfoBox';
 import PostReplies from '../../../components/molecules/post-replies';
 import ShareActionContent from '../../../components/molecules/share-action-content';
 import ReportPostModal from '../../../components/molecules/report-post-modal';
-import { deletePostAction } from '../../../reducers/posts-reducer/posts.actions';
+import { deletePostAction, reportUserAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
 import config from '../../../config';
@@ -33,6 +33,7 @@ import CustomCarousel from '../../../components/molecules/custom-carousel';
 import storageService from '../../../services/sub-services/storage-service/storage.service';
 import { getAttchmentsAction } from '../../../reducers/attachments-reducer/attachments.actions';
 import { attachmentsSelector } from '../../../reducers/attachments-reducer/attachment.reducer';
+import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
 
 const { width } = Dimensions.get('window');
 
@@ -46,7 +47,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const owner = _.get(post, 'owner', {});
   const attachmentIds = _.get(post, 'attachmentIds', []);
   const dispatch = useDispatch();
-  const { isLoadingDeletePost } = useSelector(postsSelector);
+  const { isLoadingDeletePost, isLoadingReportUser } = useSelector(postsSelector);
   const { isLoadingDeleteComment } = useSelector(commentRepliesSelector);
   const { attachments, isLoadingAttachments } = useSelector(attachmentsSelector);
   const actionSheetRef = createRef<any>();
@@ -130,6 +131,10 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
     navigation.navigate('EditPost', { post });
   };
 
+  const reportUserPost = async (formData: reportUserTypes) => {
+    await dispatch(reportUserAction(formData));
+  };
+
   const renderReplyAndShareButtons = () => {
     return (
       <ListItem
@@ -173,6 +178,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
           user={owner}
           handlePostDelete={onDeletePost}
           handlePostEdit={onEditPost}
+          handlePostReport={reportUserPost}
         />
         <View style={Gutters.regularHPadding}>
           <Text style={[Fonts.titleTiny, Common.cardTitle, styles.postTitle]}>
@@ -201,9 +207,12 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
         </View>
         <ReportPostModal
           style={Gutters.largeLMargin}
-          handleReport={() => {}}
+          handleReport={(reason: string) => {
+            reportUserPost({ postId: _.get(post, 'id', ''), reason, commentId: null });
+          }}
           visible={reportModalVisible}
           onDismiss={hideReportModal}
+          loading={isLoadingReportUser}
         />
       </ScreenContainer>
 

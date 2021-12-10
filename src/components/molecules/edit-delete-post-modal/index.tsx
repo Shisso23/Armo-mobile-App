@@ -3,27 +3,41 @@ import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import { Menu } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
+import ReportPostModal from '../report-post-modal';
 import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 
 type EditDeletePostProps = {
   handleEdit: Function;
   handleDelete: Function;
+  handleReport: Function;
   post: Object;
 };
 
-const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelete, post }) => {
+const EditDeletePost: React.FC<EditDeletePostProps> = ({
+  handleEdit,
+  handleDelete,
+  handleReport,
+  post,
+}) => {
   const [postOptionsModalVisible, setPostOptionsModalVisible] = useState(false);
   const { user } = useSelector(userSelector);
+  const { isLoadingReportUser } = useSelector(postsSelector);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
   const owner = _.get(post, 'owner', {});
   const isOwner = useMemo(() => user.id === owner.id, [owner.id, user.id]);
   const { Gutters, Layout } = useTheme();
 
   const hidePostOptionsModal = () => {
     setPostOptionsModalVisible(false);
+  };
+
+  const hideReportModal = () => {
+    setReportModalVisible(false);
   };
 
   return (
@@ -33,13 +47,11 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
         visible={postOptionsModalVisible}
         onDismiss={hidePostOptionsModal}
         anchor={
-          isOwner && (
-            <Icon
-              name="dots-vertical"
-              type="material-community"
-              onPress={() => setPostOptionsModalVisible(true)}
-            />
-          )
+          <Icon
+            name="dots-vertical"
+            type="material-community"
+            onPress={() => setPostOptionsModalVisible(true)}
+          />
         }
         contentStyle={styles.postMenuContent}
       >
@@ -49,24 +61,46 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({ handleEdit, handleDelet
           </ListItem.Content>
           <Icon name="md-close-circle-outline" type="ionicon" onPress={hidePostOptionsModal} />
         </ListItem>
-        <TouchableOpacity
-          style={Gutters.regularMargin}
-          onPress={() => {
-            handleEdit();
-            setPostOptionsModalVisible(false);
-          }}
-        >
-          <Text>Edit Post</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Gutters.regularMargin}
-          onPress={() => {
-            handleDelete();
-            setPostOptionsModalVisible(false);
-          }}
-        >
-          <Text>Delete Post</Text>
-        </TouchableOpacity>
+        {(isOwner && (
+          <>
+            <TouchableOpacity
+              style={Gutters.regularMargin}
+              onPress={() => {
+                handleEdit();
+                setPostOptionsModalVisible(false);
+              }}
+            >
+              <Text>Edit Post</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Gutters.regularMargin}
+              onPress={() => {
+                handleDelete();
+                setPostOptionsModalVisible(false);
+              }}
+            >
+              <Text>Delete Post</Text>
+            </TouchableOpacity>
+          </>
+        )) || (
+          <TouchableOpacity
+            style={Gutters.regularMargin}
+            onPress={async () => {
+              setReportModalVisible(true);
+            }}
+          >
+            <Text>Report Post</Text>
+          </TouchableOpacity>
+        )}
+        <ReportPostModal
+          style={Gutters.regularLMargin}
+          handleReport={(reason: string) =>
+            handleReport({ postId: _.get(post, 'id', ''), reason, commentId: null })
+          }
+          visible={reportModalVisible}
+          onDismiss={hideReportModal}
+          loading={isLoadingReportUser}
+        />
       </Menu>
     </>
   );

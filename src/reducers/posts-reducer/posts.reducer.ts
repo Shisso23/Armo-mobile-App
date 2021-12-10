@@ -11,6 +11,7 @@ const initialState: postsTypesState = {
   isLoadingCategories: false,
   isLoadingSubscribeToPost: false,
   isLoadingUnsubscribeToPost: false,
+  isLoadingReportUser: false,
 };
 
 const postsSlice = createSlice({
@@ -47,6 +48,9 @@ const postsSlice = createSlice({
     setIsLoadingUnsubscribeToPostAction(state: any, action: PayloadAction<Boolean>) {
       state.isLoadingUnsubscribeToPost = action.payload;
     },
+    setIsLoadingReportUserAction(state: any, action: PayloadAction<Boolean>) {
+      state.isLoadingReportUser = action.payload;
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   setIsLoadingCategoriesAction,
   setIsLoadingSubscribeToPostAction,
   setIsLoadingUnsubscribeToPostAction,
+  setIsLoadingReportUserAction,
 } = postsSlice.actions;
 
 export const postsSelector = (reducers: any) => reducers.postsReducer;
