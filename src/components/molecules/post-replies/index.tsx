@@ -45,7 +45,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
     return (
       <>
-        <PostReply reply={item} users={users} />
+        <PostReply reply={item} users={users} post={post} />
         {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );

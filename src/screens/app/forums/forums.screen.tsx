@@ -1,4 +1,4 @@
-import React, { useState, useCallback, createRef, useMemo } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { View, StyleSheet, FlatList, Keyboard, Platform, Alert } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
@@ -44,7 +44,7 @@ const ForumsScreen: React.FC = () => {
     ascendingOrder: null,
     pageSize: null,
   });
-  const actionSheetRef = createRef<any>();
+  const actionSheetRef = useRef<any>();
   const [selectedPost, setSelectedPost] = useState({});
   const { Layout, Gutters, Common, Fonts } = useTheme();
 
@@ -133,6 +133,7 @@ const ForumsScreen: React.FC = () => {
 
   const onActionSheetClose = () => {
     setActionSheetIsVisible(false);
+    actionSheetRef.current.setModalVisible(false);
   };
 
   const getSubscribeStatus = (post: apiPostProps) => {
@@ -220,6 +221,7 @@ const ForumsScreen: React.FC = () => {
           showResults={filterCategories}
           categories={categories}
           isLoadingGetPosts={isLoadingGetPosts}
+          closeActionSheet={onActionSheetClose}
         />
       </ActionSheet>
       <SponsorsFooter />
