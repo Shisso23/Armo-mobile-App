@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { View, StyleSheet, FlatList, Dimensions, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { List, Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,12 +46,8 @@ const SponsorsScreen: React.FC = () => {
     setSearchText('');
   };
 
-  const renderAvatars = (logo: { uri: string }) => {
-    return (
-      <View style={Gutters.smallTMargin}>
-        <Avatar.Image size={40} source={{ uri: _.get(logo, 'uri', undefined) }} />
-      </View>
-    );
+  const renderAvatars = (logo: string | undefined) => {
+    return <Avatar.Image size={50} source={{ uri: logo }} />;
   };
 
   const renderSponsor = ({ item }: { item: sponsorTypes }) => {
@@ -70,7 +66,7 @@ const SponsorsScreen: React.FC = () => {
           titleStyle={[Common.cardTitle, styles.sponsorTitle]}
           descriptionNumberOfLines={10}
           descriptionStyle={{}}
-          right={() => renderAvatars(_.get(item, 'images', []))}
+          right={() => renderAvatars(_.get(item, 'logo', undefined))}
         />
       </View>
     );
@@ -105,6 +101,7 @@ const SponsorsScreen: React.FC = () => {
         }}
         onRefresh={getSponsors}
         refreshing={isLoadingSponsors}
+        ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no promos here!</Text>}
       />
     </View>
   );
