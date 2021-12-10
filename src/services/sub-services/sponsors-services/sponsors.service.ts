@@ -12,6 +12,7 @@ export type fetchPromosTypes = {
   sortBy?: string | null;
   PageNumber?: number | null;
   PageSize?: number | null;
+  CategoryId?: string | null;
 };
 
 const { config, fs } = RNFetchBlob;
@@ -28,6 +29,7 @@ const getSponsors = async (params?: fetchPromosTypes) => {
           'Filter.SortBy': params.sortBy,
           PageNumber: params.PageNumber,
           PageSize: params.PageSize,
+          CategoryId: params.CategoryId,
         },
       },
     )

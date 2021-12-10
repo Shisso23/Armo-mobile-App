@@ -29,6 +29,7 @@ export const Colors = {
   semiTransparent: '#c2bebe',
   fourtyPercentSecondary: '#eba959',
   fourtyPercentBlack: '#363330',
+  muted: '#8c92a2',
 };
 
 export const NavigationColors = {

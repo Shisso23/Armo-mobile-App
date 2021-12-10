@@ -26,7 +26,7 @@ const SponsorsScreen: React.FC = () => {
         async (searchKeyWord: string) => {
           await dispatch(getSponsorsAction({ keyword: searchKeyWord, PageNumber: 1 }));
         },
-        1000,
+        1500,
         undefined,
       ),
     [dispatch],
@@ -44,6 +44,7 @@ const SponsorsScreen: React.FC = () => {
 
   const clearSearch = () => {
     setSearchText('');
+    getSponsors();
   };
 
   const renderAvatars = (logo: string | undefined) => {

@@ -16,21 +16,20 @@ import { constructPostsModels, CreatePostProps, EditPostProps } from '../../mode
 import reportUserService, {
   reportUserTypes,
 } from '../../services/sub-services/report-user-service/report-user.service';
+import { getPostsTypes } from '../../services/sub-services/posts/posts.service';
 
-export const getPostsAction =
-  (pageNumber = null, pageSize = null) =>
-  async (dispatch: Function) => {
-    dispatch(setIsLoadingGetPostsAction(true));
-    try {
-      const response = await postsService.getPosts(pageNumber, pageSize);
-      dispatch(setPostsAction(constructPostsModels(response.items)));
-      return response;
-    } catch (error) {
-      flashService.error(error.message);
-    } finally {
-      dispatch(setIsLoadingGetPostsAction(false));
-    }
-  };
+export const getPostsAction = (params?: getPostsTypes) => async (dispatch: Function) => {
+  dispatch(setIsLoadingGetPostsAction(true));
+  try {
+    const response = await postsService.getPosts(params);
+    dispatch(setPostsAction(constructPostsModels(response.items)));
+    return response;
+  } catch (error) {
+    flashService.error(error.message);
+  } finally {
+    dispatch(setIsLoadingGetPostsAction(false));
+  }
+};
 
 export const getPostAction = async (id: any) => (dispatch: Function) => {
   dispatch(setIsLoadingGetPostAction(true));

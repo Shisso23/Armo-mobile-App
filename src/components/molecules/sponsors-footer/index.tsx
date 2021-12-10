@@ -10,7 +10,7 @@ import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.re
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
-const SponsorsFooter: React.FC = () => {
+const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const { Layout, Gutters } = useTheme();
   const { sponsors } = useSelector(sponsorsSelector);
   const dispatch = useDispatch();
@@ -21,14 +21,14 @@ const SponsorsFooter: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(getSponsorsAction());
+      dispatch(getSponsorsAction(categoryId ? { CategoryId: categoryId } : undefined));
       const interval = setInterval(() => {
-        dispatch(getSponsorsAction());
+        dispatch(getSponsorsAction(categoryId ? { CategoryId: categoryId } : undefined));
       }, 5000);
       return () => {
         clearInterval(interval);
       };
-    }, [dispatch]),
+    }, [categoryId, dispatch]),
   );
 
   const renderDivider = () => <View style={[styles.divider]} />;
@@ -36,7 +36,7 @@ const SponsorsFooter: React.FC = () => {
   const renderSponsor = (sponsor: sponsorTypes) => {
     return (
       <ImageBackground
-        source={{ uri: _.get(sponsor, 'logo', '') }}
+        source={{ uri: _.get(sponsor, 'logo', null) }}
         style={[Layout.row, Layout.fill, Gutters.tinyHMargin, styles.logo]}
       >
         <Text style={[Gutters.regularLMargin, Layout.alignSelfEnd, styles.sponsor]}>
@@ -47,13 +47,15 @@ const SponsorsFooter: React.FC = () => {
   };
 
   return (
-    <View style={[Layout.rowBetween, styles.footer]}>
-      {renderSponsor(randomSponsors[0])}
-      {renderDivider()}
-      {renderSponsor(randomSponsors[1])}
-      {renderDivider()}
-      {renderSponsor(randomSponsors[2])}
-    </View>
+    (_.get(sponsors, 'length', 0) > 0 && (
+      <View style={[Layout.rowBetween, styles.footer]}>
+        {renderSponsor(randomSponsors[0])}
+        {renderDivider()}
+        {renderSponsor(randomSponsors[1])}
+        {renderDivider()}
+        {renderSponsor(randomSponsors[2])}
+      </View>
+    )) || <View />
   );
 };
 
@@ -61,12 +63,13 @@ const styles = StyleSheet.create({
   divider: { borderColor: Colors.gray, borderWidth: 0.4, height: '95%', opacity: 0.5 },
   footer: {
     backgroundColor: Colors.white,
-    bottom: 0,
-    height: 80,
+    bottom: 15,
+    height: 75,
     position: 'absolute',
     width: '100%',
   },
   logo: {
+    backgroundColor: Colors.muted,
     height: 75,
     resizeMode: 'contain',
     width: '100%',
