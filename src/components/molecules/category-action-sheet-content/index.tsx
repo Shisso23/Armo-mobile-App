@@ -9,26 +9,17 @@ import CategoryItem from '../category-item';
 
 type CategoryActionSheetContentProps = {
   showResults: Function;
+  categories: Array<{ id: string; name: string }>;
 };
 
-const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({ showResults }) => {
+const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
+  showResults,
+  categories,
+}) => {
   const { Gutters, Common, Layout } = useTheme();
   const [sortBy, setSortBy] = useState('New');
   const [categoriesCleared, setCategoriesCleared] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<Object[]>([]);
-
-  const categories = [
-    { name: 'Mould', id: 1 },
-    { name: 'Material', id: 2 },
-    { name: 'Machine', id: 3 },
-    { name: 'Design', id: 4 },
-    { name: 'Insets', id: 5 },
-    { name: 'Graphics', id: 6 },
-    { name: 'Post Moulding', id: 7 },
-    { name: 'Safety', id: 8 },
-    { name: 'Trimming', id: 9 },
-    { name: 'Foaming', id: 10 },
-  ];
 
   useEffect(() => {
     return () => {

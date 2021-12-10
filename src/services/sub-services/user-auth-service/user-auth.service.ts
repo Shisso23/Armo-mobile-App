@@ -33,14 +33,16 @@ const signOut = () => {
   return authUtils.removeAccessAndRefreshTokens();
 };
 
-const register = (formData: SignUpProps) => {
+const register = async (formData: SignUpProps) => {
   const registerUrl = authUrls.registerUrl();
   const apiModel = apiSignUpModel(formData);
-
-  return networkService.post(registerUrl, apiModel).catch((err) => {
+  try {
+    const response = await networkService.post(registerUrl, apiModel);
+    return response;
+  } catch (err) {
     err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
-  });
+  }
 };
 
 const forgotPassword = async (formData: ForgotPasswordProps) => {

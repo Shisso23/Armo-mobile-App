@@ -11,7 +11,11 @@ import { useTheme } from '../../../theme';
 import CategoryActionSheet from '../../../components/molecules/category-action-sheet-content';
 import SearchBar from '../../../components/atoms/search-bar';
 import PostItem from '../../../components/molecules/post-item';
-import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
+import {
+  getCategoriesAction,
+  getPostAction,
+  getPostsAction,
+} from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
@@ -20,7 +24,7 @@ import _ from 'lodash';
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const { posts, isLoadingGetPosts, isLoadingGetPost } = useSelector(postsSelector);
+  const { posts, isLoadingGetPosts, isLoadingGetPost, categories } = useSelector(postsSelector);
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
@@ -34,6 +38,7 @@ const ForumsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getPostsAction());
+      dispatch(getCategoriesAction());
     }, [dispatch]),
   );
 
@@ -112,7 +117,7 @@ const ForumsScreen: React.FC = () => {
       </View>
       <>
         <FlatList
-          contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
+          contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
           data={searchText.length > 0 ? searchResult : posts}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
@@ -132,7 +137,7 @@ const ForumsScreen: React.FC = () => {
         containerStyle={styles.actionSheet}
         onClose={onActionSheetClose}
       >
-        <CategoryActionSheet showResults={() => {}} />
+        <CategoryActionSheet showResults={() => {}} categories={categories} />
       </ActionSheet>
       <SponsorsFooter />
     </>
@@ -153,6 +158,9 @@ const styles = StyleSheet.create({
     padding: 10,
     right: '25%',
     transform: [{ rotate: '90deg' }],
+  },
+  forumsList: {
+    paddingBottom: 200,
   },
   title: { fontWeight: '500', marginLeft: '5%' },
 });

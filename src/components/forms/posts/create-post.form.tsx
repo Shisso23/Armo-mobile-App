@@ -22,26 +22,21 @@ type CreatePostFormProps = {
   submitForm: Function;
   onSuccess?: Function;
   initialValues: CreatePostProps;
+  categories: Array<Object>;
 };
 
 const createPostSchema = Yup.object().shape({
-  category: Yup.string().required(),
+  category: Yup.object().required(),
   topicTitle: Yup.string().required('Topic title is required'),
   description: Yup.string().required(),
   media: Yup.array(),
 });
 
-const categories = [
-  //TODO use categories endpoint when ready
-  'Mould',
-  'Safety',
-  'Design',
-];
-
 const CreatePostForm: React.FC<CreatePostFormProps> = ({
   submitForm,
   onSuccess = () => null,
   initialValues,
+  categories,
 }) => {
   const { Common, Gutters, Layout } = useTheme();
   const [imageSize, setImageSize] = useState(0);
@@ -100,14 +95,14 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
         return (
           <>
             <DropdownSelect
-              value={values.category}
+              value={_.get(values, 'category.name', '')}
               label="Category"
-              onChange={(category: any) => {
+              onChange={(category: Object) => {
                 setFieldValue('category', category);
               }}
               items={categories}
               valueExtractor={(item: any) => {
-                return item;
+                return item.name;
               }}
               error={error('category')}
               placeholder=""
