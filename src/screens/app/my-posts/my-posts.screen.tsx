@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Icon, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import _ from 'lodash';
@@ -64,14 +64,7 @@ const MyPostsScreen: React.FC = () => {
 
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill, styles.container]}>
-      <View style={[Layout.alignSelfStart, Gutters.largeBMargin]}>
-        <Icon
-          name="arrow-left"
-          type="material-community"
-          size={25}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
+      <Text style={[Gutters.regularLMargin, Gutters.smallBMargin, styles.title]}>My Posts</Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
         data={filterUsersPosts()}
@@ -86,7 +79,8 @@ const MyPostsScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { paddingTop: width * 0.17 },
+  container: { paddingTop: width * 0.07 },
+  title: { fontSize: 20, fontWeight: '400' },
 });
 
 export default MyPostsScreen;

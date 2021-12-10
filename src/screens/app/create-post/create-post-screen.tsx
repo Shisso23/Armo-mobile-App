@@ -54,11 +54,9 @@ const CreatePostScreen: React.FC = () => {
   }, [dispatch]);
 
   const onSubmit = async (formData: CreatePostProps) => {
-    try {
-      await postsService.createPost(formData);
+    const response = await postsService.createPost(formData);
+    if (response !== undefined) {
       goBack();
-    } catch (error) {
-      console.warn({ error });
     }
   };
 
