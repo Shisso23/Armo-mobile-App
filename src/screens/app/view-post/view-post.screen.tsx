@@ -43,7 +43,6 @@ type ViewPostScreenProps = {
 const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
-  console.log({ post });
   const owner = _.get(post, 'owner', {});
   const attachmentIds = _.get(post, 'attachmentIds', []);
   const dispatch = useDispatch();

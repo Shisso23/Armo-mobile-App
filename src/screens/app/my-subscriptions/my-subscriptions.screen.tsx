@@ -28,6 +28,12 @@ const MySubscriptionsScreen: React.FC = () => {
     }, [dispatch]),
   );
 
+  const filterSubscribedPosts = () => {
+    return posts.filter((post: apiPostProps) => {
+      return _.get(post, 'isSubscribed', false) === true;
+    });
+  };
+
   const getPost = async (id: any) => {
     const post = await dispatch(getPostAction(id));
     if (post) {
@@ -59,11 +65,12 @@ const MySubscriptionsScreen: React.FC = () => {
       </Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={posts}
+        data={filterSubscribedPosts()}
         renderItem={renderSubScription}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}
         refreshing={isLoadingGetPosts}
+        ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>
   );

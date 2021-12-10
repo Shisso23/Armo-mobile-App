@@ -87,11 +87,9 @@ const subscribe = async (postId: string) => {
   return authNetworkService
     .post(url, { postId })
     .then((apiResponse) => {
-      console.log({ apiResponse });
       return apiResponse;
     })
     .catch((error) => {
-      console.log({ error });
       flashService.error(_.get(error, 'message', 'Error while subscribing to post!'));
     });
 };

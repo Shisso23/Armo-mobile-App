@@ -12,7 +12,8 @@ type PostItemProps = {
   handleJoinForum: any;
   onSelect: any;
   loading: boolean;
-  bottomRightText?: string;
+  bottomRightText?: string | null;
+  loadingSubscribeToPost?: boolean;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -21,6 +22,7 @@ const PostItem: React.FC<PostItemProps> = ({
   onSelect,
   loading,
   bottomRightText,
+  loadingSubscribeToPost,
 }) => {
   const { Layout, Common, Gutters } = useTheme();
 
@@ -54,13 +56,22 @@ const PostItem: React.FC<PostItemProps> = ({
                 >
                   {bottomRightText}
                 </Text>
-                <Icon
-                  name="arrow-right-circle"
-                  type="feather"
-                  color={Colors.fourtyPercentSecondary}
-                  size={14}
-                  containerStyle={styles.joinForumIcon}
-                />
+                {loadingSubscribeToPost ? (
+                  <ActivityIndicator
+                    animating={loadingSubscribeToPost}
+                    color={Colors.secondary}
+                    style={Gutters.tinyTMargin}
+                    size={12}
+                  />
+                ) : (
+                  <Icon
+                    name="arrow-right-circle"
+                    type="feather"
+                    color={Colors.fourtyPercentSecondary}
+                    size={14}
+                    containerStyle={styles.joinForumIcon}
+                  />
+                )}
               </TouchableOpacity>
             )}
           </View>

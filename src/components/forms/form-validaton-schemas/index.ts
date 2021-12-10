@@ -1,10 +1,16 @@
 import * as Yup from 'yup';
 
+const paswordExpression =
+  /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.*[!@#$%^&*])(?=.{6,})/;
+
 export const emailSchema = Yup.string().email('Invalid Email').trim().required('Email is required');
 export const passwordSchema = Yup.string().required('Password is required');
 
 export const registerPasswordSchema = Yup.string()
-  .min(6, 'Minimum of 6 characters needed for password')
+  .matches(
+    paswordExpression,
+    'Password must at least an uppercase and lowercase letters, digit and a special character!',
+  )
   .required('Password is required');
 
 export const confirmPasswordSchema = Yup.string()

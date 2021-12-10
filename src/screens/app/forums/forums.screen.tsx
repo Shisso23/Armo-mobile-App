@@ -1,5 +1,5 @@
 import React, { useState, useCallback, createRef } from 'react';
-import { View, StyleSheet, FlatList, Keyboard, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard, Platform, Alert } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
@@ -15,17 +15,27 @@ import {
   getCategoriesAction,
   getPostAction,
   getPostsAction,
+  subscribeToPostAction,
+  unsubscribeToPostAction,
 } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 import _ from 'lodash';
-import { postsService } from '../../../services';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const { posts, isLoadingGetPosts, isLoadingGetPost, categories } = useSelector(postsSelector);
+  const {
+    posts,
+    isLoadingGetPosts,
+    isLoadingGetPost,
+    categories,
+    isLoadingSubscribeToPost,
+    isLoadingUnsubscribeToPost,
+  } = useSelector(postsSelector);
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const actionSheetRef = createRef<any>();
@@ -50,8 +60,27 @@ const ForumsScreen: React.FC = () => {
     }
   };
 
-  const handleJoinForum = (post: { id: string }) => {
-    postsService.subscribe(post.id);
+  const handleJoinForum = async (post: apiPostProps) => {
+    setSelectedPost(post);
+    if (getSubscribeStatus(post) === 'Subscribed') {
+      Alert.alert(
+        'Are you sure?',
+        'Unsubscribe from this forum?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Confirm',
+            onPress: async () => await dispatch(unsubscribeToPostAction(post.id)),
+          },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      await dispatch(subscribeToPostAction(post.id));
+    }
   };
 
   const handleFilterPress = () => {
@@ -77,10 +106,25 @@ const ForumsScreen: React.FC = () => {
     setActionSheetIsVisible(false);
   };
 
+  const getSubscribeStatus = (post: apiPostProps) => {
+    if (_.get(post, 'owner.id', '') === _.get(user, 'id', '')) {
+      return null;
+    }
+    if (_.get(post, 'isSubscribed', false)) {
+      return 'Subscribed';
+    } else {
+      return 'Join forum';
+    }
+  };
+
   const renderForum = ({ item }: { item: apiPostProps }) => {
     return (
       <PostItem
         item={item}
+        loadingSubscribeToPost={
+          _.get(selectedPost, 'id', null) === item.id &&
+          (isLoadingSubscribeToPost || isLoadingUnsubscribeToPost)
+        }
         handleJoinForum={() => handleJoinForum(item)}
         onSelect={(post: apiPostProps) => {
           setSelectedPost(item);
@@ -88,7 +132,7 @@ const ForumsScreen: React.FC = () => {
         }}
         key={item.id}
         loading={_.get(selectedPost, 'id', null) === item.id && isLoadingGetPost}
-        bottomRightText="Join Forum"
+        bottomRightText={getSubscribeStatus(item)}
       />
     );
   };

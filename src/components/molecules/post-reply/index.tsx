@@ -75,14 +75,6 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
     }
   };
 
-  const getUser = (comment: Object) => {
-    return users.find(
-      (owner: Object) => _.get(owner, 'id', '') === _.get(comment, 'ownerId', ''),
-
-      {},
-    );
-  };
-
   const editComment = () => {
     actionSheetRef.current.setModalVisible(false);
     navigation.navigate('EditComment', { comment: reply });
@@ -167,7 +159,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users }) => {
           containerStyle={styles.avatar}
         />
         <ListItem.Content>
-          <ListItem.Title>{`${_.get(getUser(reply), 'firstName', '')} ${formatDate(
+          <ListItem.Title>{`${_.get(reply, 'owner.fullName', '')} ${formatDate(
             _.get(reply, 'createDate', new Date()),
           )}`}</ListItem.Title>
         </ListItem.Content>

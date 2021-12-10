@@ -26,7 +26,7 @@ const SignInScreen: React.FC = () => {
     <>
       {isFocused && <StatusBar hidden />}
       <FormScreenContainer
-        contentContainerStyle={[Layout.scrollCenter]}
+        contentContainerStyle={[Layout.scrollSpaceAround]}
         enableOnAndroid
         extraHeight={25}
         extraScrollHeight={25}
@@ -47,7 +47,7 @@ const SignInScreen: React.FC = () => {
             initialValues={signInModel()}
           />
         </View>
-        <RegisterLink containerStyle={Gutters.largeTMargin} />
+        <RegisterLink containerStyle={Gutters.regularBMargin} />
       </FormScreenContainer>
     </>
   );
@@ -55,7 +55,7 @@ const SignInScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
-  image: { aspectRatio: 4 / 1, height: 70, width: width * 0.65 },
+  image: { aspectRatio: 4 / 1, height: 50, width: 200 },
   topImage: {
     height: width * 1.19,
     position: 'absolute',

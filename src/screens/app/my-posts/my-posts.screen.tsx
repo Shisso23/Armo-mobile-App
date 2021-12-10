@@ -1,34 +1,41 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import _ from 'lodash';
 
 import { useTheme } from '../../../theme';
-
 import PostItem from '../../../components/molecules/post-item';
 import { getPostAction, getPostsAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
-import _ from 'lodash';
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const { width } = Dimensions.get('window');
 
 const MyPostsScreen: React.FC = () => {
   const navigation = useNavigation();
   const { posts, isLoadingGetPosts, isLoadingGetPost } = useSelector(postsSelector);
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
   const [selectedPost, setSelectedPost] = useState({});
   const { Layout, Gutters } = useTheme();
 
   const getPosts = () => {
-    dispatch(getPostsAction()); //TODO should use the get user's posts endpoint
+    dispatch(getPostsAction());
   };
   useFocusEffect(
     useCallback(() => {
       dispatch(getPostsAction());
     }, [dispatch]),
   );
+
+  const filterUsersPosts = () => {
+    return posts.filter((post: apiPostProps) => {
+      return _.get(post, 'owner.id', '') === _.get(user, 'id', '');
+    });
+  };
 
   const getPost = async (id: any) => {
     const post = await dispatch(getPostAction(id));
@@ -67,11 +74,12 @@ const MyPostsScreen: React.FC = () => {
       </View>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={posts}
+        data={filterUsersPosts()}
         renderItem={renderForum}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}
         refreshing={isLoadingGetPosts}
+        ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>
   );

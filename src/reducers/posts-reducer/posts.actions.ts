@@ -6,6 +6,8 @@ import {
   setPostsAction,
   setCategoriesAction,
   setIsLoadingCategoriesAction,
+  setIsLoadingSubscribeToPostAction,
+  setIsLoadingUnsubscribeToPostAction,
 } from './posts.reducer';
 import { flashService } from '../../services';
 import { postsService } from '../../services';
@@ -93,5 +95,41 @@ export const getCategoriesAction = async () => (dispatch: Function) => {
     })
     .finally(() => {
       dispatch(setIsLoadingCategoriesAction(false));
+    });
+};
+
+export const subscribeToPostAction = async (postId: string) => (dispatch: Function) => {
+  dispatch(setIsLoadingSubscribeToPostAction(true));
+  return postsService
+    .subscribe(postId)
+    .then(async (subscribed) => {
+      dispatch(setIsLoadingGetPostsAction(true));
+      await dispatch(getPostsAction());
+      return subscribed;
+    })
+    .catch((error) => {
+      flashService.error(error.message);
+    })
+    .finally(() => {
+      dispatch(setIsLoadingGetPostsAction(false));
+      dispatch(setIsLoadingSubscribeToPostAction(false));
+    });
+};
+
+export const unsubscribeToPostAction = async (postId: string) => (dispatch: Function) => {
+  dispatch(setIsLoadingUnsubscribeToPostAction(true));
+  return postsService
+    .unsubscribe(postId)
+    .then(async (unsubscribed) => {
+      dispatch(setIsLoadingGetPostsAction(true));
+      await dispatch(getPostsAction());
+      return unsubscribed;
+    })
+    .catch((error) => {
+      flashService.error(error.message);
+    })
+    .finally(() => {
+      dispatch(setIsLoadingGetPostsAction(false));
+      dispatch(setIsLoadingUnsubscribeToPostAction(false));
     });
 };
