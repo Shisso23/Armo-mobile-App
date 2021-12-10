@@ -37,7 +37,7 @@ const SponsorsFooter: React.FC = () => {
     return (
       <View style={[Layout.row, Gutters.regularLMargin, Layout.fill]}>
         <Text style={[Gutters.regularLMargin, Layout.alignSelfCenter, styles.sponsor]}>
-          {_.get(sponsor, 'name', '')}
+          {_.get(sponsor, 'company', '')}
         </Text>
       </View>
     );
