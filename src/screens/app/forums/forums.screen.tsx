@@ -23,11 +23,13 @@ import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
 import _ from 'lodash';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
-import { getPostsTypes } from '../../../services/sub-services/posts/posts.service';
+import postsService, { getPostsTypes } from '../../../services/sub-services/posts/posts.service';
 
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [extraData, setExtraData] = useState([]);
   const {
     posts,
     isLoadingGetPosts,
@@ -95,6 +97,17 @@ const ForumsScreen: React.FC = () => {
         pageSize: 15,
       }),
     );
+  };
+  const fetchMorePosts = async () => {
+    postsService
+      .getPosts({ pageNumber, pageSize: 10 })
+
+      .then((resp) => {
+        setExtraData(resp.items);
+        if (_.get(resp, 'hasNextPage', false)) {
+          setPageNumber(pageNumber + 1);
+        }
+      });
   };
 
   const handleJoinForum = async (post: apiPostProps) => {
@@ -198,11 +211,14 @@ const ForumsScreen: React.FC = () => {
       <>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
-          data={posts}
+          data={[...posts, ...extraData]}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           onRefresh={getPosts}
           refreshing={isLoadingGetPosts}
+          extraData={extraData}
+          onEndReached={fetchMorePosts}
+          onEndReachedThreshold={0.2}
         />
       </>
       <FAB
