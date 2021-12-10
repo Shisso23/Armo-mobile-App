@@ -38,8 +38,10 @@ const register = async (formData: SignUpProps) => {
   const apiModel = apiSignUpModel(formData);
   try {
     const response = await networkService.post(registerUrl, apiModel);
+    console.log({ reg: response });
     return response;
   } catch (err) {
+    console.log({ err });
     err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
   }

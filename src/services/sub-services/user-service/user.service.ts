@@ -5,6 +5,21 @@ import { userModel, apiUserModel, UserProps } from '../../../models';
 import userUrls from './user.urls';
 import { mockApi } from '../../../helpers/mock-api/mock-api'; //TODO Use the getCurrentUser api when it's available
 
+const getUsers = () => {
+  const url = userUrls.users();
+  return authNetworkService
+    .get(url)
+    .then((response) => {
+      const users = response.data.data.items;
+      return users;
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.warn(error);
+      return Promise.reject(error);
+    });
+};
+
 const getUser = () => {
   const url = userUrls.currentUserUrl();
   const _createAndReturnUserModel = (apiResponse: AxiosResponse): UserProps =>
@@ -37,4 +52,5 @@ const updateUser = (formData: UserProps) => {
 export default {
   getUser,
   updateUser,
+  getUsers,
 };
