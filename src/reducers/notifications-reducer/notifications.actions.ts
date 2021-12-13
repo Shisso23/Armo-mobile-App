@@ -14,7 +14,6 @@ export const getNotificationsAction = () => async (dispatch: Function) => {
     const response: Array<NotificationProps> = await notificationsService.getNotifications();
     dispatch(setNotificationsAction(response));
     const unOpenedNotifications = response.reduce((total, notification: NotificationProps) => {
-      // TODO use getUnOpenedNotifications endpoint
       return !notification.seen ? (total = total + 1) : total;
     }, 0);
     dispatch(setUnOpenedNotificationsAction(unOpenedNotifications));
@@ -23,6 +22,16 @@ export const getNotificationsAction = () => async (dispatch: Function) => {
     flashService.error(_.get(error, 'message', ''));
   } finally {
     dispatch(setIsLoadingNotificationsAction(false));
+  }
+};
+
+export const getUnreadNotificationsAction = () => async (dispatch: Function) => {
+  try {
+    const response: number = await notificationsService.getUnreadNotifications();
+    dispatch(setUnOpenedNotificationsAction(response));
+    return response;
+  } catch (error) {
+    flashService.error(_.get(error, 'message', ''));
   }
 };
 

@@ -4,19 +4,6 @@ import authNetworkService from '../auth-network-service/auth-network.service';
 import { userModel, apiUserModel, UserProps } from '../../../models';
 import userUrls from './user.urls';
 
-const getUsers = () => {
-  const url = userUrls.users();
-  return authNetworkService
-    .get(url)
-    .then((response) => {
-      const users = response.data.data.items;
-      return users;
-    })
-    .catch((error) => {
-      return Promise.reject(error);
-    });
-};
-
 const getUser = async () => {
   const url = userUrls.currentUserUrl();
   const _createAndReturnUserModel = (apiResponse: AxiosResponse): UserProps =>
@@ -45,5 +32,4 @@ const updateUser = (formData: UserProps) => {
 export default {
   getUser,
   updateUser,
-  getUsers,
 };

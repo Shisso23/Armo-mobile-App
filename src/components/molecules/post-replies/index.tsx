@@ -11,8 +11,6 @@ import { useTheme } from '../../../theme';
 import { postCommentsSelector } from '../../../reducers/post-comments-reducer/post-comments.reducer';
 import PostReply from '../../../components/molecules/post-reply';
 import { getPostCommentsAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
-import { getUsersAction } from '../../../reducers/user-reducer/user.actions';
-import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 
 const { width } = Dimensions.get('window');
 
@@ -24,7 +22,6 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const { Gutters } = useTheme();
   const dispatch = useDispatch();
   const { isLoadingGetPostComments, postComments } = useSelector(postCommentsSelector);
-  const { users } = useSelector(userSelector);
   const [repliesExpanded, setRepliesExpanded] = useState(false);
 
   useEffect(() => {
@@ -38,7 +35,6 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
       if (repliesExpanded) {
         dispatch(getPostCommentsAction(_.get(post, 'id', '')));
       }
-      dispatch(getUsersAction());
     }, [repliesExpanded]),
   );
 
@@ -49,7 +45,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
     return (
       <>
-        <PostReply reply={item} users={users} post={post} onVote={onVote} />
+        <PostReply reply={item} post={post} onVote={onVote} />
         {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );

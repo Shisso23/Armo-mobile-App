@@ -21,7 +21,7 @@ const NotificationsScreen = () => {
   };
 
   useEffect(() => {
-    dispatch(getNotificationsAction());
+    getNotifications();
   }, []);
 
   const goBack = () => navigation.goBack();

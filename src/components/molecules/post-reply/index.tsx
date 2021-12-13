@@ -24,12 +24,11 @@ import { reportUserAction } from '../../../reducers/posts-reducer/posts.actions'
 type PostReplyProps = {
   reply: Object;
   key?: any;
-  users: [];
   post: Object;
   onVote: Function;
 };
 
-const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => {
+const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
   const { Gutters, Fonts, Layout } = useTheme();
   const dispatch = useDispatch();
   const { isLoadingReportUser } = useSelector(postsSelector);
@@ -49,7 +48,6 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => 
         key={_.get(chilComment, 'id', index)}
         post={post}
         reply={chilComment}
-        users={users}
         onVote={onVote}
       />
     );

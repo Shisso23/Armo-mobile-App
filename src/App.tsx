@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import OneSignal from 'react-native-onesignal';
-import { LogBox } from 'react-native';
+import { LogBox, Platform } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useDispatch } from 'react-redux';
+import oneSignalService from './services/sub-services/push-notifications-service/one-signal.service';
+import { getUnreadNotificationsAction } from './reducers/notifications-reducer/notifications.actions';
 import NavigationContainer from './navigation/root.navigator';
 import { initAppAction } from './reducers/app-reducer/app.actions';
+import { notificationsService } from './services';
+import { RootReducer } from './reducers/types';
 import config from './config';
-import oneSignalService from './services/sub-services/push-notifications-service/one-signal.service';
-import { Platform } from 'react-native';
 
 const App: React.FC = () => {
+  const { isAuthenticated } = useSelector((reducer: RootReducer) => reducer.userAuthReducer);
   OneSignal.setLogLevel(6, 0);
   if (Platform.OS === 'android') {
     OneSignal.setAppId(`${config.oneSignalAppId}`);
@@ -39,13 +42,26 @@ const App: React.FC = () => {
       'Usage of "messaging().registerDeviceForRemoteMessages()" is not required.',
       'Non-serializable values were found in the navigation state',
     ]);
-  }, []);
 
-  useEffect(() => {
     oneSignalService.pushNotificationsAllowed().then(() => {
       handleForgroundNotifications();
       handleNotificationOpened();
+      oneSignalService.getAndSetToken().then((token: string) => {
+        notificationsService.storeDeviceToken(token);
+      });
     });
+
+    const interval = setInterval(() => {
+      if (isAuthenticated) {
+        dispatch(getUnreadNotificationsAction());
+      }
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(initAppAction());
   });
 
