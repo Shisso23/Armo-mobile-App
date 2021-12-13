@@ -26,7 +26,9 @@ const signIn = (formData: SignInProps) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(authUtils.storeAccessAndRefreshTokens);
+    .then((response) => {
+      return authUtils.storeAccessAndRefreshTokens(response);
+    });
 };
 
 const signOut = () => {
