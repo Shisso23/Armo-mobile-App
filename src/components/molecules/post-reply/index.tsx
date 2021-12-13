@@ -55,7 +55,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => 
     );
   });
   const formatDate = (date: any) => {
-    return moment(date).fromNow();
+    return moment(date).add({ hours: 2 }).fromNow();
   };
 
   const handleClipBoardCopy = () => {
