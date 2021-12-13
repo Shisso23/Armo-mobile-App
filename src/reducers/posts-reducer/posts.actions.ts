@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {
   setIsLoadingEditPostAction,
   setIsLoadingGetPostAction,
@@ -21,7 +23,6 @@ import reportUserService, {
   reportUserTypes,
 } from '../../services/sub-services/report-user-service/report-user.service';
 import { getPostsTypes } from '../../services/sub-services/posts/posts.service';
-import _ from 'lodash';
 
 export const getPostsAction = async (params?: getPostsTypes) => async (dispatch: Function) => {
   dispatch(setIsLoadingGetPostsAction(true));

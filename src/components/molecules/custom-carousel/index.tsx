@@ -29,25 +29,24 @@ const CustomCarousel = ({ sources, onSelect }: { sources: Array<Object>; onSelec
     );
   };
 
+  const renderCarouselImage = (item: any) => (
+    <View style={[Layout.alignItemsCenter, Layout.justifyContentCenter]}>
+      <Image
+        source={item}
+        style={[styles.image, Layout.alignItemsCenter, Layout.justifyContentCenter]}
+        PlaceholderContent={<ActivityIndicator color={Colors.secondary} />}
+      />
+    </View>
+  );
+
   const _renderCarouselItem = ({ item }: { item: Object }) => {
-    return (
-      <Pressable onPress={() => onSelect(item)}>
-        {() => (
-          <View style={[Layout.alignItemsCenter, Layout.justifyContentCenter]}>
-            <Image
-              source={item}
-              style={[styles.image, Layout.alignItemsCenter, Layout.justifyContentCenter]}
-              PlaceholderContent={<ActivityIndicator color={Colors.secondary} />}
-            />
-          </View>
-        )}
-      </Pressable>
-    );
+    return <Pressable onPress={() => onSelect(item)}>{renderCarouselImage(item)}</Pressable>;
   };
 
   return (
     <>
       <Carousel
+        layout="tinder"
         data={sources}
         renderItem={_renderCarouselItem}
         sliderWidth={width}

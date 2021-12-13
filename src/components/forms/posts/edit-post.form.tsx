@@ -57,22 +57,12 @@ const EditPostForm: React.FC<EditPostFormProps> = ({
       validationSchema={EditPostSchema}
       enableReinitialize
     >
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        isSubmitting,
-        handleBlur,
-        touched,
-        status,
-      }) => {
+      {({ handleChange, handleSubmit, errors, isSubmitting, handleBlur, touched, status }) => {
         const error = (name: string): string | undefined =>
           getFormError(name, { touched, status, errors });
         return (
           <>
             <CustomInput
-              value={values.topicTitle}
               onChangeText={handleChange('topicTitle')}
               onBlur={handleBlur('topicTitle')}
               label="Topic title"
@@ -80,12 +70,7 @@ const EditPostForm: React.FC<EditPostFormProps> = ({
               inputContainerStyle={Common.inputContainer}
               leftIcon={undefined}
             />
-            <DescriptionInput
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              value={values.description}
-              error={error}
-            />
+            <DescriptionInput handleChange={handleChange} handleBlur={handleBlur} error={error} />
             <Button
               title="Post"
               icon={

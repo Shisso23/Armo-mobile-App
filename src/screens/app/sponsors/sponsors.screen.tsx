@@ -35,7 +35,7 @@ const SponsorsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getSponsorsAction());
-    }, [dispatch]),
+    }, []),
   );
 
   const getSponsors = async () => {

@@ -139,6 +139,10 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => 
       });
   };
 
+  const goToReplyToPost = () => {
+    navigation.navigate('ReplyToPost', { post: reply, isPostReply: false });
+  };
+
   return (
     <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
       <ListItem containerStyle={styles.user}>
@@ -162,9 +166,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => 
 
       <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('ReplyToPost', { post: reply, isPostReply: false });
-          }}
+          onPress={goToReplyToPost}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
         >
           <Text>Reply</Text>

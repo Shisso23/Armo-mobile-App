@@ -32,6 +32,7 @@
     "axios-auth-refresh": "^3.0.0",
     "axios-mock-adapter": "^1.20.0",
     "camelcase-keys": "^6.2.2",
+    "form-urlencoded": "^6.0.5",
     "formik": "^2.2.6",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",

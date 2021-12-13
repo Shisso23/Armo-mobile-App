@@ -59,26 +59,12 @@ const ReplyToPostForm: React.FC<ReplyToFormProps> = ({
       validationSchema={replyToPostSchema}
       enableReinitialize
     >
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        isSubmitting,
-        handleBlur,
-        touched,
-        status,
-      }) => {
+      {({ handleChange, handleSubmit, errors, isSubmitting, handleBlur, touched, status }) => {
         const error = (name: string): string | undefined =>
           getFormError(name, { touched, status, errors });
         return (
           <>
-            <DescriptionInput
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              value={values.description}
-              error={error}
-            />
+            <DescriptionInput handleChange={handleChange} handleBlur={handleBlur} error={error} />
 
             <Button
               title="Post"

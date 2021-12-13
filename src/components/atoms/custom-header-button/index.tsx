@@ -24,8 +24,12 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
   const { Custom } = useTheme();
   const navigation = useNavigation();
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return backButton ? (
-    <BackButton onBack={() => navigation.goBack()} />
+    <BackButton onBack={goBack} />
   ) : (
     <TouchableItem
       accessible

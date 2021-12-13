@@ -38,7 +38,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
 
   useEffect(() => {
     dispatch(getNotificationsAction());
-  }, [dispatch]);
+  }, []);
 
   const deleteImage = async () => {
     setDeleting(true);
@@ -63,15 +63,21 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
       ],
       { cancelable: false },
     );
+    setModalVisible(false);
   };
 
   const handleShare = () => {
     shareContent({ filename, content: '', url, headers: _.get(attachment, 'headers', {}) });
+    setModalVisible(false);
   };
 
   const hidePostOptionsModal = () => {
     setModalVisible(false);
   };
+
+  const showPostOptionsModal = () => setModalVisible(true);
+
+  const goBack = () => navigation.goBack();
 
   const renderModal = () => {
     return (
@@ -83,7 +89,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
           <Icon
             name="dots-vertical"
             type="material-community"
-            onPress={() => setModalVisible(true)}
+            onPress={showPostOptionsModal}
             style={Layout.alignSelfEnd}
           />
         }
@@ -104,23 +110,11 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
             size={25}
           />
           {isOwner && (
-            <TouchableOpacity
-              style={Gutters.regularMargin}
-              onPress={() => {
-                handleDeleteImage();
-                setModalVisible(false);
-              }}
-            >
+            <TouchableOpacity style={Gutters.regularMargin} onPress={handleDeleteImage}>
               <Text>Delete Image</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity
-            style={Gutters.regularMargin}
-            onPress={() => {
-              handleShare();
-              setModalVisible(false);
-            }}
-          >
+          <TouchableOpacity style={Gutters.regularMargin} onPress={handleShare}>
             <Text>Download image</Text>
           </TouchableOpacity>
         </>
@@ -131,12 +125,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill, styles.container]}>
       <View style={Layout.rowBetween}>
-        <Icon
-          name="arrow-left"
-          type="material-community"
-          size={30}
-          onPress={() => navigation.goBack()}
-        />
+        <Icon name="arrow-left" type="material-community" size={30} onPress={goBack} />
         {renderModal()}
       </View>
 
@@ -153,10 +142,6 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
     </View>
   );
 };
-
-ViewPostMediaScreen.propTypes = {};
-
-ViewPostMediaScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },

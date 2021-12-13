@@ -22,19 +22,16 @@ const NotificationsScreen = () => {
 
   useEffect(() => {
     dispatch(getNotificationsAction());
-  }, [dispatch]);
+  }, []);
+
+  const goBack = () => navigation.goBack();
 
   const renderNotification = ({ item }: { item: Object }) => <Notification notification={item} />;
 
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill, styles.container]}>
       <View style={[Layout.row, Gutters.largeBMargin]}>
-        <Icon
-          name="arrow-left"
-          type="material-community"
-          size={25}
-          onPress={() => navigation.goBack()}
-        />
+        <Icon name="arrow-left" type="material-community" size={25} onPress={goBack} />
         <Text style={[styles.title, Gutters.smallLMargin]}>Notifications</Text>
       </View>
       <FlatList

@@ -32,7 +32,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
       setIsSelected(false);
       item.selected = false;
     }
-  }, [cleared, item, setCategorySelected]);
+  }, [cleared]);
 
   return (
     <TouchableOpacity

@@ -31,7 +31,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     if (repliesExpanded) {
       dispatch(getPostCommentsAction(_.get(post, 'id', '')));
     }
-  }, [dispatch, post, repliesExpanded]);
+  }, [repliesExpanded]);
 
   useFocusEffect(
     useCallback(() => {
@@ -39,7 +39,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
         dispatch(getPostCommentsAction(_.get(post, 'id', '')));
       }
       dispatch(getUsersAction());
-    }, [dispatch, post, repliesExpanded]),
+    }, [repliesExpanded]),
   );
 
   const onVote = () => {
@@ -53,6 +53,10 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
         {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );
+  };
+
+  const toggleExpandReplies = () => {
+    setRepliesExpanded(!repliesExpanded);
   };
 
   return (
@@ -74,9 +78,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
         }
         containerStyle={{ backgroundColor: Colors.transparent }}
         isExpanded={repliesExpanded}
-        onPress={() => {
-          setRepliesExpanded(!repliesExpanded);
-        }}
+        onPress={toggleExpandReplies}
       >
         <View style={Gutters.tinyHPadding}>
           <Divider style={styles.fullDivider} />

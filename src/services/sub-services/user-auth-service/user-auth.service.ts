@@ -38,6 +38,7 @@ const register = async (formData: SignUpProps) => {
   const apiModel = apiSignUpModel(formData);
   try {
     const response = await networkService.post(registerUrl, apiModel);
+    await verifyEmail({ email: formData.email });
     return response;
   } catch (err) {
     err.errors = signUpFormModel(err.errors);

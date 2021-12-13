@@ -18,6 +18,8 @@ const EditPostScreen = ({ route }: { route: Object }) => {
   const post = _.get(route, 'params.post', {});
   const id = _.get(post, 'id', '');
 
+  const goBack = () => navigation.goBack();
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -32,18 +34,11 @@ const EditPostScreen = ({ route }: { route: Object }) => {
           ]}
         >
           <Text style={Fonts.title}>Edit Post</Text>
-          <Icon name="close-a" type="fontisto" size={17} onPress={() => navigation.goBack()} />
+          <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
         </View>
       ),
     });
-  }, [
-    Fonts.title,
-    Gutters.regularBMargin,
-    Gutters.regularHMargin,
-    Layout.alignItemsEnd,
-    Layout.rowBetween,
-    navigation,
-  ]);
+  }, []);
 
   const onSubmit = async (formData: EditPostProps) => {
     try {

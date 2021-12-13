@@ -1,7 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProfileScreen from '../../screens/app/profile/profile.screen';
 import useTheme from '../../theme/hooks/useTheme';
 import { AppStackList, DrawerList } from './types';
 import { Colors } from '../../theme/Variables';
@@ -26,6 +25,8 @@ const Drawer = createDrawerNavigator<DrawerList>();
 
 const AppNavigator = ({ navigation }: { navigation: any }) => {
   const { Custom } = useTheme();
+
+  const goBack = () => navigation.goBack();
   return (
     <AppStack.Navigator screenOptions={Custom.globalNavigatorScreenOptions} headerMode="screen">
       <AppStack.Screen
@@ -55,7 +56,7 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
         name="ViewPost"
         component={ViewPostScreen}
         options={{
-          header: (props) => <Header onBack={() => navigation.goBack()} {...props} backButton />,
+          header: (props) => <Header onBack={goBack} {...props} backButton />,
         }}
       />
 
@@ -87,6 +88,7 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
 
 const DrawerNavigator = ({ navigation }: { navigation: any }) => {
   const { Custom } = useTheme();
+  const goBack = () => navigation.goBack();
   return (
     <Drawer.Navigator
       screenOptions={Custom.globalNavigatorScreenOptions}
@@ -99,7 +101,7 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
         options={{
           headerShown: true,
           title: '',
-          header: (props) => <Header onBack={() => navigation.goBack()} {...props} />,
+          header: (props) => <Header onBack={goBack} {...props} />,
           headerStyle: {
             backgroundColor: Colors.transparent,
           },
@@ -111,9 +113,7 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
         options={{
           headerShown: true,
           title: '',
-          header: (props) => (
-            <Header engagementScoreVisible={false} onBack={() => navigation.goBack()} {...props} />
-          ),
+          header: (props) => <Header engagementScoreVisible={false} onBack={goBack} {...props} />,
           headerStyle: {
             backgroundColor: Colors.transparent,
           },
@@ -127,33 +127,12 @@ const DrawerNavigator = ({ navigation }: { navigation: any }) => {
         }}
       />
       <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          headerShown: true,
-          title: '',
-          header: (props) => (
-            <Header
-              notificationBellVisible={false}
-              engagementScoreVisible={false}
-              onBack={() => navigation.goBack()}
-              {...props}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: Colors.transparent,
-          },
-        }}
-      />
-      <Drawer.Screen
         name="MySubscriptions"
         component={MySubscriptionsScreen}
         options={{
           headerShown: true,
           title: '',
-          header: (props) => (
-            <Header engagementScoreVisible={false} onBack={() => navigation.goBack()} {...props} />
-          ),
+          header: (props) => <Header engagementScoreVisible={false} onBack={goBack} {...props} />,
           headerStyle: {
             backgroundColor: Colors.transparent,
           },

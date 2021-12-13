@@ -51,19 +51,6 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
             onPress={() => navigation.navigate('Home')}
             labelStyle={styles.labelWhite}
           />
-          <DrawerItem
-            icon={() => (
-              <Icon
-                color={Colors.secondary}
-                size={22}
-                name="account-outline"
-                type="material-community"
-              />
-            )}
-            label="Profile"
-            labelStyle={styles.labelWhite}
-            onPress={() => navigation.navigate('Profile')}
-          />
         </Drawer.Section>
 
         <View style={{ backgroundColor: Colors.white }}>
