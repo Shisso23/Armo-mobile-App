@@ -9,7 +9,7 @@ export const passwordSchema = Yup.string().required('Password is required');
 export const registerPasswordSchema = Yup.string()
   .matches(
     paswordExpression,
-    'Password must at least an uppercase and lowercase letters, digit and a special character!',
+    'Password must contain at least an uppercase and lowercase letters, digit and a special character!',
   )
   .required('Password is required');
 

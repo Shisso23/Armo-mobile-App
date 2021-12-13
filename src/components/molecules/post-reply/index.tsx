@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, createRef, useEffect } from 'react';
+import React, { useState, createRef } from 'react';
 import { View, StyleSheet, Text, Alert, Platform } from 'react-native';
 import Share from 'react-native-share';
 import { useNavigation } from '@react-navigation/native';
@@ -21,80 +20,81 @@ import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/c
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
 import { reportUserAction } from '../../../reducers/posts-reducer/posts.actions';
-import { postCommentsSelector } from '../../../reducers/post-comments-reducer/post-comments.reducer';
-import { getPostCommentsAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
 
 type PostReplyProps = {
   reply: Object;
   key?: any;
   users: [];
   post: Object;
+  onVote: Function;
 };
 
-const PostReply: React.FC<PostReplyProps> = ({ reply, users, post }) => {
+const PostReply: React.FC<PostReplyProps> = ({ reply, users, post, onVote }) => {
   const { Gutters, Fonts, Layout } = useTheme();
   const dispatch = useDispatch();
-  const { postComments } = useSelector(postCommentsSelector);
-  const currentComment = postComments.find(
-    (comment: Object) => _.get(comment, 'id', null) === _.get(reply, 'id', null),
-  );
   const { isLoadingReportUser } = useSelector(postsSelector);
-  const [upVotes, setUpVotes] = useState(_.get(currentComment, 'upVotes', 0));
-  const [downVotes, setDownVotes] = useState(_.get(currentComment, 'downVotes', 0));
-  const [upVoted, setUpVoted] = useState(_.get(currentComment, 'upVoted', false));
-  const [downVoted, setDownVoted] = useState(_.get(currentComment, 'downVoted', false));
+  const hasVoted = _.get(reply, 'hasVoted', null);
+  const [upVotes, setUpVotes] = useState(_.get(reply, 'upVotes', 0));
+  const [downVotes, setDownVotes] = useState(_.get(reply, 'downVotes', 0));
+  const [downVoted, setdownVoted] = useState(`${hasVoted}`.toLowerCase() === 'down');
+  const [upVoted, setUpVoted] = useState(`${hasVoted}`.toLowerCase() === 'up');
+
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const actionSheetRef = createRef<any>();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    dispatch(getPostCommentsAction(_.get(post, 'id', '')));
-    setUpVotes(_.get(currentComment, 'upVotes', 0));
-    setDownVotes(_.get(currentComment, 'downVotes', 0));
-  }, [upVoted, downVoted]);
-
-  const nestedComments = _.get(currentComment, 'replies', []).map(
-    (chilComment: any, index: Number) => {
-      return (
-        <PostReply
-          key={_.get(chilComment, 'id', index)}
-          post={post}
-          reply={chilComment}
-          users={users}
-        />
-      );
-    },
-  );
+  const nestedComments = _.get(reply, 'replies', []).map((chilComment: any, index: Number) => {
+    return (
+      <PostReply
+        key={_.get(chilComment, 'id', index)}
+        post={post}
+        reply={chilComment}
+        users={users}
+        onVote={onVote}
+      />
+    );
+  });
   const formatDate = (date: any) => {
     return moment(date).fromNow();
   };
 
   const handleClipBoardCopy = () => {
-    Clipboard.setString(_.get(currentComment, 'content', ''));
+    Clipboard.setString(_.get(reply, 'content', ''));
     actionSheetRef.current.setModalVisible(false);
     Alert.alert('Copied');
   };
   const handleUpVote = async () => {
-    commentsService.upVoteComment(_.get(currentComment, 'id', '')).then(() => {
+    commentsService.upVoteComment(_.get(reply, 'id', '')).then(() => {
+      if (downVoted) {
+        setDownVotes(Math.max(0, downVotes - 1));
+      }
       setUpVoted(true);
-      setDownVoted(false);
+      setdownVoted(false);
+      setUpVotes(upVotes + 1);
+      onVote();
     });
   };
 
   const handleDownVote = async () => {
-    await commentsService.downVoteComment(_.get(currentComment, 'id', '')).then(() => {
+    commentsService.downVoteComment(_.get(reply, 'id', '')).then(() => {
+      if (upVoted) {
+        setUpVotes(Math.max(0, upVotes - 1));
+      }
+      setdownVoted(true);
       setUpVoted(false);
-      setDownVoted(true);
+      setDownVotes(downVotes + 1);
+
+      onVote();
     });
   };
 
   const editComment = () => {
     actionSheetRef.current.setModalVisible(false);
-    navigation.navigate('EditComment', { comment: currentComment });
+    navigation.navigate('EditComment', { comment: reply });
   };
 
   const deleteComment = () => {
-    dispatch(deleteCommentAction(_.get(currentComment, 'id', '')));
+    dispatch(deleteCommentAction(_.get(reply, 'id', '')));
   };
 
   const debounceDownVote = _.debounce(handleDownVote, 800, {
@@ -127,7 +127,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post }) => {
   const handleShare = () => {
     Share.open({
       title: `Post comment`,
-      message: _.get(currentComment, 'content', ''),
+      message: _.get(reply, 'content', ''),
       subject: `Post comment`,
       failOnCancel: false,
     })
@@ -150,20 +150,20 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post }) => {
           containerStyle={styles.avatar}
         />
         <ListItem.Content>
-          <ListItem.Title>{`${_.get(currentComment, 'owner.fullName', '')} ${formatDate(
-            _.get(currentComment, 'createDate', new Date()),
+          <ListItem.Title>{`${_.get(reply, 'owner.fullName', '')} ${formatDate(
+            _.get(reply, 'createDate', new Date()),
           )}`}</ListItem.Title>
         </ListItem.Content>
       </ListItem>
 
       <ListItem.Subtitle style={[Fonts.textLeft, styles.comment]}>
-        {_.get(currentComment, 'content', '')}
+        {_.get(reply, 'content', '')}
       </ListItem.Subtitle>
 
       <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('ReplyToPost', { post: currentComment, isPostReply: false });
+            navigation.navigate('ReplyToPost', { post: reply, isPostReply: false });
           }}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
         >
@@ -210,13 +210,13 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, users, post }) => {
           onReportPress={handleReportPress}
           onEditPress={editComment}
           onDeletePress={deleteComment}
-          ownerId={_.get(currentComment, 'ownerId', '')}
+          ownerId={_.get(reply, 'owner.id', '')}
         />
       </ActionSheet>
       <ReportPostModal
         style={Gutters.regularLMargin}
         handleReport={(reason: string) => {
-          reportUserPost({ postId: null, reason, commentId: _.get(currentComment, 'id', '') });
+          reportUserPost({ postId: null, reason, commentId: _.get(reply, 'id', '') });
         }}
         visible={reportModalVisible}
         onDismiss={hideReportModal}

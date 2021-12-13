@@ -42,10 +42,14 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     }, [dispatch, post, repliesExpanded]),
   );
 
+  const onVote = () => {
+    dispatch(getPostCommentsAction(_.get(post, 'id', '')));
+  };
+
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
     return (
       <>
-        <PostReply reply={item} users={users} post={post} />
+        <PostReply reply={item} users={users} post={post} onVote={onVote} />
         {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );

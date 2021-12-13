@@ -28,7 +28,7 @@ import postsService, { getPostsTypes } from '../../../services/sub-services/post
 const ForumsScreen: React.FC = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   const [extraData, setExtraData] = useState([]);
   const {
     posts,
@@ -211,7 +211,7 @@ const ForumsScreen: React.FC = () => {
       <>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
-          data={[...posts, ...extraData]}
+          data={Array.from(new Set([...posts, ...extraData]))}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           onRefresh={getPosts}

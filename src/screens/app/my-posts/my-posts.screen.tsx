@@ -19,7 +19,7 @@ const MyPostsScreen: React.FC = () => {
   const { myPosts, isLoadingGetMyPosts, isLoadingGetPost } = useSelector(postsSelector);
   const dispatch = useDispatch();
   const [selectedPost, setSelectedPost] = useState({});
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   const [extraData, setExtraData] = useState([]);
   const { Layout, Gutters } = useTheme();
 

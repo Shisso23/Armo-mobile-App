@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
+import { HelperText } from 'react-native-paper';
 import { Button, Icon } from 'react-native-elements';
 
 import { emailSchema, registerPasswordSchema } from '../form-validaton-schemas';
@@ -23,6 +24,7 @@ type SignUpFormFormProps = {
 const SignUpSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   name: Yup.string().required('Name is required'),
+  lastName: Yup.string().required('Last name is required'),
   password: registerPasswordSchema,
   confirmPassword: Yup.string()
     .required()
@@ -55,8 +57,9 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   const { Layout } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
+  const [showPasswordError, setShowPasswordError] = useState(false);
 
-  const _showPasswordShort = (type: String) => {
+  const showPassword = (type: String) => {
     setTimeout(() => {
       if (type === 'confirm') {
         setIsRetypedPasswordHidden(true);
@@ -75,15 +78,16 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
     try {
       await submitForm(formData);
       actions.setSubmitting(false);
-      flashService.success('Successfully Signed Up ');
       onSuccess();
     } catch (error) {
       actions.setSubmitting(false);
-
-      if (_.get(error, 'statusCode') === 422) {
-        const apiErrors = error.errors;
+      if (_.get(error, 'statusCode') === 422 || _.get(error, 'statusCode') === 400) {
+        setShowPasswordError(true);
+        if (_.get(error, 'statusCode') === 422) {
+          const apiErrors = _.get(error, 'errors', '');
+          actions.resetForm({ values: formData, status: { apiErrors } });
+        }
         flashService.error('Form Submission Error');
-        actions.resetForm({ values: formData, status: { apiErrors } });
       }
     }
   };
@@ -125,6 +129,13 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               errorMessage={error('name')}
             />
             <CustomInput
+              value={values.lastName}
+              onChangeText={handleChange('lastName')}
+              onBlur={handleBlur('lastName')}
+              label="Last Name"
+              errorMessage={error('lastName')}
+            />
+            <CustomInput
               value={values.email}
               onChangeText={handleChange('email')}
               autoCapitalize="none"
@@ -137,7 +148,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
             <DropdownSelect
               value={values.region}
               label="Region"
-              keyExtractor={(region: any, index: Number) => `${region}${index}`}
               onChange={(region: any) => {
                 setFieldValue('region', region);
               }}
@@ -169,7 +179,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
                   type="material-community"
                   size={21}
                   name={isPasswordHidden ? 'eye' : 'eye-off'}
-                  onPress={() => _showPasswordShort('password')}
+                  onPress={() => showPassword('password')}
                   color={Colors.gray}
                 />
               }
@@ -179,6 +189,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               value={values.confirmPassword}
               secureTextEntry={isRetypedPasswordHidden}
               onChangeText={(text) => {
+                setShowPasswordError(false);
                 setFieldValue('confirmPassword', text);
               }}
               autoCapitalize="none"
@@ -190,11 +201,15 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
                   type="material-community"
                   size={21}
                   name={isRetypedPasswordHidden ? 'eye' : 'eye-off'}
-                  onPress={() => _showPasswordShort('confirm')}
+                  onPress={() => showPassword('confirm')}
                   color={Colors.gray}
                 />
               }
             />
+            <HelperText style={styles.passwordError} visible={showPasswordError} type="error">
+              Make sure your password contains at least an uppercase letter, a lowercase letter, a
+              number and a special character!
+            </HelperText>
             <Button
               title="Submit"
               titleStyle={styles.buttonTitle}
@@ -214,6 +229,9 @@ const styles = StyleSheet.create({
   buttonContainer: { borderRadius: 20, width: '70%' },
   buttonStyle: { backgroundColor: Colors.secondary, borderRadius: 20 },
   buttonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
+  passwordError: {
+    textAlign: 'center',
+  },
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,

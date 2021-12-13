@@ -3,6 +3,7 @@ import { Menu, List } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
 import { Dimensions, StyleSheet, Platform, Pressable, FlatList, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import _ from 'lodash';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
@@ -56,7 +57,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
 
   const renderListItem = ({ item, index }: { item: any; index: any }) => (
     <List.Item
-      key={keyExtractor ? keyExtractor(item, index) : item.id}
+      key={keyExtractor ? keyExtractor(item, index) : _.get(item, 'id', index)}
       onPress={() => _handleChange(item)}
       title={valueExtractor ? valueExtractor(item, index) : item.label}
       style={{ width: width * 0.92 }}
@@ -113,7 +114,13 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         )
       }
     >
-      <FlatList data={items} renderItem={renderListItem} />
+      <FlatList
+        data={items}
+        keyExtractor={(item, index) =>
+          keyExtractor ? keyExtractor(item, index) : _.get(item, 'id', `${index}`)
+        }
+        renderItem={renderListItem}
+      />
     </Menu>
   );
 };
