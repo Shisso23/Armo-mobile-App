@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import OneSignal from 'react-native-onesignal';
+import { LogBox } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import NavigationContainer from './navigation/root.navigator';
@@ -30,6 +31,15 @@ const App: React.FC = () => {
       oneSignalService.processMessage(notification);
     });
   };
+
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      'Require cycle',
+      'VirtualizedLists should never be nested',
+      'Usage of "messaging().registerDeviceForRemoteMessages()" is not required.',
+      'Non-serializable values were found in the navigation state',
+    ]);
+  }, []);
 
   useEffect(() => {
     oneSignalService.pushNotificationsAllowed().then(() => {

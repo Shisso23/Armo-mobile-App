@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { Icon } from 'react-native-elements';
+import { Icon, Badge } from 'react-native-elements';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 import CustomHeaderButton from '../custom-header-button';
+
+import { userSelector } from '../../../reducers/user-reducer/user.reducer';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { notificationsSelector } from '../../../reducers/notifications-reducer/notifications.reducer';
 
 type BackButtonProps = {
   onBack: any;
@@ -19,10 +24,14 @@ type BackButtonProps = {
 
 const Header: React.FC<BackButtonProps> = (props) => {
   const { Gutters, Common, Layout } = useTheme();
+  const { user } = useSelector(userSelector);
   const navigation = useNavigation<DrawerNavigationProp<any>>();
+  const { unOpenedNotifications } = useSelector(notificationsSelector);
   const handleOnPress = () => {
     return navigation.toggleDrawer();
   };
+
+  const goToNotifications = () => navigation.navigate('Notifications');
 
   return (
     <View style={[Layout.rowBetween, Layout.alignItemsEnd, styles.header]}>
@@ -35,28 +44,35 @@ const Header: React.FC<BackButtonProps> = (props) => {
 
       <View style={[Layout.rowBetween, Gutters.tinyVPadding, Gutters.regularRMargin]}>
         {props.notificationBellVisible !== false && (
-          <Icon
-            type="font-awesome-5"
-            name="bell"
-            size={20}
-            onPress={() => navigation.navigate('Notifications')}
-            containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
-          />
+          <TouchableOpacity onPress={goToNotifications}>
+            <Icon
+              type="font-awesome-5"
+              name="bell"
+              size={23}
+              containerStyle={[Gutters.smallRMargin, Gutters.tinyTMargin, styles.iconsOpacity]}
+            />
+            {unOpenedNotifications > 0 && (
+              <Badge
+                containerStyle={styles.badgeContainerStyle}
+                value={`${unOpenedNotifications}`}
+              />
+            )}
+          </TouchableOpacity>
         )}
 
-        {props.engagementScoreVisible !== false && ( //TODO use engagaement score endpoint when available
+        {props.engagementScoreVisible !== false && (
           <View style={[Layout.rowBetween, styles.engagementScore, Gutters.tinyPadding]}>
             <Icon
               name="user"
               type="feather"
-              size={15}
+              size={16}
               containerStyle={[
                 styles.iconsOpacity,
                 Common.android60PercentWhite,
                 Gutters.tinyRMargin,
               ]}
             />
-            <Text>000</Text>
+            <Text>{user.engagementScore}</Text>
           </View>
         )}
       </View>
@@ -67,7 +83,12 @@ const Header: React.FC<BackButtonProps> = (props) => {
 export default Header;
 
 const styles = StyleSheet.create({
+  badgeContainerStyle: {
+    position: 'absolute',
+    right: 2,
+    top: -2,
+  },
   engagementScore: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
-  header: { backgroundColor: Colors.transparent, height: 90 },
+  header: { backgroundColor: Colors.transparent, height: 80, overflow: 'visible' },
   iconsOpacity: { opacity: 0.72 },
 });

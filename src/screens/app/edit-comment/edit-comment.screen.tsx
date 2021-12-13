@@ -26,7 +26,7 @@ const EditCommentScreen = ({ route }: { route: Object }) => {
       await commentsService.editComment(formData, id);
       navigation.goBack();
     } catch (error) {
-      console.warn(error);
+      Promise.reject(error);
     }
   };
 

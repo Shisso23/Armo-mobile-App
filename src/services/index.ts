@@ -9,3 +9,4 @@ export { default as commentsService } from './sub-services/comment-replies-servi
 export { default as notificationsService } from './sub-services/notifications-service/notifications.service';
 export { default as sponsorsService } from './sub-services/sponsors-services/sponsors.service';
 export { default as attachementsService } from './sub-services/attachments-service/attachment.service';
+export { default as regionsService } from './sub-services/regions-service/regions.service';

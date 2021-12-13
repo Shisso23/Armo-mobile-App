@@ -74,23 +74,13 @@ const SignInForm: React.FC<SignInFormProps> = ({
       validationSchema={signInSchema}
       enableReinitialize
     >
-      {({
-        handleChange,
-        handleSubmit,
-        values,
-        errors,
-        isSubmitting,
-        handleBlur,
-        touched,
-        status,
-      }) => {
+      {({ handleChange, handleSubmit, errors, isSubmitting, handleBlur, touched, status }) => {
         const error = (name: string): string | undefined =>
           getFormError(name, { touched, status, errors });
         return (
           <>
             <View style={[styles.inputView]}>
               <CustomInput
-                value={values.username}
                 onChangeText={handleChange('username')}
                 autoCapitalize="none"
                 onBlur={handleBlur('username')}
@@ -100,7 +90,6 @@ const SignInForm: React.FC<SignInFormProps> = ({
                 inputContainerStyle={Common.inputContainer}
               />
               <CustomInput
-                value={values.password}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 label="Password"
@@ -113,7 +102,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
                     type="material-community"
                     size={21}
                     name={isPasswordHidden ? 'eye' : 'eye-off'}
-                    onPress={() => _showPasswordShort()}
+                    onPress={_showPasswordShort}
                     color={Colors.gray}
                   />
                 }
@@ -140,7 +129,6 @@ const SignInForm: React.FC<SignInFormProps> = ({
 
 const styles = StyleSheet.create({
   buttonsView: { width: '100%' },
-  // icon: { color: Colors.shadow, opacity: 0.5 },
   inputView: { marginTop: '25%', width: '85%' },
 });
 

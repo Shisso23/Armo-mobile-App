@@ -66,7 +66,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         return (
           <>
             <Input
-              value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               label="Email"
@@ -74,7 +73,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               keyboardType="email-address"
             />
             <Input
-              value={values.name}
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
               label="Name"

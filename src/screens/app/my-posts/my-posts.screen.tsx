@@ -29,7 +29,7 @@ const MyPostsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getMyPostsAction());
-    }, [dispatch]),
+    }, []),
   );
 
   const getPost = async (id: any) => {
@@ -37,6 +37,12 @@ const MyPostsScreen: React.FC = () => {
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
+  };
+
+  const postsWithoutDups = (allPosts: Array<apiPostProps>) => {
+    return [
+      ...new Map(allPosts.map((post: apiPostProps) => [_.get(post, 'id', ''), post])).values(),
+    ];
   };
 
   const fetchMorePosts = async () => {
@@ -74,7 +80,7 @@ const MyPostsScreen: React.FC = () => {
       <Text style={[Gutters.regularLMargin, Gutters.smallBMargin, styles.title]}>My Posts</Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={[...myPosts, ...extraData]}
+        data={postsWithoutDups([...myPosts, ...extraData])}
         renderItem={renderForum}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}

@@ -67,6 +67,8 @@ const ForumsScreen: React.FC = () => {
     [dispatch],
   );
 
+  const goToCreatePost = () => navigation.navigate('CreatePost');
+
   const getPosts = () => {
     dispatch(getPostsAction(filterParams));
   };
@@ -74,7 +76,7 @@ const ForumsScreen: React.FC = () => {
     useCallback(() => {
       dispatch(getPostsAction(filterParams));
       dispatch(getCategoriesAction());
-    }, [dispatch, filterParams]),
+    }, []),
   );
 
   const getPost = async (id: any) => {
@@ -160,6 +162,12 @@ const ForumsScreen: React.FC = () => {
     }
   };
 
+  const postsWithoutDups = (allPosts: Array<apiPostProps>) => {
+    return [
+      ...new Map(allPosts.map((post: apiPostProps) => [_.get(post, 'id', ''), post])).values(),
+    ];
+  };
+
   const renderForum = ({ item }: { item: apiPostProps }) => {
     return (
       <PostItem
@@ -211,7 +219,7 @@ const ForumsScreen: React.FC = () => {
       <>
         <FlatList
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
-          data={[...posts, ...extraData]}
+          data={postsWithoutDups([...posts, ...extraData])}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
           onRefresh={getPosts}
@@ -225,7 +233,7 @@ const ForumsScreen: React.FC = () => {
         style={[Common.fabAlignment, styles.fab]}
         icon="plus"
         color={Colors.white}
-        onPress={() => navigation.navigate('CreatePost')}
+        onPress={goToCreatePost}
       />
       <ActionSheet
         ref={actionSheetRef}

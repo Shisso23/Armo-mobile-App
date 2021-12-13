@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Platform, Pressable } from 'react-native';
 import { Menu } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
@@ -36,6 +36,10 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
     setPostOptionsModalVisible(false);
   };
 
+  const showPostOptionsModal = () => {
+    setPostOptionsModalVisible(true);
+  };
+
   const hideReportModal = () => {
     setReportModalVisible(false);
   };
@@ -47,11 +51,23 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
         visible={postOptionsModalVisible}
         onDismiss={hidePostOptionsModal}
         anchor={
-          <Icon
-            name="dots-vertical"
-            type="material-community"
-            onPress={() => setPostOptionsModalVisible(true)}
-          />
+          <Pressable
+            onPress={showPostOptionsModal}
+            hitSlop={{ top: 30, bottom: 30, left: 70, right: 50 }}
+          >
+            {({ pressed }) => {
+              return (
+                <Icon
+                  name="dots-vertical"
+                  type="material-community"
+                  size={28}
+                  containerStyle={{
+                    backgroundColor: pressed ? Colors.semiTransparent : Colors.transparent,
+                  }}
+                />
+              );
+            }}
+          </Pressable>
         }
         contentStyle={styles.postMenuContent}
       >
@@ -67,7 +83,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
               style={Gutters.regularMargin}
               onPress={() => {
                 handleEdit();
-                setPostOptionsModalVisible(false);
+                hidePostOptionsModal();
               }}
             >
               <Text>Edit Post</Text>
@@ -76,7 +92,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
               style={Gutters.regularMargin}
               onPress={() => {
                 handleDelete();
-                setPostOptionsModalVisible(false);
+                hidePostOptionsModal();
               }}
             >
               <Text>Delete Post</Text>

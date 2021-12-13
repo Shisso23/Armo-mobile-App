@@ -12,16 +12,10 @@ const { width } = Dimensions.get('window');
 type DescriptionInputProps = {
   handleChange: Function;
   handleBlur: Function;
-  value: string;
   error: Function;
 };
 
-const DescriptionInput: React.FC<DescriptionInputProps> = ({
-  handleChange,
-  handleBlur,
-  value,
-  error,
-}) => {
+const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handleBlur, error }) => {
   const [textAlignCenter, setTextAlignCenter] = useState(false);
   const [textBold, setTextBold] = useState(false);
   const [textItalics, setTextItalics] = useState(false);
@@ -33,11 +27,14 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
     setTextItalics(false);
   };
 
+  const toggleTextBold = () => setTextBold(!textBold);
+  const toggleTextItalics = () => setTextItalics(!textItalics);
+  const toggleTextCenter = () => setTextAlignCenter(!textAlignCenter);
+
   return (
     <>
       <View>
         <CustomInput
-          value={value}
           onChangeText={handleChange('description')}
           onBlur={handleBlur('description')}
           label="Description"
@@ -71,19 +68,19 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({
             type="font-awesome"
             size={19}
             color={textBold ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextBold(!textBold)}
+            onPress={toggleTextBold}
           />
           <Icon
             name="italic"
             type="feather"
             size={19}
             color={textItalics ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextItalics(!textItalics)}
+            onPress={toggleTextItalics}
           />
           <Icon
             name="format-align-center"
             color={textAlignCenter ? Colors.white : Colors.semiTransparent}
-            onPress={() => setTextAlignCenter(!textAlignCenter)}
+            onPress={toggleTextCenter}
           />
           <Icon
             name="rotate-left"

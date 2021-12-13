@@ -28,7 +28,7 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
       return () => {
         clearInterval(interval);
       };
-    }, [categoryId, dispatch]),
+    }, [categoryId]),
   );
 
   const renderDivider = () => <View style={[styles.divider]} />;

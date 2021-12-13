@@ -8,6 +8,7 @@ export type SignUpProps = {
   company: string;
   password: string;
   confirmPassword: string;
+  lastName: string;
 };
 
 export type ApiSignUpProps = {
@@ -24,6 +25,7 @@ export type ApiSignUpProps = {
 export const signUpFormModel = (_model?: SignUpProps) => ({
   username: _.get(_model, 'username', ''),
   name: _.get(_model, 'name', ''),
+  lastName: _.get(_model, 'lastName', ''),
   email: _.get(_model, 'email', ''),
   region: _.get(_model, 'region', ''),
   company: _.get(_model, 'company', ''),

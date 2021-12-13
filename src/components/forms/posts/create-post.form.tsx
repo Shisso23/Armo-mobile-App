@@ -117,7 +117,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
             />
 
             <CustomInput
-              value={values.topicTitle}
               onChangeText={handleChange('topicTitle')}
               onBlur={handleBlur('topicTitle')}
               label="Topic title"
@@ -125,12 +124,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
               inputContainerStyle={Common.inputContainer}
               leftIcon={undefined}
             />
-            <DescriptionInput
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              value={values.description}
-              error={error}
-            />
+            <DescriptionInput handleChange={handleChange} handleBlur={handleBlur} error={error} />
 
             <>
               {_.get(values, 'media', []).map((media: { uri: string }) => (
@@ -145,7 +139,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
             </>
 
             <UploadMediaButton
-              title="Upload Image/Video"
+              title="Upload Image"
               style={[Layout.fill, Gutters.tinyRMargin]}
               disabled={isSubmitting}
               errorMessage={error('media')}

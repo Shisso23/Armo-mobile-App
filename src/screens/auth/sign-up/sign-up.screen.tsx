@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SignUpForm } from '../../../components/forms';
 import { signUpFormModel, SignUpProps } from '../../../models';
@@ -9,21 +11,30 @@ import FormScreenContainer from '../../../components/containers/form-screen-cont
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 import BackButton from '../../../components/atoms/back-button';
-import { userAuthService } from '../../../services';
+import { flashService, userAuthService } from '../../../services';
+import { regionsSelector } from '../../../reducers/regions-reducer/regions.reducer';
+import { getRegionsAction } from '../../../reducers/regions-reducer/regions.actions';
 
 const SignUpScreen: React.FC = () => {
   const { Gutters, Layout } = useTheme();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
+  const { regions } = useSelector(regionsSelector);
   const submitForm = async (values: SignUpProps) => {
-    try {
-      await userAuthService.register(values);
-      navigation.navigate('SignIn');
-    } catch (error) {
-      console.warn({ error });
-    }
+    return userAuthService.register(values).then((response) => {
+      const status = _.get(response, 'status', null);
+      if (status === 200 || status === 204) {
+        flashService.success('Successfully Signed Up ');
+        return navigation.navigate('SignIn');
+      }
+      return response;
+    });
   };
+
+  useEffect(() => {
+    dispatch(getRegionsAction());
+  }, []);
 
   return (
     <>
@@ -35,7 +46,7 @@ const SignUpScreen: React.FC = () => {
           Add your details to sign up
         </Text>
         <View style={Gutters.regularHMargin}>
-          <SignUpForm submitForm={submitForm} initialValues={signUpFormModel()} />
+          <SignUpForm regions={regions} submitForm={submitForm} initialValues={signUpFormModel()} />
         </View>
       </FormScreenContainer>
     </>

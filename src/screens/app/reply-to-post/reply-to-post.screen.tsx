@@ -9,6 +9,7 @@ import { ReplyToPostModel, ReplyToPostProps } from '../../../models';
 import { useTheme } from '../../../theme';
 
 import _ from 'lodash';
+import { FormScreenContainer } from '../../../components';
 
 const { width } = Dimensions.get('window');
 const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
@@ -31,13 +32,15 @@ const ReplyToPostScreen = ({ route }: { route: { params: Object } }) => {
   };
 
   return (
-    <View style={[Gutters.regularPadding, Gutters.largeHPadding, styles.container, Layout.fill]}>
+    <FormScreenContainer
+      contentContainerStyle={[Gutters.regularPadding, Gutters.largeHPadding, styles.container]}
+    >
       <View style={[Layout.rowBetween, Gutters.largeBMargin]}>
         <Text style={Fonts.title}>Reply</Text>
         <Icon name="close-a" type="fontisto" size={17} onPress={goBack} />
       </View>
       <ReplyToPostForm submitForm={onSubmit} initialValues={ReplyToPostModel()} />
-    </View>
+    </FormScreenContainer>
   );
 };
 

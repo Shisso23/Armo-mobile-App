@@ -32,7 +32,7 @@ const MySubscriptionsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getSubscribedPostsAction());
-    }, [dispatch]),
+    }, []),
   );
 
   const getPost = async (id: any) => {
@@ -40,6 +40,12 @@ const MySubscriptionsScreen: React.FC = () => {
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
+  };
+
+  const postsWithoutDups = (allPosts: Array<apiPostProps>) => {
+    return [
+      ...new Map(allPosts.map((post: apiPostProps) => [_.get(post, 'id', ''), post])).values(),
+    ];
   };
 
   const fetchMorePosts = async () => {
@@ -78,7 +84,7 @@ const MySubscriptionsScreen: React.FC = () => {
       </Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}
-        data={[...subscribedPosts, ...extraData]}
+        data={postsWithoutDups([...subscribedPosts, ...extraData])}
         renderItem={renderSubScription}
         keyExtractor={(item) => String(item.id)}
         onRefresh={getPosts}

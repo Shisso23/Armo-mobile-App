@@ -14,6 +14,12 @@ type ImageThumbnailProps = {
 
 const ImageThumbnail: React.FC<ImageThumbnailProps> = ({ media, deleteImage = () => null }) => {
   const { Gutters, Layout, Common } = useTheme();
+
+  const promptDelete = () => {
+    promptConfirm('', 'Are you sure you want to delete this item?', 'Delete', () =>
+      deleteImage(media.uri),
+    );
+  };
   return (
     <>
       {!_.isEmpty(media.uri) && (
@@ -41,11 +47,7 @@ const ImageThumbnail: React.FC<ImageThumbnailProps> = ({ media, deleteImage = ()
             type="font-awesome"
             size={22}
             color={Colors.white}
-            onPress={() => {
-              promptConfirm('', 'Are you sure you want to delete this item?', 'Delete', () =>
-                deleteImage(media.uri),
-              );
-            }}
+            onPress={promptDelete}
           />
         </View>
       )}

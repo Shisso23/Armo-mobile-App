@@ -17,23 +17,23 @@ const NOTIFICATIONS = [
   {
     id: 0,
     title: 'first',
-    message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    sent_at: new Date(),
-    seen: false,
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    createDate: new Date(),
+    markedAsRead: false,
   },
   {
     id: 1,
     title: 'second',
-    message: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem ',
-    sent_at: new Date(),
-    seen: true,
+    content: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem ',
+    createDate: new Date(),
+    markedAsRead: true,
   },
   {
     id: 2,
     title: 'third',
-    message: 'I have got a great news for you!',
-    sent_at: new Date(),
-    seen: false,
+    content: 'I have got a great news for you!',
+    createDate: new Date(),
+    markedAsRead: false,
   },
 ];
 
@@ -92,7 +92,7 @@ export const mockApi = axios.create({
 const mockAdapter = new MockAdapter(mockApi, { delayResponse: 400 });
 
 // mocking getNotification api
-mockAdapter.onGet(`${apiUrl}/notifications`).reply(() => {
+mockAdapter.onGet(`${apiUrl}/Notifications`).reply(() => {
   const response = 200;
   const data = {
     data: NOTIFICATIONS,

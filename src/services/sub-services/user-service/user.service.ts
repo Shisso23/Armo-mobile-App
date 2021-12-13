@@ -13,8 +13,6 @@ const getUsers = () => {
       return users;
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.warn(error);
       return Promise.reject(error);
     });
 };
@@ -30,8 +28,6 @@ const getUser = async () => {
       return _createAndReturnUserModel(response.data);
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.warn(error);
       return Promise.reject(error);
     });
 };
@@ -42,8 +38,6 @@ const updateUser = (formData: UserProps) => {
 
   return authNetworkService.patch(url, apiUser).catch((error) => {
     error.errors = userModel(error.errors);
-    // eslint-disable-next-line no-console
-    console.warn(error);
     return Promise.reject(error);
   });
 };

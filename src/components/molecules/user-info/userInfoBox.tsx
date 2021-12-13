@@ -22,7 +22,7 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({
   handlePostReport,
 }) => {
   const formatDate = (date: any) => {
-    return moment(date).fromNow();
+    return moment(date).add({ hours: 2 }).fromNow();
   };
   return (
     <ListItem containerStyle={styles.container}>
