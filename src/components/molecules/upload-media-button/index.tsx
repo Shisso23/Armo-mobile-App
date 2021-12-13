@@ -12,7 +12,7 @@ import useTheme from '../../../theme/hooks/useTheme';
 type UploadMediaButtonProps = {
   onImageSelect: Function;
   errorMessage?: string;
-  title: String;
+  title: string;
   style: any;
   disabled: Boolean;
 };
@@ -20,6 +20,7 @@ const actionSheetRef = createRef<{ setModalVisible: Function }>();
 const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
   onImageSelect,
   errorMessage = '',
+  title,
 }) => {
   const { Common, Gutters } = useTheme();
 
@@ -54,7 +55,7 @@ const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
       <Text style={[Common.errorStyle]}>{errorMessage}</Text>
       <Button
         type="outline"
-        title="Upload Image/Video"
+        title={title}
         icon={
           <Icon
             name="upload"

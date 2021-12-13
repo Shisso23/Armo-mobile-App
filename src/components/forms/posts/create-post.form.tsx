@@ -145,7 +145,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
             </>
 
             <UploadMediaButton
-              title="Upload Image/Video"
+              title="Upload Image"
               style={[Layout.fill, Gutters.tinyRMargin]}
               disabled={isSubmitting}
               errorMessage={error('media')}

@@ -130,14 +130,16 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
 
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill, styles.container]}>
-      <Icon
-        name="arrow-left"
-        type="material-community"
-        size={30}
-        onPress={() => navigation.goBack()}
-        style={Layout.alignSelfStart}
-      />
-      {renderModal()}
+      <View style={Layout.rowBetween}>
+        <Icon
+          name="arrow-left"
+          type="material-community"
+          size={30}
+          onPress={() => navigation.goBack()}
+        />
+        {renderModal()}
+      </View>
+
       <Image
         source={attachment}
         style={[styles.image, Layout.alignSelfCenter, Gutters.largeTMargin]}
@@ -158,7 +160,7 @@ ViewPostMediaScreen.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  image: { height: '90%' },
+  image: { height: '88%' },
   loadingIndicator: {
     alignSelf: 'center',
     position: 'absolute',
