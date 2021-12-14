@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import { useTheme } from '../../../theme';
@@ -67,7 +67,7 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
   };
 
   return (
-    <>
+    <ScrollView nestedScrollEnabled={true}>
       <Text style={[Gutters.regularLMargin, styles.title]}>Category</Text>
       <FlatList
         data={categories}
@@ -75,6 +75,7 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
         numColumns={3}
         style={[Gutters.smallPadding]}
         keyExtractor={(item: { id: any }) => item.id}
+        scrollEnabled
       />
       <Text style={[Gutters.regularLMargin, styles.title]}>Sort by</Text>
       <View style={[Layout.row, Gutters.regularMargin]}>
@@ -118,7 +119,7 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
           containerStyle={[Gutters.regularRMargin]}
         />
       </View>
-    </>
+    </ScrollView>
   );
 };
 

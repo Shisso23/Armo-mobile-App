@@ -22,6 +22,11 @@ const SignInScreen: React.FC = () => {
     dispatch(isAuthenticatedFlowAction());
   };
 
+  const signIn = async (formData) => {
+    console.log({ formData });
+    await userAuthService.signIn(formData);
+  };
+
   return (
     <>
       {isFocused && <StatusBar hidden />}
@@ -42,7 +47,7 @@ const SignInScreen: React.FC = () => {
           <Image source={Images.signInTop} style={styles.topImage} />
           <Image source={Images.logo3} style={[styles.image]} />
           <SignInForm
-            submitForm={userAuthService.signIn}
+            submitForm={signIn}
             onSuccess={_onSignInSuccess}
             initialValues={signInModel()}
           />

@@ -11,6 +11,7 @@ const getPostComments = async (id: any) => {
   return authNetworkService
     .get(url)
     .then((apiResponse) => {
+      console.log({ apiResponse });
       return constructPostCommentsModels(_.get(apiResponse, 'data.data', []));
     })
     .catch((error) => {

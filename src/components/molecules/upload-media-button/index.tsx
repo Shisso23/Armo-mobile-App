@@ -26,9 +26,11 @@ const UploadMediaButton: React.FC<UploadMediaButtonProps> = ({
 
   const openActionSheet = () => {
     Keyboard.dismiss();
-    if (actionSheetRef.current !== null) {
-      return actionSheetRef.current.setModalVisible(true);
-    }
+    setTimeout(() => {
+      if (actionSheetRef.current !== null) {
+        return actionSheetRef.current.setModalVisible(true);
+      }
+    }, 100);
   };
   const closeActionSheet = () => actionSheetRef.current?.setModalVisible(false);
 

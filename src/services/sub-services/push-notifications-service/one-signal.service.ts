@@ -22,7 +22,7 @@ const getAndSetToken = async () => {
   if (enabled) {
     if (!oneSignalToken) {
       try {
-        oneSignalToken = (await OneSignal.getDeviceState()).pushToken;
+        oneSignalToken = (await OneSignal.getDeviceState()).userId;
       } catch (e) {
         oneSignalToken = null;
       }

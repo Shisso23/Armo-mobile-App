@@ -2,6 +2,9 @@ import React, { useMemo } from 'react';
 import { Icon, ListItem } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
+import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
+import { useTheme } from '../../../theme';
+import { ActivityIndicator } from 'react-native';
 
 type ShareActionContentProps = {
   onReportPress: Function | any;
@@ -21,7 +24,9 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
   ownerId,
 }) => {
   const { user } = useSelector(userSelector);
+  const { isLoadingDeleteComment } = useSelector(commentRepliesSelector);
   const isOwner = useMemo(() => user.id === ownerId, [ownerId, user.id]);
+  const { Gutters, Colors } = useTheme();
   const getActionData = (action: string) => {
     switch (action) {
       case 'edit':
@@ -48,6 +53,14 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
         <ListItem.Content>
           <ListItem.Title>{getActionData(action).text}</ListItem.Title>
         </ListItem.Content>
+        {action === 'delete' && (
+          <ActivityIndicator
+            size={40}
+            style={Gutters.smallTMargin}
+            animating={isLoadingDeleteComment}
+            color={Colors.darkGray}
+          />
+        )}
       </ListItem>
     );
   };

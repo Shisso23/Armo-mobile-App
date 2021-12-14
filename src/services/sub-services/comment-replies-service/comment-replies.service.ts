@@ -43,6 +43,7 @@ const deleteComment = async (commentId: string) => {
   const url = commentsUrls.deleteComment(commentId);
   try {
     const apiResponse = await authNetworkService.delete(url);
+    flashService.success('Successfully deleted!');
     return _.get(apiResponse, 'data.data', null);
   } catch (error) {
     flashService.error(_.get(error, 'message', 'Error while deleting comment!'));

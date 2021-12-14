@@ -46,7 +46,7 @@ const CustomCarousel = ({ sources, onSelect }: { sources: Array<Object>; onSelec
   return (
     <>
       <Carousel
-        layout="tinder"
+        layout="stack"
         data={sources}
         renderItem={_renderCarouselItem}
         sliderWidth={width}

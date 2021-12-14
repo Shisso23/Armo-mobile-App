@@ -215,8 +215,9 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
       </ActionSheet>
       <ReportPostModal
         style={Gutters.regularLMargin}
-        handleReport={(reason: string) => {
-          reportUserPost({ postId: null, reason, commentId: _.get(reply, 'id', '') });
+        handleReport={async (reason: string) => {
+          await reportUserPost({ postId: null, reason, commentId: _.get(reply, 'id', '') });
+          setReportModalVisible(false);
         }}
         visible={reportModalVisible}
         onDismiss={hideReportModal}

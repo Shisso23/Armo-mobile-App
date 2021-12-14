@@ -35,14 +35,22 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
 
   const renderSponsor = (sponsor: sponsorTypes) => {
     return (
-      <ImageBackground
-        source={{ uri: _.get(sponsor, 'logo', null) }}
-        style={[Layout.row, Layout.fill, Gutters.tinyHMargin, styles.logo]}
-      >
-        <Text style={[Gutters.regularLMargin, Layout.alignSelfEnd, styles.sponsor]}>
-          {_.get(sponsor, 'company', '')}
-        </Text>
-      </ImageBackground>
+      (sponsor && (
+        <ImageBackground
+          source={{ uri: _.get(sponsor, 'logo', null) }}
+          style={[
+            Layout.row,
+            Layout.fill,
+            Gutters.tinyHMargin,
+            Layout.justifyContentCenter,
+            styles.logo,
+          ]}
+        >
+          <Text numberOfLines={1} style={[Layout.alignSelfEnd, styles.sponsor]}>
+            {_.get(sponsor, 'company', '')}
+          </Text>
+        </ImageBackground>
+      )) || <View />
     );
   };
 
@@ -75,9 +83,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   sponsor: {
-    backgroundColor: Colors.fourtyPercentBlack,
+    backgroundColor: Colors.bannerBackground,
     color: Colors.white,
-    fontSize: 16,
+    fontSize: 13.3,
     fontWeight: 'bold',
   },
 });

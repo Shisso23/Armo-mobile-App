@@ -110,8 +110,11 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
         )}
         <ReportPostModal
           style={Gutters.regularLMargin}
-          handleReport={(reason: string) =>
-            handleReport({ postId: _.get(post, 'id', ''), reason, commentId: null })
+          handleReport={async (reason: string) =>
+            handleReport({ postId: _.get(post, 'id', ''), reason, commentId: null }).finally(() => {
+              hidePostOptionsModal();
+              setReportModalVisible(false);
+            })
           }
           visible={reportModalVisible}
           onDismiss={hideReportModal}

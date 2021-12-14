@@ -35,14 +35,11 @@ const App: React.FC = () => {
     });
   };
 
-  useEffect(() => {
-    LogBox.ignoreLogs([
-      'Require cycle',
-      'VirtualizedLists should never be nested',
-      'Usage of "messaging().registerDeviceForRemoteMessages()" is not required.',
-      'Non-serializable values were found in the navigation state',
-    ]);
+  const getUnreadNotifications = async () => {
+    return dispatch(getUnreadNotificationsAction());
+  };
 
+  const handleNotification = () => {
     oneSignalService.pushNotificationsAllowed().then(() => {
       handleForgroundNotifications();
       handleNotificationOpened();
@@ -50,19 +47,26 @@ const App: React.FC = () => {
         notificationsService.storeDeviceToken(token);
       });
     });
+  };
 
-    const interval = setInterval(() => {
-      if (isAuthenticated) {
-        dispatch(getUnreadNotificationsAction());
-      }
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      'Require cycle',
+      'VirtualizedLists should never be nested',
+      'Usage of "messaging().registerDeviceForRemoteMessages()" is not required.',
+      'Non-serializable values were found in the navigation state',
+    ]);
+    dispatch(initAppAction());
   }, []);
 
   useEffect(() => {
-    dispatch(initAppAction());
+    if (isAuthenticated) {
+      const interval = setInterval(getUnreadNotifications, 5000);
+      handleNotification();
+      return () => {
+        clearInterval(interval);
+      };
+    }
   });
 
   return <NavigationContainer />;

@@ -35,7 +35,7 @@ const Notification = ({ notification }: { notification: Object }) => {
     setIsCollapsed(!isCollapsed);
   };
   const formatDate = (date: string) => {
-    return Moment(date).fromNow();
+    return Moment(date).add({ hour: 2 }).fromNow();
   };
 
   const _setImageUrl = (image: AvatarImageSource) => {
