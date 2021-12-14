@@ -17,6 +17,18 @@ const getNotifications = async () => {
     });
 };
 
+const getUnreadNotifications = async () => {
+  const url = notificationsUrls.getUnreadNotifications();
+  return authNetworkService
+    .get(url)
+    .then((apiResponse) => {
+      return _.get(apiResponse, 'data.data', []);
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error fetching unread notifications!'));
+    });
+};
+
 const makeAsRead = async (notificationId: string) => {
   const url = notificationsUrls.markAsRead(notificationId);
   return authNetworkService
@@ -29,7 +41,23 @@ const makeAsRead = async (notificationId: string) => {
     });
 };
 
+const storeDeviceToken = async (deviceToken: string) => {
+  const url = notificationsUrls.storeDeviceToken();
+  return authNetworkService
+    .post(url, {
+      deviceToken,
+    })
+    .then((apiResponse) => {
+      return apiResponse;
+    })
+    .catch((error) => {
+      flashService.error(_.get(error, 'message', 'Error setting device token'));
+    });
+};
+
 export default {
   getNotifications,
+  getUnreadNotifications,
+  storeDeviceToken,
   makeAsRead,
 };

@@ -13,11 +13,6 @@ export const getNotificationsAction = () => async (dispatch: Function) => {
   try {
     const response: Array<NotificationProps> = await notificationsService.getNotifications();
     dispatch(setNotificationsAction(response));
-    const unOpenedNotifications = response.reduce((total, notification: NotificationProps) => {
-      // TODO use getUnOpenedNotifications endpoint
-      return !notification.seen ? (total = total + 1) : total;
-    }, 0);
-    dispatch(setUnOpenedNotificationsAction(unOpenedNotifications));
     return response;
   } catch (error) {
     flashService.error(_.get(error, 'message', ''));
@@ -26,9 +21,19 @@ export const getNotificationsAction = () => async (dispatch: Function) => {
   }
 };
 
-export const markAsReadAction = async (notidicationId: string) => {
+export const getUnreadNotificationsAction = () => async (dispatch: Function) => {
   try {
-    const response = await notificationsService.makeAsRead(notidicationId);
+    const response: number = await notificationsService.getUnreadNotifications();
+    dispatch(setUnOpenedNotificationsAction(response));
+    return response;
+  } catch (error) {
+    flashService.error(_.get(error, 'message', ''));
+  }
+};
+
+export const markAsReadAction = async (notiticationId: string) => {
+  try {
+    const response = await notificationsService.makeAsRead(notiticationId);
     return response;
   } catch (error) {
     return flashService.error(_.get(error, 'message', ''));

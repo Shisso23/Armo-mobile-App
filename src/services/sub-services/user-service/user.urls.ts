@@ -5,5 +5,4 @@ const { apiUrl } = appConfig;
 export default {
   userUrl: () => `${apiUrl}/users`,
   currentUserUrl: () => `${apiUrl}/Users/current-user`,
-  users: () => `${apiUrl}/BackOffice/Users`, //TODO use APP get users when error fixed
 };

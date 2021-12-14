@@ -8,7 +8,7 @@ import { FormScreenContainer } from '../../../components';
 import { SignInForm } from '../../../components/forms';
 import { isAuthenticatedFlowAction } from '../../../reducers/app-reducer/app.actions';
 import { userAuthService } from '../../../services';
-import { signInModel } from '../../../models';
+import { signInModel, SignInProps } from '../../../models';
 import useTheme from '../../../theme/hooks/useTheme';
 
 const { width } = Dimensions.get('window');
@@ -20,6 +20,10 @@ const SignInScreen: React.FC = () => {
 
   const _onSignInSuccess = () => {
     dispatch(isAuthenticatedFlowAction());
+  };
+
+  const signIn = async (formData: SignInProps) => {
+    await userAuthService.signIn(formData);
   };
 
   return (
@@ -42,7 +46,7 @@ const SignInScreen: React.FC = () => {
           <Image source={Images.signInTop} style={styles.topImage} />
           <Image source={Images.logo3} style={[styles.image]} />
           <SignInForm
-            submitForm={userAuthService.signIn}
+            submitForm={signIn}
             onSuccess={_onSignInSuccess}
             initialValues={signInModel()}
           />

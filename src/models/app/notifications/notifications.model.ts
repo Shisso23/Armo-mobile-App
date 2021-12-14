@@ -8,6 +8,18 @@ export type NotificationProps = {
   title: string;
 };
 
+const sortNotifications = (apiNotifications: Array<NotificationProps>) => {
+  return apiNotifications.sort((not1: Object, not2: Object) => {
+    if (_.get(not1, 'datePublished', '') > _.get(not2, 'datePublished', '')) {
+      return -1;
+    }
+    if (_.get(not1, 'datePublished', '') < _.get(not2, 'datePublished', '')) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
 export const notificationModel = (_model?: NotificationProps) => ({
   id: _.get(_model, 'id', ''),
   title: _.get(_model, 'title', ''),
@@ -17,4 +29,6 @@ export const notificationModel = (_model?: NotificationProps) => ({
 });
 
 export const constructNotificationsModels = (apiNotificationModel: NotificationProps[]) =>
-  apiNotificationModel.map((notification: NotificationProps) => notificationModel(notification));
+  sortNotifications(
+    apiNotificationModel.map((notification: NotificationProps) => notificationModel(notification)),
+  );

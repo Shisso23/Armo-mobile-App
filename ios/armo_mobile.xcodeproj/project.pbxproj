@@ -11,6 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		213BD36927636C9300AFC2ED /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213BD36827636C9300AFC2ED /* NotificationService.swift */; };
+		213BD36D27636C9300AFC2ED /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 213BD36627636C9200AFC2ED /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -20,6 +22,7 @@
 		90FFCC9447E0B52013051AC9 /* libPods-armo_mobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9267A0ECE9464A1203FAE99C /* libPods-armo_mobile-tvOSTests.a */; };
 		D485CAF4B8F6A4F6D11027F3 /* libPods-armo_mobile-armo_mobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8326C10BA61F6C65DCE2F45B /* libPods-armo_mobile-armo_mobileTests.a */; };
 		D85CFDEE572DC6BBFAC13892 /* libPods-armo_mobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E2460ED85277EF317D02DD /* libPods-armo_mobile-tvOS.a */; };
+		DB5224C521ED181B8A27E8F1 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98549080159532EA3758FF3A /* libPods-OneSignalNotificationServiceExtension.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +33,13 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = armo_mobile;
 		};
+		213BD36B27636C9300AFC2ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 213BD36527636C9200AFC2ED;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -38,6 +48,20 @@
 			remoteInfo = "armo_mobile-tvOS";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		213BD37127636C9300AFC2ED /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				213BD36D27636C9300AFC2ED /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -52,14 +76,22 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = armo_mobile/main.m; sourceTree = "<group>"; };
 		13FA94741FB4218481047758 /* libPods-armo_mobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-armo_mobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1584C2980078DEE6FE60A641 /* Pods-armo_mobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-armo_mobile-tvOS/Pods-armo_mobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		1E238E217DF8779DD703B2FD /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		2135B76E276724400021159D /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		213BD36127636B5400AFC2ED /* armo_mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = armo_mobile.entitlements; path = armo_mobile/armo_mobile.entitlements; sourceTree = "<group>"; };
+		213BD36627636C9200AFC2ED /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		213BD36827636C9300AFC2ED /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		213BD36A27636C9300AFC2ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* armo_mobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "armo_mobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* armo_mobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "armo_mobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CD24C82F84E0D538A83DB2 /* Pods-armo_mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile.debug.xcconfig"; path = "Target Support Files/Pods-armo_mobile/Pods-armo_mobile.debug.xcconfig"; sourceTree = "<group>"; };
+		53B8821D25F21E226E200775 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		642F992386D9F10F0B3279A7 /* Pods-armo_mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile.release.xcconfig"; path = "Target Support Files/Pods-armo_mobile/Pods-armo_mobile.release.xcconfig"; sourceTree = "<group>"; };
 		6C2255975774D0E8D17351E4 /* Pods-armo_mobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-armo_mobile-tvOS/Pods-armo_mobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = armo_mobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8326C10BA61F6C65DCE2F45B /* libPods-armo_mobile-armo_mobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-armo_mobile-armo_mobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9267A0ECE9464A1203FAE99C /* libPods-armo_mobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-armo_mobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		98549080159532EA3758FF3A /* libPods-OneSignalNotificationServiceExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneSignalNotificationServiceExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90F0C56FFECFEA3735FBF29 /* Pods-armo_mobile-armo_mobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile-armo_mobileTests.release.xcconfig"; path = "Target Support Files/Pods-armo_mobile-armo_mobileTests/Pods-armo_mobile-armo_mobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		B271F8C137A498AB11D50274 /* Pods-armo_mobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-armo_mobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-armo_mobile-tvOSTests/Pods-armo_mobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B9E2460ED85277EF317D02DD /* libPods-armo_mobile-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-armo_mobile-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +115,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7214F2D4F2410E82A9216895 /* libPods-armo_mobile.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		213BD36327636C9200AFC2ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB5224C521ED181B8A27E8F1 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +165,7 @@
 		13B07FAE1A68108700A75B9A /* armo_mobile */ = {
 			isa = PBXGroup;
 			children = (
+				213BD36127636B5400AFC2ED /* armo_mobile.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -136,6 +177,16 @@
 			name = armo_mobile;
 			sourceTree = "<group>";
 		};
+		213BD36727636C9300AFC2ED /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				2135B76E276724400021159D /* OneSignalNotificationServiceExtension.entitlements */,
+				213BD36827636C9300AFC2ED /* NotificationService.swift */,
+				213BD36A27636C9300AFC2ED /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +196,7 @@
 				8326C10BA61F6C65DCE2F45B /* libPods-armo_mobile-armo_mobileTests.a */,
 				B9E2460ED85277EF317D02DD /* libPods-armo_mobile-tvOS.a */,
 				9267A0ECE9464A1203FAE99C /* libPods-armo_mobile-tvOSTests.a */,
+				98549080159532EA3758FF3A /* libPods-OneSignalNotificationServiceExtension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -160,6 +212,8 @@
 				1584C2980078DEE6FE60A641 /* Pods-armo_mobile-tvOS.release.xcconfig */,
 				B271F8C137A498AB11D50274 /* Pods-armo_mobile-tvOSTests.debug.xcconfig */,
 				E20CE1FBDC16991BA673C5D5 /* Pods-armo_mobile-tvOSTests.release.xcconfig */,
+				1E238E217DF8779DD703B2FD /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				53B8821D25F21E226E200775 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -177,6 +231,7 @@
 				13B07FAE1A68108700A75B9A /* armo_mobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* armo_mobileTests */,
+				213BD36727636C9300AFC2ED /* OneSignalNotificationServiceExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				3A87302A46E72107A4B3FDCB /* Pods */,
@@ -194,6 +249,7 @@
 				00E356EE1AD99517003FC87E /* armo_mobileTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* armo_mobile-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* armo_mobile-tvOSTests.xctest */,
+				213BD36627636C9200AFC2ED /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,6 +273,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				ED79DC2D0D4A732F3BE63FD6 /* [CP] Copy Pods Resources */,
+				B5A5E712AE99337D4D3FCFAF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -239,15 +296,36 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				FDB471E66AABC5968A30D1F6 /* [CP] Copy Pods Resources */,
+				213BD37127636C9300AFC2ED /* Embed App Extensions */,
+				07060479E48AC4F1F749BB36 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				213BD36C27636C9300AFC2ED /* PBXTargetDependency */,
 			);
 			name = armo_mobile;
 			productName = armo_mobile;
 			productReference = 13B07F961A680F5B00A75B9A /* armo_mobile.app */;
 			productType = "com.apple.product-type.application";
+		};
+		213BD36527636C9200AFC2ED /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 213BD36E27636C9300AFC2ED /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildPhases = (
+				13639894C783C717F8F48054 /* [CP] Check Pods Manifest.lock */,
+				213BD36227636C9200AFC2ED /* Sources */,
+				213BD36327636C9200AFC2ED /* Frameworks */,
+				213BD36427636C9200AFC2ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = 213BD36627636C9200AFC2ED /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		2D02E47A1E0B4A5D006451C7 /* armo_mobile-tvOS */ = {
 			isa = PBXNativeTarget;
@@ -294,22 +372,32 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 9DZ2KAL8RW;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 8CC8A7GVRW;
+						DevelopmentTeam = 9DZ2KAL8RW;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Automatic;
+					};
+					213BD36527636C9200AFC2ED = {
+						CreatedOnToolsVersion = 13.1;
+						DevelopmentTeam = 9DZ2KAL8RW;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 9DZ2KAL8RW;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 9DZ2KAL8RW;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -332,6 +420,7 @@
 				00E356ED1AD99517003FC87E /* armo_mobileTests */,
 				2D02E47A1E0B4A5D006451C7 /* armo_mobile-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* armo_mobile-tvOSTests */,
+				213BD36527636C9200AFC2ED /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -350,6 +439,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		213BD36427636C9200AFC2ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +480,46 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		07060479E48AC4F1F749BB36 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-armo_mobile/Pods-armo_mobile-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OneSignalXCFramework/OneSignal.framework/OneSignal",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OneSignal.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-armo_mobile/Pods-armo_mobile-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		13639894C783C717F8F48054 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -463,6 +599,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B5A5E712AE99337D4D3FCFAF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-armo_mobile-armo_mobileTests/Pods-armo_mobile-armo_mobileTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OneSignalXCFramework/OneSignal.framework/OneSignal",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OneSignal.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-armo_mobile-armo_mobileTests/Pods-armo_mobile-armo_mobileTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B80A4C83AF308E2458D5E00A /* [CP] Check Pods Manifest.lock */ = {
@@ -653,6 +807,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		213BD36227636C9200AFC2ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				213BD36927636C9300AFC2ED /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2D02E4771E0B4A5D006451C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -678,6 +840,11 @@
 			target = 13B07F861A680F5B00A75B9A /* armo_mobile */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
+		213BD36C27636C9300AFC2ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 213BD36527636C9200AFC2ED /* OneSignalNotificationServiceExtension */;
+			targetProxy = 213BD36B27636C9300AFC2ED /* PBXContainerItemProxy */;
+		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* armo_mobile-tvOS */;
@@ -691,6 +858,8 @@
 			baseConfigurationReference = D53DDD387CCE7F8E04D82F8A /* Pods-armo_mobile-armo_mobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -714,7 +883,9 @@
 			baseConfigurationReference = A90F0C56FFECFEA3735FBF29 /* Pods-armo_mobile-armo_mobileTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				INFOPLIST_FILE = armo_mobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -733,10 +904,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 48CD24C82F84E0D538A83DB2 /* Pods-armo_mobile.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = armo_mobile/armo_mobile.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8CC8A7GVRW;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = armo_mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -745,8 +920,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armo.mobile1;
 				PRODUCT_NAME = armo_mobile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -757,10 +933,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 642F992386D9F10F0B3279A7 /* Pods-armo_mobile.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = armo_mobile/armo_mobile.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8CC8A7GVRW;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				INFOPLIST_FILE = armo_mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -768,10 +948,88 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.armo.mobile1;
 				PRODUCT_NAME = armo_mobile;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		213BD36F27636C9300AFC2ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E238E217DF8779DD703B2FD /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.armo.mobile1.onesignal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		213BD37027636C9300AFC2ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53B8821D25F21E226E200775 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.armo.mobile1.onesignal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -786,6 +1044,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "armo_mobile-tvOS/Info.plist";
@@ -795,7 +1054,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.armo_mobile-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.armo.mobile1-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -815,6 +1074,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "armo_mobile-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -823,7 +1083,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.armo_mobile-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.armo.mobile1-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -841,6 +1101,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "armo_mobile-tvOSTests/Info.plist";
@@ -850,7 +1111,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.armo_mobile-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.armo.mobile1-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/armo_mobile-tvOS.app/armo_mobile-tvOS";
@@ -869,6 +1130,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9DZ2KAL8RW;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "armo_mobile-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -877,7 +1139,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.armo_mobile-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.armo.mobile1-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/armo_mobile-tvOS.app/armo_mobile-tvOS";
@@ -1015,6 +1277,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		213BD36E27636C9300AFC2ED /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				213BD36F27636C9300AFC2ED /* Debug */,
+				213BD37027636C9300AFC2ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

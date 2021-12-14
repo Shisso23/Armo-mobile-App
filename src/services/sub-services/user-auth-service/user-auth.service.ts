@@ -15,7 +15,7 @@ import {
   signUpFormModel,
 } from '../../../models';
 
-const signIn = (formData: SignInProps) => {
+const signIn = async (formData: SignInProps) => {
   const signInUrl = authUrls.tokenUrl();
   const apiModel = apiSignInModel(formData);
   const oAuthData = querystring.stringify(authUtils.constructOAuthSignInData(apiModel));
@@ -26,7 +26,9 @@ const signIn = (formData: SignInProps) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-    .then(authUtils.storeAccessAndRefreshTokens);
+    .then((response) => {
+      return authUtils.storeAccessAndRefreshTokens(response);
+    });
 };
 
 const signOut = () => {
@@ -38,7 +40,6 @@ const register = async (formData: SignUpProps) => {
   const apiModel = apiSignUpModel(formData);
   try {
     const response = await networkService.post(registerUrl, apiModel);
-    await verifyEmail({ email: formData.email });
     return response;
   } catch (err) {
     err.errors = signUpFormModel(err.errors);

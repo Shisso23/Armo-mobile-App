@@ -129,6 +129,7 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
             />
 
             <DropdownSelect
+              value={values.region}
               label="Region"
               onChange={(region: any) => {
                 setFieldValue('region', region);

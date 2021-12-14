@@ -33,9 +33,9 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
     setReportModalVisible(visible);
   }, [visible]);
 
-  const renderReportingReson = (reason: string) => {
+  const renderReportingReason = (reason: string) => {
     return (
-      <TouchableOpacity style={[Gutters.regularMargin]} onPress={() => handleReport(reason)}>
+      <TouchableOpacity style={Gutters.regularMargin} onPress={() => handleReport(reason)}>
         <Text>{reason}</Text>
       </TouchableOpacity>
     );
@@ -68,11 +68,11 @@ const ReportPostModal: React.FC<ReportPostModalProps> = ({
             style={styles.loadingIndicator}
             size={25}
           />
-          {renderReportingReson('Spam')}
-          {renderReportingReson('Hatred and Bullying')}
-          {renderReportingReson('False Information')}
-          {renderReportingReson('Self Promoting')}
-          {renderReportingReson("I just don't like it")}
+          {renderReportingReason('Spam')}
+          {renderReportingReason('Hatred and Bullying')}
+          {renderReportingReason('False Information')}
+          {renderReportingReason('Self Promoting')}
+          {renderReportingReason("I just don't like it")}
         </ScrollView>
       </Menu>
     </>

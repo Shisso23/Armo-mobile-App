@@ -1,6 +1,14 @@
 import Config from 'react-native-config';
 
-const { API_LOCATION, CLIENT_ID, CLIENT_SECRET, HOST_URL, ENVIRONMENT } = Config;
+const {
+  API_LOCATION,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  HOST_URL,
+  ENVIRONMENT,
+  ONE_SIGNAL_APP_ID,
+  ONE_SIGNAL_APP_ID_IOS,
+} = Config;
 
 export default {
   accessTokenKey: 'access_token',
@@ -12,4 +20,7 @@ export default {
   environment: ENVIRONMENT,
   website: 'www.armo.co.za',
   scope: 'openid profile role email offline_access mobileApi',
+  oneSignalAppId: ONE_SIGNAL_APP_ID,
+  oneSignalAppIdIos: ONE_SIGNAL_APP_ID_IOS,
+  oneSignalTokenKey: 'oneSignalTokenKey',
 };

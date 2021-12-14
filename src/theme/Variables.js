@@ -30,6 +30,7 @@ export const Colors = {
   fourtyPercentSecondary: '#eba959',
   fourtyPercentBlack: '#363330',
   muted: '#8c92a2',
+  bannerBackground: '#787a7a',
 };
 
 export const NavigationColors = {
