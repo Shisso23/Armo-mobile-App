@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View, Text, ImageBackground } from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
@@ -45,11 +45,7 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
             Layout.justifyContentCenter,
             styles.logo,
           ]}
-        >
-          <Text numberOfLines={1} style={[Layout.alignSelfEnd, styles.sponsor]}>
-            {_.get(sponsor, 'company', '')}
-          </Text>
-        </ImageBackground>
+        />
       )) || <View />
     );
   };
@@ -81,12 +77,6 @@ const styles = StyleSheet.create({
     height: 75,
     resizeMode: 'contain',
     width: '100%',
-  },
-  sponsor: {
-    backgroundColor: Colors.bannerBackground,
-    color: Colors.white,
-    fontSize: 13.3,
-    fontWeight: 'bold',
   },
 });
 
