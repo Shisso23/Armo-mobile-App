@@ -51,7 +51,7 @@ const storeDeviceToken = async (deviceToken: string) => {
       return apiResponse;
     })
     .catch((error) => {
-      flashService.error(_.get(error, 'message', 'Error reading setting device token'));
+      flashService.error(_.get(error, 'message', 'Error setting device token'));
     });
 };
 

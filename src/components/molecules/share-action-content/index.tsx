@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import { Icon, ListItem } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
+
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 import { commentRepliesSelector } from '../../../reducers/comment-replies-reducer/comment-replies.reducer';
 import { useTheme } from '../../../theme';
-import { ActivityIndicator } from 'react-native';
 
 type ShareActionContentProps = {
   onReportPress: Function | any;
