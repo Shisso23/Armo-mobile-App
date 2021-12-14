@@ -16,7 +16,6 @@ import {
 } from '../../../models';
 
 const signIn = async (formData: SignInProps) => {
-  console.log('called');
   const signInUrl = authUrls.tokenUrl();
   const apiModel = apiSignInModel(formData);
   const oAuthData = querystring.stringify(authUtils.constructOAuthSignInData(apiModel));
@@ -28,7 +27,6 @@ const signIn = async (formData: SignInProps) => {
       },
     })
     .then((response) => {
-      console.log({ response });
       return authUtils.storeAccessAndRefreshTokens(response);
     });
 };

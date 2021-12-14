@@ -8,7 +8,7 @@ import { FormScreenContainer } from '../../../components';
 import { SignInForm } from '../../../components/forms';
 import { isAuthenticatedFlowAction } from '../../../reducers/app-reducer/app.actions';
 import { userAuthService } from '../../../services';
-import { signInModel } from '../../../models';
+import { signInModel, SignInProps } from '../../../models';
 import useTheme from '../../../theme/hooks/useTheme';
 
 const { width } = Dimensions.get('window');
@@ -22,8 +22,7 @@ const SignInScreen: React.FC = () => {
     dispatch(isAuthenticatedFlowAction());
   };
 
-  const signIn = async (formData) => {
-    console.log({ formData });
+  const signIn = async (formData: SignInProps) => {
     await userAuthService.signIn(formData);
   };
 
