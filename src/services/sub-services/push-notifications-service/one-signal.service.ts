@@ -8,18 +8,19 @@ import FlashService from '../flash-service/flash.service';
 
 const pushNotificationsAllowed = async () => {
   if (Platform.OS === 'ios') {
-    return await OneSignal.promptForPushNotificationsWithUserResponse((response) => {
-      return response;
+    let enabled = null;
+    OneSignal.promptForPushNotificationsWithUserResponse((response) => {
+      enabled = response;
     });
+    return enabled;
   }
   return true;
 };
 
-const getAndSetToken = async () => {
+const getAndSetToken = async (messagingEnabled: boolean) => {
   let oneSignalToken = await AsyncStorage.getItem(config.oneSignalTokenKey);
-  const enabled = await pushNotificationsAllowed();
 
-  if (enabled) {
+  if (messagingEnabled) {
     if (!oneSignalToken) {
       try {
         oneSignalToken = (await OneSignal.getDeviceState()).userId;

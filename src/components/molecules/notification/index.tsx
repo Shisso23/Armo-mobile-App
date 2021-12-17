@@ -7,11 +7,9 @@ import Moment from 'moment';
 import _ from 'lodash';
 import { AvatarImageSource } from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
 
-import {
-  getNotificationsAction,
-  markAsReadAction,
-} from '../../../reducers/notifications-reducer/notifications.actions';
+import { getNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
 import useTheme from '../../../theme/hooks/useTheme';
+import { notificationsService } from '../../../services';
 
 const Notification = ({ notification }: { notification: Object }) => {
   const dispatch = useDispatch();
@@ -28,7 +26,7 @@ const Notification = ({ notification }: { notification: Object }) => {
 
   const _handleCollapse = () => {
     if (!isSeen) {
-      dispatch(markAsReadAction(notificationId));
+      notificationsService.makeAsRead(notificationId);
       dispatch(getNotificationsAction());
       setIsSeen(true);
     }
@@ -48,7 +46,7 @@ const Notification = ({ notification }: { notification: Object }) => {
         rounded
         size={35}
         style={{ backgroundColor: Colors.semiTransparent }}
-        source={_setImageUrl(Images.logo)}
+        source={_setImageUrl(Images.logo3)}
       />
     </View>
   );
