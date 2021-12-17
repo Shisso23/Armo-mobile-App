@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { StyleSheet, View, ImageBackground, Pressable, Linking } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
@@ -18,6 +18,8 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const randomSponsors = useMemo(() => {
     return _.shuffle(sponsors).slice(0, 3);
   }, [sponsors]);
+
+  const goToPromoWebsite = (link: string) => Linking.openURL(`https://${link}`);
 
   useFocusEffect(
     useCallback(() => {
@@ -36,16 +38,20 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const renderSponsor = (sponsor: sponsorTypes) => {
     return (
       (sponsor && (
-        <ImageBackground
-          source={{ uri: _.get(sponsor, 'logo', null) }}
-          style={[
-            Layout.row,
-            Layout.fill,
-            Gutters.tinyHMargin,
-            Layout.justifyContentCenter,
-            styles.logo,
-          ]}
-        />
+        <Pressable onPress={() => goToPromoWebsite(sponsor.link)}>
+          {() => (
+            <ImageBackground
+              source={{ uri: _.get(sponsor, 'logo', null) }}
+              style={[
+                Layout.row,
+                Layout.fill,
+                Gutters.tinyHMargin,
+                Layout.justifyContentCenter,
+                styles.logo,
+              ]}
+            />
+          )}
+        </Pressable>
       )) || <View />
     );
   };
