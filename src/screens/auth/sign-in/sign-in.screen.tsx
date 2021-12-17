@@ -59,7 +59,7 @@ const SignInScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
-  image: { aspectRatio: 4 / 1, height: 50, width: 200 },
+  image: { aspectRatio: 4 / 1, borderRadius: 15, height: 80, width: 200 },
   topImage: {
     height: width * 1.19,
     position: 'absolute',

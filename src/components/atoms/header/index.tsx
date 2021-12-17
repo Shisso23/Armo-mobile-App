@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   badgeContainerStyle: {
     position: 'absolute',
     right: 2,
-    top: -2,
+    top: 0,
   },
   engagementScore: { borderColor: Colors.secondary, borderRadius: 10, borderWidth: 1 },
   header: { backgroundColor: Colors.transparent, height: 80, overflow: 'visible' },
