@@ -6,7 +6,6 @@ import { AppStackList, DrawerList } from './types';
 import { Colors } from '../../theme/Variables';
 import CreatePostScreen from '../../screens/app/create-post/create-post-screen';
 import ReplyToPostScreen from '../../screens/app/reply-to-post/reply-to-post.screen';
-import ServicesScreen from '../../screens/app/services/services.screen';
 import ForumsScreen from '../../screens/app/forums/forums.screen';
 import DrawerContent from '../../components/atoms/drawer/drawer.content';
 import { StyleSheet } from 'react-native';
@@ -19,6 +18,7 @@ import SponsorsScreen from '../../screens/app/sponsors/sponsors.screen';
 import ViewPostMediaScreeen from '../../screens/app/view-post-media/view-post-media.screen';
 import MyPostsScreen from '../../screens/app/my-posts/my-posts.screen';
 import MySubscriptionsScreen from '../../screens/app/my-subscriptions/my-subscriptions.screen';
+import PromosScreen from '../../screens/app/sponsors/sponsor-details.screen';
 
 const AppStack = createStackNavigator<AppStackList>();
 const Drawer = createDrawerNavigator<DrawerList>();
@@ -61,9 +61,13 @@ const AppNavigator = ({ navigation }: { navigation: any }) => {
       />
 
       <AppStack.Screen
-        name="Services"
-        component={ServicesScreen}
-        options={{ headerShown: false }}
+        name="SponsorDetails"
+        component={PromosScreen}
+        options={{
+          header: (props) => (
+            <Header onBack={goBack} {...props} engagementScoreVisible={false} backButton />
+          ),
+        }}
       />
 
       <AppStack.Screen

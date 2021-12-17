@@ -11,6 +11,7 @@ export type AppStackList = {
   EditComment: undefined;
   Notifications: undefined;
   ViewPostMedia: undefined;
+  SponsorDetails: undefined;
 };
 export type AppStackProps = StackNavigationProp<AppStackList>;
 
