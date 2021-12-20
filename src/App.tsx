@@ -14,11 +14,7 @@ import config from './config';
 const App: React.FC = () => {
   const { isAuthenticated } = useSelector((reducer: RootReducer) => reducer.userAuthReducer);
   OneSignal.setLogLevel(6, 0);
-  if (Platform.OS === 'android') {
-    OneSignal.setAppId(`${config.oneSignalAppId}`);
-  } else {
-    OneSignal.setAppId(`${config.oneSignalAppIdIos}`);
-  }
+  OneSignal.setAppId(`${config.oneSignalAppId}`);
 
   const dispatch = useDispatch();
 
@@ -40,13 +36,21 @@ const App: React.FC = () => {
   };
 
   const handleNotification = () => {
-    oneSignalService.pushNotificationsAllowed().then(() => {
+    if (Platform.OS === 'ios') {
+      OneSignal.promptForPushNotificationsWithUserResponse((response) => {
+        handleForgroundNotifications();
+        handleNotificationOpened();
+        oneSignalService.getAndSetToken(response).then((token: string | null) => {
+          notificationsService.storeDeviceToken(token);
+        });
+      });
+    } else {
       handleForgroundNotifications();
       handleNotificationOpened();
-      oneSignalService.getAndSetToken().then((token: string) => {
+      oneSignalService.getAndSetToken(true).then((token: string | null) => {
         notificationsService.storeDeviceToken(token);
       });
-    });
+    }
   };
 
   useEffect(() => {
