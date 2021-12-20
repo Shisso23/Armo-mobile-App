@@ -27,7 +27,18 @@ const PromosScreen = ({ route }: { route: Object }) => {
   const promos = _.get(route, 'params.categoryWithPromos.promos', {});
   const { Layout, Gutters, Common } = useTheme();
 
-  const navigateToWebsite = (link: string) => Linking.openURL(`https://${link}`);
+  const navigateToWebsite = (link: string) =>
+    Linking.canOpenURL(`${link}`).then(() => {
+      Linking.openURL(`https://${link}`);
+    });
+  const openEmail = (email: string) =>
+    Linking.canOpenURL(`${email}`)
+      .then(() => {
+        Linking.openURL(`mailto:${email}`);
+      })
+      .catch((error) => {
+        console.warn(error.message);
+      });
 
   useEffect(() => {
     return () => {
@@ -45,11 +56,19 @@ const PromosScreen = ({ route }: { route: Object }) => {
         <Text style={[styles.texts, Common.text]} selectable>
           Company: {item.company}
         </Text>
-        <Text style={[styles.texts, Gutters.tinyVMargin]}>{_.get(item, 'description', '')}</Text>
-        <Text style={[styles.texts]}>Contact: {_.get(item, 'contact', '')}</Text>
+        <Text style={[styles.texts, Gutters.tinyBMargin]}>{_.get(item, 'description', '')}</Text>
+        <TouchableOpacity onPress={() => openEmail(item.contact)}>
+          <Text style={[styles.linkText, Common.text, Gutters.smallTMargin]}>
+            <Text style={styles.texts} selectable>
+              Contact:
+            </Text>
+            {_.get(item, 'contact', '')}
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigateToWebsite(item.link)}>
           <Text style={[styles.linkText, Common.text, Gutters.smallTMargin]} selectable>
-            <Text style={styles.texts}> Website: </Text>
+            <Text style={styles.texts}>Website: </Text>
             {item.link}
           </Text>
         </TouchableOpacity>
@@ -72,7 +91,7 @@ const PromosScreen = ({ route }: { route: Object }) => {
   useFocusEffect(exitAppOnHardwarePressListener);
 
   return (
-    <ScreenContainer>
+    <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
       <FlatList data={promos} renderItem={renderSponsor} />
     </ScreenContainer>
   );

@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View, ImageBackground, Pressable, Linking } from 'react-native';
+import { StyleSheet, View, Image, Pressable, Linking, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
@@ -10,6 +10,7 @@ import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.re
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
+const screenWidth = Dimensions.get('window').width;
 const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const { Layout, Gutters } = useTheme();
   const { sponsors } = useSelector(sponsorsSelector);
@@ -40,15 +41,9 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
       (sponsor && (
         <Pressable onPress={() => goToPromoWebsite(sponsor.link)}>
           {() => (
-            <ImageBackground
+            <Image
               source={{ uri: _.get(sponsor, 'logo', null) }}
-              style={[
-                Layout.row,
-                Layout.fill,
-                Gutters.tinyHMargin,
-                Layout.justifyContentCenter,
-                styles.logo,
-              ]}
+              style={[Layout.row, Gutters.tinyHMargin, styles.logo]}
             />
           )}
         </Pressable>
@@ -79,10 +74,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    backgroundColor: Colors.muted,
-    height: 75,
+    borderRadius: 3,
+    height: '100%',
     resizeMode: 'contain',
-    width: '100%',
+    width: screenWidth * 0.3,
   },
 });
 

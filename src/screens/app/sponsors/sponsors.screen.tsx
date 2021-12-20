@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Dimensions, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { List, Avatar } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import _ from 'lodash';
@@ -13,6 +13,7 @@ import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.a
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { getCategoriesAction } from '../../../reducers/posts-reducer/posts.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { Colors } from '../../../theme/Variables';
 
 const { width } = Dimensions.get('window');
 const SponsorsScreen: React.FC = () => {
@@ -90,11 +91,15 @@ const SponsorsScreen: React.FC = () => {
       <View style={[Layout.row, Gutters.smallTMargin]}>
         {promos.map((promo, index) => {
           return (
-            <Avatar.Image
+            <Image
               key={_.get(promo, 'id', index)}
-              size={40}
               source={{ uri: _.get(promo, 'logo', undefined) }}
-              style={{ left: -index * 10 }}
+              style={[
+                {
+                  left: -index * 10,
+                },
+                styles.image,
+              ]}
             />
           );
         })}
@@ -166,6 +171,13 @@ const SponsorsScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
+  image: {
+    backgroundColor: Colors.muted,
+    borderRadius: 30,
+    height: 55,
+    resizeMode: 'contain',
+    width: 55,
+  },
   sponsorItem: {
     shadowOffset: {
       width: 0,
