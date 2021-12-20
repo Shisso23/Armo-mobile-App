@@ -8,6 +8,7 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
+import _ from 'lodash';
 import { Text, Divider } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
@@ -16,7 +17,6 @@ import { exitAppOnHardwarePressListener } from '../../../helpers';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
-import _ from 'lodash';
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 
 const { width } = Dimensions.get('window');
