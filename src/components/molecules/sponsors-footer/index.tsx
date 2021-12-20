@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/core';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { StyleSheet, View, Image, Pressable, Linking, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
@@ -10,6 +10,7 @@ import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.re
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
+const screenWidth = Dimensions.get('window').width;
 const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const { Layout, Gutters } = useTheme();
   const { sponsors } = useSelector(sponsorsSelector);
@@ -18,6 +19,8 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const randomSponsors = useMemo(() => {
     return _.shuffle(sponsors).slice(0, 3);
   }, [sponsors]);
+
+  const goToPromoWebsite = (link: string) => Linking.openURL(`https://${link}`);
 
   useFocusEffect(
     useCallback(() => {
@@ -36,16 +39,14 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
   const renderSponsor = (sponsor: sponsorTypes) => {
     return (
       (sponsor && (
-        <ImageBackground
-          source={{ uri: _.get(sponsor, 'logo', null) }}
-          style={[
-            Layout.row,
-            Layout.fill,
-            Gutters.tinyHMargin,
-            Layout.justifyContentCenter,
-            styles.logo,
-          ]}
-        />
+        <Pressable onPress={() => goToPromoWebsite(sponsor.link)}>
+          {() => (
+            <Image
+              source={{ uri: _.get(sponsor, 'logo', null) }}
+              style={[Layout.row, Gutters.tinyHMargin, styles.logo]}
+            />
+          )}
+        </Pressable>
       )) || <View />
     );
   };
@@ -73,10 +74,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    backgroundColor: Colors.muted,
-    height: 75,
+    borderRadius: 3,
+    height: '100%',
     resizeMode: 'contain',
-    width: '100%',
+    width: screenWidth * 0.3,
   },
 });
 

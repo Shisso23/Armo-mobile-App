@@ -35,7 +35,7 @@ const ForgotPasswordScreen: React.FC = () => {
         styles.container,
       ]}
     >
-      <Image source={Images.logo3} style={[styles.image, Gutters.largeBMargin]} />
+      <Image source={Images.logo} style={[styles.image, Gutters.largeBMargin]} />
       <Text style={[styles.texts, Gutters.largeVMargin]}>
         Enter the email address you used when you signed up and we&apos;ll send you instructions to
         reset your password

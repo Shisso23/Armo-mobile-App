@@ -7,11 +7,9 @@ import Moment from 'moment';
 import _ from 'lodash';
 import { AvatarImageSource } from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
 
-import {
-  getNotificationsAction,
-  markAsReadAction,
-} from '../../../reducers/notifications-reducer/notifications.actions';
+import { getNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
 import useTheme from '../../../theme/hooks/useTheme';
+import { notificationsService } from '../../../services';
 
 const Notification = ({ notification }: { notification: Object }) => {
   const dispatch = useDispatch();
@@ -28,14 +26,14 @@ const Notification = ({ notification }: { notification: Object }) => {
 
   const _handleCollapse = () => {
     if (!isSeen) {
-      dispatch(markAsReadAction(notificationId));
+      notificationsService.makeAsRead(notificationId);
       dispatch(getNotificationsAction());
       setIsSeen(true);
     }
     setIsCollapsed(!isCollapsed);
   };
   const formatDate = (date: string) => {
-    return Moment(date).fromNow();
+    return Moment(date).add({ hour: 2 }).fromNow();
   };
 
   const _setImageUrl = (image: AvatarImageSource) => {

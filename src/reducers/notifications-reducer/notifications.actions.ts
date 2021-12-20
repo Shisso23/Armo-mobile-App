@@ -30,12 +30,3 @@ export const getUnreadNotificationsAction = () => async (dispatch: Function) => 
     flashService.error(_.get(error, 'message', ''));
   }
 };
-
-export const markAsReadAction = async (notiticationId: string) => {
-  try {
-    const response = await notificationsService.makeAsRead(notiticationId);
-    return response;
-  } catch (error) {
-    return flashService.error(_.get(error, 'message', ''));
-  }
-};

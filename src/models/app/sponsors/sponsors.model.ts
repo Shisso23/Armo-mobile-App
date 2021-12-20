@@ -9,7 +9,7 @@ export type sponsorTypes = {
   endDate: string;
   logoId: string;
   link: string;
-  categories: string;
+  categories: Array<Object>;
   logo: string;
 };
 

@@ -44,7 +44,7 @@ const SignInScreen: React.FC = () => {
           ]}
         >
           <Image source={Images.signInTop} style={styles.topImage} />
-          <Image source={Images.logo3} style={[styles.image]} />
+          <Image source={Images.logo} style={[styles.image]} />
           <SignInForm
             submitForm={signIn}
             onSuccess={_onSignInSuccess}
@@ -59,7 +59,7 @@ const SignInScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.35 },
-  image: { aspectRatio: 4 / 1, height: 50, width: 200 },
+  image: { borderRadius: 15, height: 80, resizeMode: 'contain', width: 350 },
   topImage: {
     height: width * 1.19,
     position: 'absolute',

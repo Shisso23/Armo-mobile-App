@@ -34,7 +34,11 @@ const UserInfoBox: React.FC<UserInfoBoxProps> = ({
         containerStyle={styles.avatar}
       />
       <ListItem.Content>
-        <ListItem.Title>{_.get(user, 'fullName', '')}</ListItem.Title>
+        <ListItem.Title>{`${_.get(user, 'firstName', '')} ${_.get(
+          user,
+          'lastName',
+          '',
+        )}`}</ListItem.Title>
         <ListItem.Subtitle>{formatDate(_.get(post, 'createDate', new Date()))}</ListItem.Subtitle>
       </ListItem.Content>
       <EditDeletePost
