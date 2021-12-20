@@ -24,7 +24,7 @@ const ResetPasswordScreen: React.FC = () => {
         styles.container,
       ]}
     >
-      <Image source={Images.logo3} style={[styles.image, Gutters.largeBMargin]} />
+      <Image source={Images.logo} style={[styles.image, Gutters.largeBMargin]} />
       <ResetPasswordForm submitForm={onSubmit} initialValues={resetPasswordModel()} />
     </FormScreenContainer>
   );

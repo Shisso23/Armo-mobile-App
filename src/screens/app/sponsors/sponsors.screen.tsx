@@ -87,20 +87,18 @@ const SponsorsScreen: React.FC = () => {
   };
 
   const renderAvatars = (promos: Array<Object>) => {
+    const randomSponsors = _.shuffle(promos).slice(0, 3);
+
     return (
       <View style={[Layout.row, Gutters.smallTMargin]}>
-        {promos.map((promo, index) => {
+        {randomSponsors.map((promo, index) => {
           return (
-            <Image
+            <View
               key={_.get(promo, 'id', index)}
-              source={{ uri: _.get(promo, 'logo', undefined) }}
-              style={[
-                {
-                  left: -index * 10,
-                },
-                styles.image,
-              ]}
-            />
+              style={[styles.imageContainer, { left: -index * 10 }]}
+            >
+              <Image source={{ uri: _.get(promo, 'logo', undefined) }} style={styles.image} />
+            </View>
           );
         })}
       </View>
@@ -177,6 +175,10 @@ const styles = StyleSheet.create({
     height: 55,
     resizeMode: 'contain',
     width: 55,
+  },
+  imageContainer: {
+    borderRadius: 30,
+    overflow: 'hidden',
   },
   sponsorItem: {
     shadowOffset: {

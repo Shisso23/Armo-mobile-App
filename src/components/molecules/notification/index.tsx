@@ -46,7 +46,7 @@ const Notification = ({ notification }: { notification: Object }) => {
         rounded
         size={35}
         style={{ backgroundColor: Colors.semiTransparent }}
-        source={_setImageUrl(Images.logo3)}
+        source={_setImageUrl(Images.logo)}
       />
     </View>
   );
