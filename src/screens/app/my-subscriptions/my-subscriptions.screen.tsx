@@ -80,7 +80,7 @@ const MySubscriptionsScreen: React.FC = () => {
   return (
     <View style={[Gutters.regularPadding, Gutters.regularHPadding, Layout.fill]}>
       <Text style={[Gutters.regularLMargin, Gutters.smallBMargin, styles.historyTitle]}>
-        History
+        Subscriptions
       </Text>
       <FlatList
         contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding]}

@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { View, StyleSheet, FlatList, Dimensions, Text } from 'react-native';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { View, StyleSheet, FlatList, Dimensions, Text, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { List, Avatar } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import _ from 'lodash';
@@ -11,14 +11,52 @@ import SearchBar from '../../../components/atoms/search-bar';
 import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.reducer';
 import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.actions';
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
+import { getCategoriesAction } from '../../../reducers/posts-reducer/posts.actions';
+import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
+import { Colors } from '../../../theme/Variables';
 
 const { width } = Dimensions.get('window');
 const SponsorsScreen: React.FC = () => {
+  const { categories } = useSelector(postsSelector);
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
   const { sponsors, isLoadingSponsors } = useSelector(sponsorsSelector);
+  const [groupedPromos, setGroupedPromos] = useState<Array<Object>>([]);
   const dispatch = useDispatch();
   const { Layout, Gutters, Common } = useTheme();
+
+  const filterPromosWithCategory = (categoryToGroupBy: string) => {
+    return sponsors.filter((sponsor: sponsorTypes) =>
+      sponsor.categories.some(
+        (category: Object) => _.get(category, 'name', '') === categoryToGroupBy,
+      ),
+    );
+  };
+
+  const groupPromosByCategory: () => Array<Object> = () => {
+    const promosGroupedByCategories: Array<Object> = [];
+    categories.forEach((category: {}) => {
+      const emptyObject = {};
+      const objWithCategoryName = _.set(emptyObject, 'name', `${_.get(category, 'name', '')}`);
+      const addedListOfPromos = _.set(
+        objWithCategoryName,
+        'promos',
+        filterPromosWithCategory(_.get(category, 'name', '')),
+      );
+
+      promosGroupedByCategories.push(addedListOfPromos);
+    });
+
+    return promosGroupedByCategories.filter((category) => _.get(category, 'promos', []).length > 0);
+  };
+
+  useEffect(() => {
+    setGroupedPromos(groupPromosByCategory());
+  }, []);
+
+  useEffect(() => {
+    setGroupedPromos(groupPromosByCategory());
+  }, [JSON.stringify(sponsors)]);
 
   const debounce = useMemo(
     () =>
@@ -35,6 +73,7 @@ const SponsorsScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getSponsorsAction());
+      dispatch(getCategoriesAction());
     }, []),
   );
 
@@ -47,11 +86,30 @@ const SponsorsScreen: React.FC = () => {
     getSponsors();
   };
 
-  const renderAvatars = (logo: string | undefined) => {
-    return <Avatar.Image size={50} source={{ uri: logo }} />;
+  const renderAvatars = (promos: Array<Object>) => {
+    const randomSponsors = _.shuffle(promos).slice(0, 3);
+
+    return (
+      <View style={[Layout.row, Gutters.smallTMargin]}>
+        {randomSponsors.map((promo, index) => {
+          return (
+            <View
+              key={_.get(promo, 'id', index)}
+              style={[styles.imageContainer, { left: -index * 10 }]}
+            >
+              <Image source={{ uri: _.get(promo, 'logo', undefined) }} style={styles.image} />
+            </View>
+          );
+        })}
+      </View>
+    );
   };
 
-  const renderSponsor = ({ item }: { item: sponsorTypes }) => {
+  const navigateToDetails = (categoryWithPromos: Object) => {
+    navigation.navigate('SponsorDetails', { categoryWithPromos });
+  };
+
+  const renderCategoryWithPromos = ({ item }: { item: Object }) => {
     return (
       <View
         style={[
@@ -62,12 +120,13 @@ const SponsorsScreen: React.FC = () => {
         ]}
       >
         <List.Item
-          title={item.company}
+          title={_.get(item, 'name', '')}
+          onPress={() => navigateToDetails(item)}
           titleNumberOfLines={2}
           titleStyle={[Common.cardTitle, styles.sponsorTitle]}
           descriptionNumberOfLines={10}
           descriptionStyle={{}}
-          right={() => renderAvatars(_.get(item, 'logo', undefined))}
+          right={() => renderAvatars(_.get(item, 'promos', []))}
         />
       </View>
     );
@@ -95,10 +154,10 @@ const SponsorsScreen: React.FC = () => {
         style={[Gutters.tinyLMargin, Gutters.tinyRMargin]}
       />
       <FlatList
-        data={sponsors}
-        renderItem={renderSponsor}
-        keyExtractor={(item: sponsorTypes) => {
-          return String(item.id);
+        data={groupedPromos}
+        renderItem={renderCategoryWithPromos}
+        keyExtractor={(item: Object, index: number) => {
+          return String(_.get(item, 'name', index));
         }}
         onRefresh={getSponsors}
         refreshing={isLoadingSponsors}
@@ -110,6 +169,17 @@ const SponsorsScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
+  image: {
+    backgroundColor: Colors.muted,
+    borderRadius: 30,
+    height: 55,
+    resizeMode: 'contain',
+    width: 55,
+  },
+  imageContainer: {
+    borderRadius: 30,
+    overflow: 'hidden',
+  },
   sponsorItem: {
     shadowOffset: {
       width: 0,

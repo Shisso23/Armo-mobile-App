@@ -33,7 +33,7 @@ const Notification = ({ notification }: { notification: Object }) => {
     setIsCollapsed(!isCollapsed);
   };
   const formatDate = (date: string) => {
-    return Moment(date).fromNow();
+    return Moment(date).add({ hour: 2 }).fromNow();
   };
 
   const _setImageUrl = (image: AvatarImageSource) => {
@@ -46,7 +46,7 @@ const Notification = ({ notification }: { notification: Object }) => {
         rounded
         size={35}
         style={{ backgroundColor: Colors.semiTransparent }}
-        source={_setImageUrl(Images.logo3)}
+        source={_setImageUrl(Images.logo)}
       />
     </View>
   );
