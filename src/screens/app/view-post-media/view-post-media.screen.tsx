@@ -145,7 +145,7 @@ const ViewPostMediaScreen = ({ route }: { route: Object }) => {
 
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
-  image: { height: '88%' },
+  image: { height: '88%', resizeMode: 'contain' },
   loadingIndicator: {
     alignSelf: 'center',
     position: 'absolute',

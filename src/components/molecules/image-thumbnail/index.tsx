@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Icon, Text, Avatar } from 'react-native-elements';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
-import _ from 'lodash';
+
 import { promptConfirm } from '../../../helpers/prompt.helper';
 
 type ImageThumbnailProps = {

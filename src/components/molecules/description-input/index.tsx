@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
 
 import CustomInput from '../../molecules/custom-input';
 import { Colors } from '../../../theme/Variables';
@@ -16,20 +15,7 @@ type DescriptionInputProps = {
 };
 
 const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handleBlur, error }) => {
-  const [textAlignCenter, setTextAlignCenter] = useState(false);
-  const [textBold, setTextBold] = useState(false);
-  const [textItalics, setTextItalics] = useState(false);
-  const { Gutters, Layout, Common } = useTheme();
-
-  const handleUndo = () => {
-    setTextAlignCenter(false);
-    setTextBold(false);
-    setTextItalics(false);
-  };
-
-  const toggleTextBold = () => setTextBold(!textBold);
-  const toggleTextItalics = () => setTextItalics(!textItalics);
-  const toggleTextCenter = () => setTextAlignCenter(!textAlignCenter);
+  const { Common } = useTheme();
 
   return (
     <>
@@ -40,57 +26,12 @@ const DescriptionInput: React.FC<DescriptionInputProps> = ({ handleChange, handl
           label="Description"
           errorMessage={error('description')}
           multiline={true}
-          inputStyle={[
-            styles.inputStyle,
-            {
-              fontStyle: textItalics ? 'italic' : 'normal',
-              fontWeight: textBold ? 'bold' : 'normal',
-              textAlign: textAlignCenter ? 'center' : 'left',
-            },
-            { height: 180, textAlignVertical: 'top' },
-          ]}
+          inputStyle={[styles.inputStyle, { height: 180, textAlignVertical: 'top' }]}
           containerStyle={{ elevation: 0 }}
           inputContainerStyle={Common.inputContainer}
           leftIcon={undefined}
           inputHeight={180}
         />
-        <View
-          style={[
-            Layout.rowBetween,
-            Common.inputWithRoundBorders,
-            Layout.alignItemsCenter,
-            Gutters.regularHPadding,
-            styles.textFormater,
-          ]}
-        >
-          <Icon
-            name="bold"
-            type="font-awesome"
-            size={19}
-            color={textBold ? Colors.white : Colors.semiTransparent}
-            onPress={toggleTextBold}
-          />
-          <Icon
-            name="italic"
-            type="feather"
-            size={19}
-            color={textItalics ? Colors.white : Colors.semiTransparent}
-            onPress={toggleTextItalics}
-          />
-          <Icon
-            name="format-align-center"
-            color={textAlignCenter ? Colors.white : Colors.semiTransparent}
-            onPress={toggleTextCenter}
-          />
-          <Icon
-            name="rotate-left"
-            type="font-awesome"
-            size={18}
-            color={Colors.white}
-            style={{ opacity: 0.9 }}
-            onPress={handleUndo}
-          />
-        </View>
       </View>
     </>
   );

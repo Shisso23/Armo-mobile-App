@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
-import { View, StyleSheet, FlatList, Keyboard, Platform, Alert } from 'react-native';
+import { View, StyleSheet, Keyboard, Platform, Alert } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -42,7 +43,7 @@ const ForumsScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [actionSheetIsVisible, setActionSheetIsVisible] = useState(false);
   const [filterParams, setFilterParams] = useState<getPostsTypes>({
-    categories: null,
+    categories: [],
     ascendingOrder: null,
     pageSize: null,
   });
@@ -64,18 +65,21 @@ const ForumsScreen: React.FC = () => {
         1500,
         undefined,
       ),
-    [dispatch],
+    [],
   );
 
   const goToCreatePost = () => navigation.navigate('CreatePost');
 
-  const getPosts = () => {
-    dispatch(getPostsAction(filterParams));
+  const getPosts = (queryParams: boolean = true) => {
+    dispatch(getPostsAction(queryParams ? filterParams : undefined));
   };
   useFocusEffect(
     useCallback(() => {
-      dispatch(getPostsAction(filterParams));
+      getPosts();
       dispatch(getCategoriesAction());
+      return () => {
+        clearSearch();
+      };
     }, []),
   );
 
@@ -105,9 +109,11 @@ const ForumsScreen: React.FC = () => {
       .getPosts({ pageNumber, pageSize: 10 })
 
       .then((resp) => {
-        setExtraData(resp.items);
         if (_.get(resp, 'hasNextPage', false)) {
           setPageNumber(pageNumber + 1);
+          setExtraData(resp.items);
+        } else if (resp.pageIndex === 1) {
+          setExtraData([]);
         }
       });
   };
@@ -125,13 +131,17 @@ const ForumsScreen: React.FC = () => {
           },
           {
             text: 'Confirm',
-            onPress: async () => await dispatch(unsubscribeToPostAction(post.id)),
+            onPress: async () => {
+              await dispatch(unsubscribeToPostAction(post.id));
+              getPosts();
+            },
           },
         ],
         { cancelable: false },
       );
     } else {
       await dispatch(subscribeToPostAction(post.id));
+      getPosts();
     }
   };
 
@@ -143,7 +153,12 @@ const ForumsScreen: React.FC = () => {
 
   const clearSearch = () => {
     setSearchText('');
-    getPosts();
+    setFilterParams({
+      categories: [],
+      ascendingOrder: null,
+      pageSize: null,
+    });
+    getPosts(false);
   };
 
   const onActionSheetClose = () => {
@@ -216,8 +231,10 @@ const ForumsScreen: React.FC = () => {
           ]}
         />
       </View>
+
       <>
-        <FlatList
+        <KeyboardAwareFlatList
+          keyboardShouldPersistTaps="handled"
           contentContainerStyle={[Gutters.smallHMargin, Gutters.largeBPadding, styles.forumsList]}
           data={postsWithoutDups([...posts, ...extraData])}
           renderItem={renderForum}
@@ -246,8 +263,12 @@ const ForumsScreen: React.FC = () => {
           categories={categories}
           isLoadingGetPosts={isLoadingGetPosts}
           closeActionSheet={onActionSheetClose}
+          initiallySelectedCategories={
+            filterParams?.categories === null ? [] : filterParams.categories
+          }
         />
       </ActionSheet>
+
       <SponsorsFooter />
     </>
   );

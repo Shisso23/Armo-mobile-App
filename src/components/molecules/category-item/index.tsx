@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { Map } from 'immutable';
 
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
@@ -22,15 +23,25 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 }) => {
   const [isSelected, setIsSelected] = useState(selected);
   const { Gutters } = useTheme();
+  const [categoryItem, setCategoryItem] = useState<undefined | Map<string, Boolean>>(undefined);
+
+  useEffect(() => {
+    if (item) {
+      const newItem = Map(item).set('selected', selected);
+      setCategorySelected(newItem.toJS());
+      setIsSelected(selected);
+      setCategoryItem(newItem);
+    }
+  }, []);
 
   useEffect(() => {
     setIsSelected(selected);
   }, [selected]);
 
   useEffect(() => {
-    if (cleared && item) {
+    if (cleared && categoryItem) {
       setIsSelected(false);
-      item.selected = false;
+      setCategoryItem(categoryItem.set('selected', false));
     }
   }, [cleared]);
 
@@ -42,20 +53,20 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
         styles.container,
         { backgroundColor: isSelected ? Colors.secondary : Colors.lightGray },
       ]}
-      key={(item && item.id) || name}
+      key={(categoryItem && categoryItem.get('id', '')) || name}
       onPress={() => {
-        if (item) {
+        if (categoryItem) {
           setIsSelected(!isSelected);
-          item.selected = !isSelected;
-          setCategorySelected(item);
+          setCategoryItem(categoryItem.set('selected', !isSelected));
+          setCategorySelected(categoryItem.set('selected', !isSelected).toJS());
         } else {
-          setCategorySelected();
+          setCategorySelected({});
           setIsSelected(!selected);
         }
       }}
     >
-      <ListItem.Subtitle style={{ color: isSelected ? Colors.white : Colors.black }}>
-        {(item && item.name) || name}
+      <ListItem.Subtitle style={[{ color: isSelected ? Colors.white : Colors.black }]}>
+        {(categoryItem && categoryItem.get('name', '')) || name}
       </ListItem.Subtitle>
     </TouchableOpacity>
   );

@@ -18,6 +18,7 @@ import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 const { CancelToken } = axios;
@@ -37,7 +38,7 @@ const PromosScreen = ({ route }: { route: Object }) => {
         Linking.openURL(`mailto:${email}`);
       })
       .catch((error) => {
-        console.warn(error.message);
+        return error;
       });
 
   useEffect(() => {
@@ -92,7 +93,9 @@ const PromosScreen = ({ route }: { route: Object }) => {
 
   return (
     <ScreenContainer contentContainerStyle={Gutters.smallPadding}>
-      <FlatList data={promos} renderItem={renderSponsor} />
+      <SafeAreaView>
+        <FlatList data={promos} renderItem={renderSponsor} />
+      </SafeAreaView>
     </ScreenContainer>
   );
 };

@@ -139,15 +139,12 @@ export const subscribeToPostAction = async (postId: string) => (dispatch: Functi
   return postsService
     .subscribe(postId)
     .then(async (subscribed) => {
-      dispatch(setIsLoadingGetPostsAction(true));
-      await dispatch(getPostsAction());
       return subscribed;
     })
     .catch((error) => {
       flashService.error(error.message);
     })
     .finally(() => {
-      dispatch(setIsLoadingGetPostsAction(false));
       dispatch(setIsLoadingSubscribeToPostAction(false));
     });
 };
@@ -157,15 +154,12 @@ export const unsubscribeToPostAction = async (postId: string) => (dispatch: Func
   return postsService
     .unsubscribe(postId)
     .then(async (unsubscribed) => {
-      dispatch(setIsLoadingGetPostsAction(true));
-      await dispatch(getPostsAction());
       return unsubscribed;
     })
     .catch((error) => {
       flashService.error(error.message);
     })
     .finally(() => {
-      dispatch(setIsLoadingGetPostsAction(false));
       dispatch(setIsLoadingUnsubscribeToPostAction(false));
     });
 };

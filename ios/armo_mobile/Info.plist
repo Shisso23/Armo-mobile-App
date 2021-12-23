@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -47,6 +47,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Take an image for the post.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Not currently using location but maybe in the future</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select an image for the post.</string>
 	<key>UIAppFonts</key>
