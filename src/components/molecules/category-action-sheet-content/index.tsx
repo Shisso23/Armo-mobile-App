@@ -12,6 +12,7 @@ type CategoryActionSheetContentProps = {
   categories: Array<{ id: string; name: string }>;
   isLoadingGetPosts: boolean;
   closeActionSheet: Function;
+  initiallySelectedCategories: Array<string>;
 };
 
 const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
@@ -19,12 +20,14 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
   categories,
   isLoadingGetPosts,
   closeActionSheet,
+  initiallySelectedCategories,
 }) => {
   const { Gutters, Common, Layout } = useTheme();
   const [sortBy, setSortBy] = useState('New');
   const [categoriesCleared, setCategoriesCleared] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<Object[]>([]);
-
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    initiallySelectedCategories || [],
+  );
   useEffect(() => {
     return () => {
       clearCategories();
@@ -32,17 +35,12 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
   }, []);
 
   const onSelectCategory = (item: { name: string; id: string }) => {
-    if (selectedCategories.some((category) => _.get(category, 'id') === _.get(item, 'id'))) {
-      const updatedCategories = selectedCategories.filter(
-        (category) => _.get(category, 'id') !== _.get(item, 'id'),
-      );
-      if (_.get(item, 'selected', false)) {
-        setSelectedCategories([...updatedCategories, item.id]);
-      } else {
-        setSelectedCategories(updatedCategories);
-      }
+    if (_.get(item, 'selected', false)) {
+      setSelectedCategories(Array.from(new Set([...selectedCategories, item.id])));
     } else {
-      setSelectedCategories([...selectedCategories, item.id]);
+      if (selectedCategories?.some((categoryId) => categoryId === item.id)) {
+        setSelectedCategories(selectedCategories?.filter((category_id) => category_id !== item.id));
+      }
     }
   };
 
@@ -62,18 +60,24 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
           setCategoriesCleared(false);
         }}
         clear={clearCategories}
+        selected={initiallySelectedCategories?.some((categoryId) => {
+          return categoryId === item.id;
+        })}
       />
     );
   };
 
   return (
-    <ScrollView nestedScrollEnabled={true}>
+    <ScrollView
+      nestedScrollEnabled={true}
+      contentContainerStyle={[Gutters.largeRPadding, Gutters.smallBMargin]}
+    >
       <Text style={[Gutters.regularLMargin, styles.title]}>Category</Text>
       <FlatList
         data={categories}
         renderItem={renderCategories}
         numColumns={3}
-        style={[Gutters.smallPadding]}
+        contentContainerStyle={[Gutters.smallPadding, Gutters.regularRMargin]}
         keyExtractor={(item: { id: any }) => item.id}
         scrollEnabled
       />

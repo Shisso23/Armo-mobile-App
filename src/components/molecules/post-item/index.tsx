@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
@@ -25,7 +26,6 @@ const PostItem: React.FC<PostItemProps> = ({
   loadingSubscribeToPost,
 }) => {
   const { Layout, Common, Gutters } = useTheme();
-
   const renderDescription = () => (
     <View style={Gutters.smallTMargin}>
       <Text style={Common.cardDescription}>{item.summary}</Text>
@@ -35,40 +35,48 @@ const PostItem: React.FC<PostItemProps> = ({
         animating={loading}
         color={Colors.fourtyPercentSecondary}
       />
-      {bottomRightText && (
-        <TouchableOpacity
-          style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
-          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-          onPress={handleJoinForum}
+
+      <View style={Layout.rowBetween}>
+        <Text
+          style={[Layout.alignSelfStart, Gutters.smallTMargin, styles.joinForumText, Common.link]}
         >
-          <Text
-            style={[
-              Common.link,
-              { color: Colors.fourtyPercentSecondary },
-              Gutters.tinyRMargin,
-              styles.joinForumText,
-            ]}
+          {_.get(item, 'category.name', '')}
+        </Text>
+        {bottomRightText && (
+          <TouchableOpacity
+            style={[Layout.row, Layout.alignSelfEnd, Gutters.smallTMargin]}
+            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+            onPress={handleJoinForum}
           >
-            {bottomRightText}
-          </Text>
-          {loadingSubscribeToPost ? (
-            <ActivityIndicator
-              animating={loadingSubscribeToPost}
-              color={Colors.secondary}
-              style={Gutters.tinyTMargin}
-              size={12}
-            />
-          ) : (
-            <Icon
-              name="arrow-right-circle"
-              type="feather"
-              color={Colors.fourtyPercentSecondary}
-              size={14}
-              containerStyle={styles.joinForumIcon}
-            />
-          )}
-        </TouchableOpacity>
-      )}
+            <Text
+              style={[
+                Common.link,
+                { color: Colors.fourtyPercentSecondary },
+                Gutters.tinyRMargin,
+                styles.joinForumText,
+              ]}
+            >
+              {bottomRightText}
+            </Text>
+            {loadingSubscribeToPost ? (
+              <ActivityIndicator
+                animating={loadingSubscribeToPost}
+                color={Colors.secondary}
+                style={Gutters.tinyTMargin}
+                size={12}
+              />
+            ) : (
+              <Icon
+                name="arrow-right-circle"
+                type="feather"
+                color={Colors.fourtyPercentSecondary}
+                size={14}
+                containerStyle={styles.joinForumIcon}
+              />
+            )}
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 

@@ -191,7 +191,7 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
             {_.get(post, 'title', '')}
           </Text>
           <ListItem.Subtitle style={(Fonts.textLeft, { lineHeight: 23, fontSize: 16.5 })}>
-            {_.get(post, 'content', '').toLowerCase()}
+            {_.get(post, 'content', '')}
           </ListItem.Subtitle>
           <View
             style={[Layout.alignItemsCenter, Layout.justifyContentCenter, Gutters.smallTMargin]}

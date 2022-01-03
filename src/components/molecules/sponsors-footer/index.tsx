@@ -53,11 +53,13 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
 
   return (
     (_.get(sponsors, 'length', 0) > 0 && (
-      <View style={[Layout.rowBetween, styles.footer]}>
+      <View
+        style={[Layout.row, styles.footer, Layout.alignItemsCenter, Layout.justifyContentCenter]}
+      >
         {renderSponsor(randomSponsors[0])}
-        {renderDivider()}
+        {sponsors.length > 1 && renderDivider()}
         {renderSponsor(randomSponsors[1])}
-        {renderDivider()}
+        {sponsors.length > 2 && renderDivider()}
         {renderSponsor(randomSponsors[2])}
       </View>
     )) || <View />

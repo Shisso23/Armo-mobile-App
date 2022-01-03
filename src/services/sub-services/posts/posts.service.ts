@@ -20,20 +20,34 @@ export type getPostsTypes = {
   categories?: Array<string> | null;
 };
 
-const getPosts = async (params?: getPostsTypes) => {
+const getPosts = async (paramsObj?: getPostsTypes) => {
   const url = postUrls.posts();
-  const apiResponse = await authNetworkService.get(
-    url,
-    params && {
-      params: {
-        'Filter.Search': params.keyword,
-        'Filter.Ascending': params.ascendingOrder,
-        PageNumber: params.pageNumber,
-        PageSize: params.pageSize,
-        'Filter.Categories': params.categories,
-      },
-    },
-  );
+  const params = new URLSearchParams();
+  if (paramsObj?.keyword) {
+    params.append('Filter.Search', paramsObj.keyword);
+  }
+
+  if (paramsObj?.ascendingOrder) {
+    params.append('Filter.Ascending', `${paramsObj.ascendingOrder}`);
+  }
+
+  if (paramsObj?.pageNumber) {
+    params.append('PageNumber', `${paramsObj.pageNumber}`);
+  }
+
+  if (paramsObj?.pageSize) {
+    params.append('PageSize', `${paramsObj.pageSize}`);
+  }
+
+  if (paramsObj?.categories) {
+    _.forEach(paramsObj.categories, (id) => {
+      params.append('Filter.Categories', id);
+    });
+  }
+
+  const apiResponse = await authNetworkService.get(url, {
+    params,
+  });
 
   return _.get(apiResponse, 'data.data', null);
 };

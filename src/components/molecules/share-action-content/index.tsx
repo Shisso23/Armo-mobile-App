@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Icon, ListItem } from 'react-native-elements';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
@@ -67,13 +67,13 @@ const ShareActionContent: React.FC<ShareActionContentProps> = ({
   };
 
   return (
-    <>
+    <SafeAreaView>
       {isOwner && renderContent('edit')}
       {isOwner && renderContent('delete')}
       {renderContent('share')}
       {renderContent('copy')}
       {!isOwner && renderContent('report')}
-    </>
+    </SafeAreaView>
   );
 };
 

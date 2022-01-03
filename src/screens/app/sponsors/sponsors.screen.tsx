@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Dimensions, Text, Image } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { List } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import _ from 'lodash';
 
 import { useTheme } from '../../../theme';
@@ -111,7 +112,8 @@ const SponsorsScreen: React.FC = () => {
 
   const renderCategoryWithPromos = ({ item }: { item: Object }) => {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => navigateToDetails(item)}
         style={[
           Common.inputWithRoundBorders,
           Gutters.tinyMargin,
@@ -121,14 +123,13 @@ const SponsorsScreen: React.FC = () => {
       >
         <List.Item
           title={_.get(item, 'name', '')}
-          onPress={() => navigateToDetails(item)}
           titleNumberOfLines={2}
           titleStyle={[Common.cardTitle, styles.sponsorTitle]}
           descriptionNumberOfLines={10}
           descriptionStyle={{}}
           right={() => renderAvatars(_.get(item, 'promos', []))}
         />
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -142,7 +143,6 @@ const SponsorsScreen: React.FC = () => {
           onPress={() => navigation.goBack()}
         />
       </View>
-
       <SearchBar
         value={searchText}
         clearSearch={clearSearch}
@@ -153,7 +153,8 @@ const SponsorsScreen: React.FC = () => {
         placeHolder="Search sponsors"
         style={[Gutters.tinyLMargin, Gutters.tinyRMargin]}
       />
-      <FlatList
+
+      <KeyboardAwareFlatList
         data={groupedPromos}
         renderItem={renderCategoryWithPromos}
         keyExtractor={(item: Object, index: number) => {
