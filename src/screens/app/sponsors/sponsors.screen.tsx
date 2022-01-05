@@ -27,7 +27,7 @@ const SponsorsScreen: React.FC = () => {
   const { Layout, Gutters, Common } = useTheme();
 
   const filterPromosWithCategory = (categoryToGroupBy: string) => {
-    return sponsors.filter((sponsor: sponsorTypes) =>
+    return sponsors?.filter((sponsor: sponsorTypes) =>
       sponsor.categories.some(
         (category: Object) => _.get(category, 'name', '') === categoryToGroupBy,
       ),
@@ -48,7 +48,9 @@ const SponsorsScreen: React.FC = () => {
       promosGroupedByCategories.push(addedListOfPromos);
     });
 
-    return promosGroupedByCategories.filter((category) => _.get(category, 'promos', []).length > 0);
+    return promosGroupedByCategories?.filter(
+      (category) => _.get(category, 'promos', []).length > 0,
+    );
   };
 
   useEffect(() => {

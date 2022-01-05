@@ -102,7 +102,7 @@ const createPost = async (formData: CreatePostProps) => {
       timeout: 10000,
       headers: { Accept: 'multipart/form-data', 'content-type': 'multipart/form-data' },
     });
-    return _.get(apiResponse, 'data', null);
+    return apiResponse;
   } catch (error) {
     flashService.error(_.get(error, 'message', 'Error Creating post!'));
   }

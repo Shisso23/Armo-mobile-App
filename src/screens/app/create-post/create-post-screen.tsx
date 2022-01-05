@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
 
 import { FormScreenContainer } from '../../../components';
 import { CreatePostForm } from '../../../components/forms';
@@ -48,8 +49,8 @@ const CreatePostScreen: React.FC = () => {
 
   const onSubmit = async (formData: CreatePostProps) => {
     return postsService.createPost(formData).then((response) => {
-      flashService.success('Post created successfully');
-      if (response !== undefined) {
+      if (_.get(response, 'status', null) === 200 || _.get(response, 'status', null) === 204) {
+        flashService.success('Post created successfully');
         return goBack();
       }
       return null;
