@@ -19,7 +19,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - OneSignalXCFramework (3.9.1)
+  - OneSignalXCFramework (3.10.0)
   - RCTRequired (0.63.4)
   - RCTTypeSafety (0.63.4):
     - FBLazyVector (= 0.63.4)
@@ -190,8 +190,8 @@ PODS:
     - react-native-config/App (= 1.4.2)
   - react-native-config/App (1.4.2):
     - React-Core
-  - react-native-onesignal (4.3.3):
-    - OneSignalXCFramework (= 3.9.1)
+  - react-native-onesignal (4.3.4):
+    - OneSignalXCFramework (= 3.10.0)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.3.2):
     - React-Core
@@ -422,7 +422,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  OneSignalXCFramework: 27159b0a150cdfe528c85325215c9d78b2f973c7
+  OneSignalXCFramework: 10648e60ff3d335fbffa62d9b44b700b56d49b51
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
   React: b0a957a2c44da4113b0c4c9853d8387f8e64e615
@@ -434,7 +434,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
-  react-native-onesignal: 9a543af01c2359b7567919cd3b1490051c553e21
+  react-native-onesignal: 9e10487bcba41ebcb4655b45d9bdd0b63f5e220f
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
