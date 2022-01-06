@@ -6,6 +6,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -22,7 +23,6 @@ import {
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
-import _ from 'lodash';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 import postsService, { getPostsTypes } from '../../../services/sub-services/posts/posts.service';
 
@@ -70,21 +70,21 @@ const ForumsScreen: React.FC = () => {
 
   const goToCreatePost = () => navigation.navigate('CreatePost');
 
-  const getPosts = (queryParams: boolean = true) => {
-    dispatch(getPostsAction(queryParams ? filterParams : undefined));
+  const getPosts = (queryParams?: Object) => {
+    dispatch(
+      getPostsAction(queryParams !== false ? { ...filterParams, ...queryParams } : undefined),
+    );
   };
+
   useFocusEffect(
     useCallback(() => {
-      getPosts();
+      getPosts(true);
       dispatch(getCategoriesAction());
-      return () => {
-        clearSearch();
-      };
     }, []),
   );
 
   const getPost = async (id: any) => {
-    const post = await dispatch(getPostAction(id));
+    const post: Object = await dispatch(getPostAction(id));
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
@@ -104,14 +104,20 @@ const ForumsScreen: React.FC = () => {
       }),
     );
   };
+
   const fetchMorePosts = async () => {
-    postsService
+    if (_.get(filterParams, 'categories', []).length > 0 || searchText.length > 0) {
+      setExtraData([]);
+      return null;
+    }
+    console.log({ pageNumber });
+    return postsService
       .getPosts({ pageNumber, pageSize: 10 })
 
       .then((resp) => {
+        setExtraData(resp.items);
         if (_.get(resp, 'hasNextPage', false)) {
           setPageNumber(pageNumber + 1);
-          setExtraData(resp.items);
         } else if (resp.pageIndex === 1) {
           setExtraData([]);
         }
@@ -133,7 +139,7 @@ const ForumsScreen: React.FC = () => {
             text: 'Confirm',
             onPress: async () => {
               await dispatch(unsubscribeToPostAction(post.id));
-              getPosts();
+              getPosts(true);
             },
           },
         ],
@@ -141,7 +147,7 @@ const ForumsScreen: React.FC = () => {
       );
     } else {
       await dispatch(subscribeToPostAction(post.id));
-      getPosts();
+      getPosts(true);
     }
   };
 
@@ -158,6 +164,7 @@ const ForumsScreen: React.FC = () => {
       ascendingOrder: null,
       pageSize: null,
     });
+
     getPosts(false);
   };
 
@@ -243,7 +250,7 @@ const ForumsScreen: React.FC = () => {
           refreshing={isLoadingGetPosts}
           extraData={extraData}
           onEndReached={fetchMorePosts}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.9}
         />
       </>
       <FAB

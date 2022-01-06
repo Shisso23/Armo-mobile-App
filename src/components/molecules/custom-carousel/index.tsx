@@ -35,6 +35,7 @@ const CustomCarousel = ({ sources, onSelect }: { sources: Array<Object>; onSelec
         source={item}
         style={[styles.image, Layout.alignItemsCenter, Layout.justifyContentCenter]}
         PlaceholderContent={<ActivityIndicator color={Colors.secondary} />}
+        resizeMode="contain"
       />
     </View>
   );

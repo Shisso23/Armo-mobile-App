@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import regionsUrls from './regions.urls';
 import authNetworkService from '../auth-network-service/auth-network.service';
-import flashService from '../flash-service/flash.service';
 
 const getRegions = async () => {
   const url = regionsUrls.getRegions();
@@ -12,7 +11,7 @@ const getRegions = async () => {
       return _.get(apiResponse, 'data.data', []);
     })
     .catch((error) => {
-      flashService.error(_.get(error, 'message', 'Error fetching regions!'));
+      console.warn(_.get(error, 'message', 'Could not fetch regions'));
     });
 };
 

@@ -36,7 +36,7 @@ const MySubscriptionsScreen: React.FC = () => {
   );
 
   const getPost = async (id: any) => {
-    const post = await dispatch(getPostAction(id));
+    const post: Object = await dispatch(getPostAction(id));
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
