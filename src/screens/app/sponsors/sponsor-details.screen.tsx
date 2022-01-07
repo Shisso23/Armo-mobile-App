@@ -19,6 +19,7 @@ import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { flashService } from '../../../services';
 
 const { width } = Dimensions.get('window');
 const { CancelToken } = axios;
@@ -28,10 +29,18 @@ const PromosScreen = ({ route }: { route: Object }) => {
   const promos = _.get(route, 'params.categoryWithPromos.promos', {});
   const { Layout, Gutters, Common } = useTheme();
 
-  const navigateToWebsite = (link: string) =>
-    Linking.canOpenURL(`${link}`).then(() => {
+  const navigateToWebsite = (link: string) => {
+    if (link.substr(0, 5) === 'http:') {
+      Linking.openURL(`https://${link.substr(7)}`);
+    } else if (link.substr(0, 5) === 'https') {
+      Linking.openURL(`https://${link.substr(8)}`);
+    } else if (link.substr(0, 3) === 'www') {
       Linking.openURL(`https://${link}`);
-    });
+    } else {
+      flashService.error('Could not open url!');
+    }
+  };
+
   const openEmail = (email: string) =>
     Linking.canOpenURL(`${email}`)
       .then(() => {

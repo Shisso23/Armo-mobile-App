@@ -18,12 +18,14 @@ const pushNotificationsAllowed = async () => {
 };
 
 const getAndSetToken = async (messagingEnabled: boolean) => {
-  let oneSignalToken = await AsyncStorage.getItem(config.oneSignalTokenKey);
+  let oneSignalToken: string | null | undefined = await AsyncStorage.getItem(
+    config.oneSignalTokenKey,
+  );
 
   if (messagingEnabled) {
     if (!oneSignalToken) {
       try {
-        oneSignalToken = (await OneSignal.getDeviceState()).userId;
+        oneSignalToken = (await OneSignal.getDeviceState())?.userId;
       } catch (e) {
         oneSignalToken = null;
       }

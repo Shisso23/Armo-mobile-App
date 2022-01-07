@@ -40,14 +40,14 @@ const App: React.FC = () => {
       OneSignal.promptForPushNotificationsWithUserResponse((response) => {
         handleForgroundNotifications();
         handleNotificationOpened();
-        oneSignalService.getAndSetToken(response).then((token: string | null) => {
+        oneSignalService.getAndSetToken(response).then((token: string | null | undefined) => {
           notificationsService.storeDeviceToken(token);
         });
       });
     } else {
       handleForgroundNotifications();
       handleNotificationOpened();
-      oneSignalService.getAndSetToken(true).then((token: string | null) => {
+      oneSignalService.getAndSetToken(true).then((token: string | null | undefined) => {
         notificationsService.storeDeviceToken(token);
       });
     }
