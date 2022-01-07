@@ -1,4 +1,5 @@
 import React from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 import { View, Image, StyleSheet, Dimensions, StatusBar, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -19,7 +20,9 @@ const SignInScreen: React.FC = () => {
   const isFocused = useIsFocused();
 
   const _onSignInSuccess = () => {
+    RNBootSplash.show({ fade: true });
     dispatch(isAuthenticatedFlowAction());
+    RNBootSplash.hide({ fade: true });
   };
 
   const signIn = async (formData: SignInProps) => {
