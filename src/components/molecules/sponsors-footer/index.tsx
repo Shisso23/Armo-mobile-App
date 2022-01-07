@@ -3,6 +3,7 @@ import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View, Image, Pressable, Linking, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator } from 'react-native-paper';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.actions';
@@ -55,6 +56,11 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
             <Image
               source={{ uri: _.get(sponsor, 'logo', null) }}
               style={[Layout.row, Gutters.tinyHMargin, styles.logo]}
+              PlaceholderContent={
+                <>
+                  <ActivityIndicator animating={true} color={Colors.secondary} size={20} />
+                </>
+              }
             />
           )}
         </Pressable>
