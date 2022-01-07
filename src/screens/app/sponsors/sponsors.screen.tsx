@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
-import { List } from 'react-native-paper';
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { Icon, Image } from 'react-native-elements';
+import { ActivityIndicator, List } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
@@ -98,7 +98,15 @@ const SponsorsScreen: React.FC = () => {
               key={_.get(promo, 'id', index)}
               style={[styles.imageContainer, { left: -index * 10 }]}
             >
-              <Image source={{ uri: _.get(promo, 'logo', undefined) }} style={styles.image} />
+              <Image
+                source={{ uri: _.get(promo, 'logo', undefined) }}
+                style={styles.image}
+                PlaceholderContent={
+                  <>
+                    <ActivityIndicator animating={true} color={Colors.secondary} size={20} />
+                  </>
+                }
+              />
             </View>
           );
         })}
@@ -171,11 +179,12 @@ const SponsorsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: { paddingTop: width * 0.17 },
   image: {
-    backgroundColor: Colors.muted,
+    borderColor: Colors.muted,
     borderRadius: 30,
-    height: 55,
+    borderWidth: 0.5,
+    height: 50,
     resizeMode: 'contain',
-    width: 55,
+    width: 50,
   },
   imageContainer: {
     borderRadius: 30,
