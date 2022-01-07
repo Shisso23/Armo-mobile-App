@@ -26,12 +26,11 @@ const createNetworkErrorHandlerInterceptor = (axiosInstance: AxiosInstance) => {
         if (_serverSideError(statusCode)) {
           exception = new ServerNetworkError(statusCode, error.response.data);
         } else if (_clientSideError(statusCode)) {
+          exception = new ClientNetworkError(statusCode, error.response.data);
           if (_authError(statusCode)) {
             userAuthService.signOut().then(() => {
               store.dispatch(setIsAuthenticatedAction(false));
             });
-          } else {
-            exception = new ClientNetworkError(statusCode, error.response.data);
           }
         }
       } else if (_noResponseFromServer(error)) {
