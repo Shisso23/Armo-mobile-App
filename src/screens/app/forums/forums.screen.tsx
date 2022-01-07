@@ -78,7 +78,7 @@ const ForumsScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getPosts(true);
+      getPosts({});
       dispatch(getCategoriesAction());
     }, []),
   );
@@ -110,7 +110,6 @@ const ForumsScreen: React.FC = () => {
       setExtraData([]);
       return null;
     }
-    console.log({ pageNumber });
     return postsService
       .getPosts({ pageNumber, pageSize: 10 })
 
@@ -139,7 +138,8 @@ const ForumsScreen: React.FC = () => {
             text: 'Confirm',
             onPress: async () => {
               await dispatch(unsubscribeToPostAction(post.id));
-              getPosts(true);
+              getPosts({ keyword: searchText, pageSize: 15 });
+              setExtraData([]);
             },
           },
         ],
@@ -147,7 +147,8 @@ const ForumsScreen: React.FC = () => {
       );
     } else {
       await dispatch(subscribeToPostAction(post.id));
-      getPosts(true);
+      getPosts({ keyword: searchText, pageSize: 15 });
+      setExtraData([]);
     }
   };
 
