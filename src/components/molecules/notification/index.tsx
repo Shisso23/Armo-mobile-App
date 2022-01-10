@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Badge, Text } from 'react-native-elements';
-import { Avatar, List } from 'react-native-paper';
+import { Badge, Text, Image } from 'react-native-elements';
+import { List } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Moment from 'moment';
 import _ from 'lodash';
-import { AvatarImageSource } from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
 
 import { getNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
 import useTheme from '../../../theme/hooks/useTheme';
@@ -36,18 +35,9 @@ const Notification = ({ notification }: { notification: Object }) => {
     return Moment(date).add({ hour: 2 }).fromNow();
   };
 
-  const _setImageUrl = (image: AvatarImageSource) => {
-    return !image ? null : image;
-  };
-
   const renderLeftContent = () => (
     <View style={[Layout.justifyContentCenter]}>
-      <Avatar.Image
-        rounded
-        size={35}
-        style={{ backgroundColor: Colors.semiTransparent }}
-        source={_setImageUrl(Images.logo)}
-      />
+      <Image style={styles.logo} source={Images.logo} />
     </View>
   );
 
@@ -84,6 +74,7 @@ const styles = StyleSheet.create({
     height: 14,
     width: 14,
   },
+  logo: { borderRadius: 30, height: 55, resizeMode: 'contain', width: 55 },
   notificationMessage: { lineHeight: 23, textAlign: 'left' },
 });
 

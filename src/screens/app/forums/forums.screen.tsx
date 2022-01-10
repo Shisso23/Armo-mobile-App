@@ -78,8 +78,11 @@ const ForumsScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getPosts({});
+      getPosts();
       dispatch(getCategoriesAction());
+      return () => {
+        clearSearch();
+      };
     }, []),
   );
 
@@ -91,6 +94,7 @@ const ForumsScreen: React.FC = () => {
   };
 
   const filterCategories = async (selectedCategories: Array<string>, order: string) => {
+    setSearchText('');
     setFilterParams({
       categories: selectedCategories,
       ascendingOrder: order === 'Old',
@@ -165,8 +169,6 @@ const ForumsScreen: React.FC = () => {
       ascendingOrder: null,
       pageSize: null,
     });
-
-    getPosts(false);
   };
 
   const onActionSheetClose = () => {
@@ -217,8 +219,16 @@ const ForumsScreen: React.FC = () => {
       <View style={[Layout.rowCenter, Gutters.largeHMargin]}>
         <SearchBar
           value={searchText}
-          clearSearch={clearSearch}
+          clearSearch={() => {
+            clearSearch();
+            getPosts(false);
+          }}
           onChangeTex={(text: string) => {
+            setFilterParams({
+              categories: [],
+              ascendingOrder: null,
+              pageSize: null,
+            });
             setSearchText(text);
             debounce(text);
           }}
@@ -247,11 +257,11 @@ const ForumsScreen: React.FC = () => {
           data={postsWithoutDups([...posts, ...extraData])}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
-          onRefresh={getPosts}
+          onRefresh={() => getPosts({ keyword: searchText })}
           refreshing={isLoadingGetPosts}
           extraData={extraData}
           onEndReached={fetchMorePosts}
-          onEndReachedThreshold={0.9}
+          onEndReachedThreshold={0.8}
         />
       </>
       <FAB

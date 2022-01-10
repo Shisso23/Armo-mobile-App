@@ -73,20 +73,23 @@ const SponsorsScreen: React.FC = () => {
     [dispatch],
   );
 
+  const getSponsors = async () => {
+    dispatch(getSponsorsAction({ keyword: searchText, PageNumber: 1 }));
+  };
+
   useFocusEffect(
     useCallback(() => {
-      dispatch(getSponsorsAction());
+      getSponsors();
       dispatch(getCategoriesAction());
+      return () => {
+        clearSearch();
+      };
     }, []),
   );
 
-  const getSponsors = async () => {
-    return dispatch(getSponsorsAction());
-  };
-
   const clearSearch = () => {
     setSearchText('');
-    getSponsors();
+    return dispatch(getSponsorsAction());
   };
 
   const renderAvatars = (promos: Array<Object>) => {
