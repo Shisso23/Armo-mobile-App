@@ -19,7 +19,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - OneSignalXCFramework (3.9.1)
+  - OneSignalXCFramework (3.10.0)
   - RCTRequired (0.63.4)
   - RCTTypeSafety (0.63.4):
     - FBLazyVector (= 0.63.4)
@@ -190,8 +190,8 @@ PODS:
     - react-native-config/App (= 1.4.2)
   - react-native-config/App (1.4.2):
     - React-Core
-  - react-native-onesignal (4.3.3):
-    - OneSignalXCFramework (= 3.9.1)
+  - react-native-onesignal (4.3.4):
+    - OneSignalXCFramework (= 3.10.0)
     - React (< 1.0.0, >= 0.13.0)
   - react-native-safe-area-context (3.3.2):
     - React-Core
@@ -257,6 +257,8 @@ PODS:
     - React-jsi (= 0.63.4)
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNBootSplash (3.2.7):
+    - React-Core
   - RNCAsyncStorage (1.12.1):
     - React-Core
   - RNCClipboard (1.5.1):
@@ -318,6 +320,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
@@ -394,6 +397,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCClipboard:
@@ -422,7 +427,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  OneSignalXCFramework: 27159b0a150cdfe528c85325215c9d78b2f973c7
+  OneSignalXCFramework: 10648e60ff3d335fbffa62d9b44b700b56d49b51
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
   React: b0a957a2c44da4113b0c4c9853d8387f8e64e615
@@ -434,7 +439,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-config: c98128a72bc2c3a1ca72caec0b021f0fa944aa29
-  react-native-onesignal: 9a543af01c2359b7567919cd3b1490051c553e21
+  react-native-onesignal: 9e10487bcba41ebcb4655b45d9bdd0b63f5e220f
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -447,6 +452,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNBootSplash: f31eba8f6d496e2029859e06e5582cac4607256d
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
@@ -459,6 +465,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: 780ab7db1ca9bd9e5db8c8b2f904a41d474337bf
+PODFILE CHECKSUM: c043abc80e8414b83d9c8b7bbfdac7e57799304d
 
 COCOAPODS: 1.11.2

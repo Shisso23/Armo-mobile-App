@@ -72,17 +72,19 @@ const CategoryActionSheetContent: React.FC<CategoryActionSheetContentProps> = ({
       nestedScrollEnabled={true}
       contentContainerStyle={[Gutters.largeRPadding, Gutters.smallBMargin]}
     >
-      <Text style={[Gutters.regularLMargin, styles.title]}>Category</Text>
-      <FlatList
-        data={categories}
-        renderItem={renderCategories}
-        numColumns={3}
-        contentContainerStyle={[Gutters.smallPadding, Gutters.regularRMargin]}
-        keyExtractor={(item: { id: any }) => item.id}
-        scrollEnabled
-      />
-      <Text style={[Gutters.regularLMargin, styles.title]}>Sort by</Text>
-      <View style={[Layout.row, Gutters.regularMargin]}>
+      <Text style={[Gutters.regularLMargin, Gutters.regularMargin, styles.title]}>Category</Text>
+      <View style={[Gutters.tinyLMargin]}>
+        <FlatList
+          data={categories}
+          renderItem={renderCategories}
+          numColumns={3}
+          contentContainerStyle={[Gutters.smallPadding, Gutters.regularRMargin]}
+          keyExtractor={(item: { id: any }) => item.id}
+          scrollEnabled
+        />
+      </View>
+      <Text style={[Gutters.regularLMargin, Gutters.regularTMargin, styles.title]}>Sort by</Text>
+      <View style={[Layout.row, Gutters.regularBMargin, Gutters.regularLMargin]}>
         <CategoryItem
           name="New"
           selected={sortBy === 'New'}

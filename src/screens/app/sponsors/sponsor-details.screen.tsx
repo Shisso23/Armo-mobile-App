@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -11,7 +11,6 @@ import {
 import _ from 'lodash';
 import { Text, Divider } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
-import axios from 'axios';
 
 import { exitAppOnHardwarePressListener } from '../../../helpers';
 import { Colors } from '../../../theme/Variables';
@@ -19,19 +18,26 @@ import { useTheme } from '../../../theme';
 import { ScreenContainer } from '../../../components';
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { flashService } from '../../../services';
 
 const { width } = Dimensions.get('window');
-const { CancelToken } = axios;
 
 const PromosScreen = ({ route }: { route: Object }) => {
-  const requestSource = CancelToken.source();
   const promos = _.get(route, 'params.categoryWithPromos.promos', {});
   const { Layout, Gutters, Common } = useTheme();
 
-  const navigateToWebsite = (link: string) =>
-    Linking.canOpenURL(`${link}`).then(() => {
+  const navigateToWebsite = (link: string) => {
+    if (link.substr(0, 5) === 'http:') {
+      Linking.openURL(`https://${link.substr(7)}`);
+    } else if (link.substr(0, 5) === 'https') {
+      Linking.openURL(`https://${link.substr(8)}`);
+    } else if (link.substr(0, 3) === 'www') {
       Linking.openURL(`https://${link}`);
-    });
+    } else {
+      flashService.error('Could not open url!');
+    }
+  };
+
   const openEmail = (email: string) =>
     Linking.canOpenURL(`${email}`)
       .then(() => {
@@ -40,12 +46,6 @@ const PromosScreen = ({ route }: { route: Object }) => {
       .catch((error) => {
         return error;
       });
-
-  useEffect(() => {
-    return () => {
-      requestSource.cancel();
-    };
-  });
 
   const renderSponsor = ({ item, index }: { item: sponsorTypes; index: number }) => {
     return (

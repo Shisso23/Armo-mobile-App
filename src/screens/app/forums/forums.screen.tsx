@@ -6,6 +6,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import _ from 'lodash';
 
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
@@ -22,7 +23,6 @@ import {
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { apiPostProps } from '../../../models';
 import SponsorsFooter from '../../../components/molecules/sponsors-footer';
-import _ from 'lodash';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 import postsService, { getPostsTypes } from '../../../services/sub-services/posts/posts.service';
 
@@ -70,9 +70,12 @@ const ForumsScreen: React.FC = () => {
 
   const goToCreatePost = () => navigation.navigate('CreatePost');
 
-  const getPosts = (queryParams: boolean = true) => {
-    dispatch(getPostsAction(queryParams ? filterParams : undefined));
+  const getPosts = (queryParams?: Object) => {
+    dispatch(
+      getPostsAction(queryParams !== false ? { ...filterParams, ...queryParams } : undefined),
+    );
   };
+
   useFocusEffect(
     useCallback(() => {
       getPosts();
@@ -84,13 +87,14 @@ const ForumsScreen: React.FC = () => {
   );
 
   const getPost = async (id: any) => {
-    const post = await dispatch(getPostAction(id));
+    const post: Object = await dispatch(getPostAction(id));
     if (post) {
       navigation.navigate('ViewPost', { post });
     }
   };
 
   const filterCategories = async (selectedCategories: Array<string>, order: string) => {
+    setSearchText('');
     setFilterParams({
       categories: selectedCategories,
       ascendingOrder: order === 'Old',
@@ -104,14 +108,19 @@ const ForumsScreen: React.FC = () => {
       }),
     );
   };
+
   const fetchMorePosts = async () => {
-    postsService
+    if (_.get(filterParams, 'categories', []).length > 0 || searchText.length > 0) {
+      setExtraData([]);
+      return null;
+    }
+    return postsService
       .getPosts({ pageNumber, pageSize: 10 })
 
       .then((resp) => {
+        setExtraData(resp.items);
         if (_.get(resp, 'hasNextPage', false)) {
           setPageNumber(pageNumber + 1);
-          setExtraData(resp.items);
         } else if (resp.pageIndex === 1) {
           setExtraData([]);
         }
@@ -133,7 +142,8 @@ const ForumsScreen: React.FC = () => {
             text: 'Confirm',
             onPress: async () => {
               await dispatch(unsubscribeToPostAction(post.id));
-              getPosts();
+              getPosts({ keyword: searchText, pageSize: 15 });
+              setExtraData([]);
             },
           },
         ],
@@ -141,7 +151,8 @@ const ForumsScreen: React.FC = () => {
       );
     } else {
       await dispatch(subscribeToPostAction(post.id));
-      getPosts();
+      getPosts({ keyword: searchText, pageSize: 15 });
+      setExtraData([]);
     }
   };
 
@@ -158,7 +169,6 @@ const ForumsScreen: React.FC = () => {
       ascendingOrder: null,
       pageSize: null,
     });
-    getPosts(false);
   };
 
   const onActionSheetClose = () => {
@@ -209,8 +219,16 @@ const ForumsScreen: React.FC = () => {
       <View style={[Layout.rowCenter, Gutters.largeHMargin]}>
         <SearchBar
           value={searchText}
-          clearSearch={clearSearch}
+          clearSearch={() => {
+            clearSearch();
+            getPosts(false);
+          }}
           onChangeTex={(text: string) => {
+            setFilterParams({
+              categories: [],
+              ascendingOrder: null,
+              pageSize: null,
+            });
             setSearchText(text);
             debounce(text);
           }}
@@ -239,11 +257,11 @@ const ForumsScreen: React.FC = () => {
           data={postsWithoutDups([...posts, ...extraData])}
           renderItem={renderForum}
           keyExtractor={(item) => String(item.id)}
-          onRefresh={getPosts}
+          onRefresh={() => getPosts({ keyword: searchText })}
           refreshing={isLoadingGetPosts}
           extraData={extraData}
           onEndReached={fetchMorePosts}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.8}
         />
       </>
       <FAB

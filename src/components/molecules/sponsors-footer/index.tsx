@@ -3,10 +3,12 @@ import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View, Image, Pressable, Linking, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator } from 'react-native-paper';
 
 import { sponsorTypes } from '../../../models/app/sponsors/sponsors.model';
 import { getSponsorsAction } from '../../../reducers/sponsors-reducer/sponsors.actions';
 import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.reducer';
+import { flashService } from '../../../services';
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
 
@@ -20,7 +22,17 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
     return _.shuffle(sponsors).slice(0, 3);
   }, [sponsors]);
 
-  const goToPromoWebsite = (link: string) => Linking.openURL(`https://${link}`);
+  const goToPromoWebsite = (link: string) => {
+    if (link.substr(0, 5) === 'http:') {
+      Linking.openURL(`https://${link.substr(7)}`);
+    } else if (link.substr(0, 5) === 'https') {
+      Linking.openURL(`https://${link.substr(8)}`);
+    } else if (link.substr(0, 3) === 'www') {
+      Linking.openURL(`https://${link}`);
+    } else {
+      flashService.error('Could not open url!');
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -44,6 +56,11 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
             <Image
               source={{ uri: _.get(sponsor, 'logo', null) }}
               style={[Layout.row, Gutters.tinyHMargin, styles.logo]}
+              PlaceholderContent={
+                <>
+                  <ActivityIndicator animating={true} color={Colors.secondary} size={20} />
+                </>
+              }
             />
           )}
         </Pressable>

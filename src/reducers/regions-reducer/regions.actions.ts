@@ -1,5 +1,4 @@
 import { setRegionsAction } from './regions.reducer';
-import { flashService } from '../../services';
 import { regionsService } from '../../services';
 import _ from 'lodash';
 
@@ -9,6 +8,6 @@ export const getRegionsAction = () => async (dispatch: Function) => {
     dispatch(setRegionsAction(response));
     return response;
   } catch (error) {
-    flashService.error(_.get(error, 'message', ''));
+    console.warn(_.get(error, 'message', 'Could not fetch regions'));
   }
 };

@@ -22,7 +22,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const { Gutters } = useTheme();
   const dispatch = useDispatch();
   const { isLoadingGetPostComments, postComments } = useSelector(postCommentsSelector);
-  const [repliesExpanded, setRepliesExpanded] = useState(false);
+  const [repliesExpanded, setRepliesExpanded] = useState(true);
 
   useEffect(() => {
     if (repliesExpanded) {

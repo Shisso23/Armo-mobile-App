@@ -41,7 +41,7 @@ const makeAsRead = async (notificationId: string) => {
     });
 };
 
-const storeDeviceToken = async (deviceToken: string | null) => {
+const storeDeviceToken = async (deviceToken: string | null | undefined) => {
   const url = notificationsUrls.storeDeviceToken();
   return authNetworkService
     .post(url, {
