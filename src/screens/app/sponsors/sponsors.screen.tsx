@@ -36,7 +36,7 @@ const SponsorsScreen: React.FC = () => {
 
   const groupPromosByCategory: () => Array<Object> = () => {
     const promosGroupedByCategories: Array<Object> = [];
-    categories.forEach((category: {}) => {
+    categories?.forEach((category: {}) => {
       const emptyObject = {};
       const objWithCategoryName = _.set(emptyObject, 'name', `${_.get(category, 'name', '')}`);
       const addedListOfPromos = _.set(
@@ -63,18 +63,18 @@ const SponsorsScreen: React.FC = () => {
 
   const debounce = useMemo(
     () =>
-      _.throttle(
+      _.debounce(
         async (searchKeyWord: string) => {
-          await dispatch(getSponsorsAction({ keyword: searchKeyWord, PageNumber: 1 }));
+          return await dispatch(getSponsorsAction({ keyword: searchKeyWord, PageNumber: 1 }));
         },
-        1500,
+        900,
         undefined,
       ),
     [dispatch],
   );
 
   const getSponsors = async () => {
-    dispatch(getSponsorsAction({ keyword: searchText, PageNumber: 1 }));
+    await dispatch(getSponsorsAction({ keyword: searchText, PageNumber: 1 }));
   };
 
   useFocusEffect(
@@ -159,9 +159,9 @@ const SponsorsScreen: React.FC = () => {
       <SearchBar
         value={searchText}
         clearSearch={clearSearch}
-        onChangeTex={(search: string) => {
+        onChangeTex={async (search: string) => {
           setSearchText(search);
-          debounce(search);
+          await debounce(search);
         }}
         placeHolder="Search sponsors"
         style={[Gutters.tinyLMargin, Gutters.tinyRMargin]}
