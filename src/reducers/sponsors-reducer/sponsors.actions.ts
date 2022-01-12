@@ -14,6 +14,7 @@ export const getSponsorsAction =
       return response;
     } catch (error) {
       flashService.error(error.message);
+      return [];
     } finally {
       dispatch(setIsLoadingsponsorsAction(false));
     }

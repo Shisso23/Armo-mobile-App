@@ -101,7 +101,7 @@ export const createPostAction = async (formData: CreatePostProps) => {
   }
 };
 
-export const deletePostAction = async (id: any) => (dispatch: Function) => {
+export const deletePostAction = async (id: any) => async (dispatch: Function) => {
   dispatch(setIsLoadingDeletePostAction(true));
 
   return postsService

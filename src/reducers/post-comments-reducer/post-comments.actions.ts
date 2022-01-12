@@ -2,7 +2,7 @@ import { setIsLoadingGetPostCommentsAction, setPostCommentsAction } from './post
 import { flashService, postCommentsService } from '../../services';
 import { ReplyToPostProps } from '../../models';
 
-export const getPostCommentsAction = (id: any) => async (dispatch: Function) => {
+export const getPostCommentsAction = async (id: any) => async (dispatch: Function) => {
   dispatch(setIsLoadingGetPostCommentsAction(true));
   try {
     const response = await postCommentsService.getPostComments(id);

@@ -16,7 +16,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ShareActionContent from '../share-action-content';
 import ReportPostModal from '../report-post-modal';
 import { commentsService } from '../../../services';
-import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
 import { reportUserAction } from '../../../reducers/posts-reducer/posts.actions';
@@ -26,9 +25,10 @@ type PostReplyProps = {
   key?: any;
   post: Object;
   onVote: Function;
+  onDeleteComment: Function;
 };
 
-const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
+const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote, onDeleteComment }) => {
   const { Gutters, Fonts, Layout } = useTheme();
   const dispatch = useDispatch();
   const { isLoadingReportUser } = useSelector(postsSelector);
@@ -49,6 +49,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
         post={post}
         reply={chilComment}
         onVote={onVote}
+        onDeleteComment={onDeleteComment}
       />
     );
   });
@@ -62,26 +63,25 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
     Alert.alert('Copied');
   };
   const handleUpVote = async () => {
+    setUpVoted(true);
+    setdownVoted(false);
+    setUpVotes(upVotes + 1);
     commentsService.upVoteComment(_.get(reply, 'id', '')).then(() => {
       if (downVoted) {
         setDownVotes(Math.max(0, downVotes - 1));
       }
-      setUpVoted(true);
-      setdownVoted(false);
-      setUpVotes(upVotes + 1);
       onVote();
     });
   };
 
   const handleDownVote = async () => {
+    setdownVoted(true);
+    setUpVoted(false);
+    setDownVotes(downVotes + 1);
     commentsService.downVoteComment(_.get(reply, 'id', '')).then(() => {
       if (upVoted) {
         setUpVotes(Math.max(0, upVotes - 1));
       }
-      setdownVoted(true);
-      setUpVoted(false);
-      setDownVotes(downVotes + 1);
-
       onVote();
     });
   };
@@ -91,16 +91,12 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
     navigation.navigate('EditComment', { comment: reply });
   };
 
-  const deleteComment = () => {
-    dispatch(deleteCommentAction(_.get(reply, 'id', '')));
-  };
-
-  const debounceDownVote = _.debounce(handleDownVote, 800, {
+  const debounceDownVote = _.debounce(handleDownVote, 100, {
     leading: false,
     trailing: true,
   });
 
-  const debounceUpVote = _.debounce(() => handleUpVote(), 800, {
+  const debounceUpVote = _.debounce(() => handleUpVote(), 100, {
     leading: false,
     trailing: true,
   });
@@ -152,17 +148,18 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
           containerStyle={styles.avatar}
         />
         <ListItem.Content>
-          <ListItem.Title>{`${_.get(reply, 'owner.fullName', '')} ${formatDate(
-            _.get(reply, 'createDate', new Date()),
-          )}`}</ListItem.Title>
+          <ListItem.Title>{`${_.get(reply, 'owner.fullName', '')}`}</ListItem.Title>
+          <ListItem.Subtitle>
+            {formatDate(_.get(reply, 'createDate', new Date()))}
+          </ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
 
-      <ListItem.Subtitle style={[Fonts.textLeft, styles.comment]}>
+      <ListItem.Subtitle style={[Fonts.textLeft, styles.comment, Gutters.tinyTMargin]}>
         {_.get(reply, 'content', '')}
       </ListItem.Subtitle>
 
-      <ListItem containerStyle={[styles.user, Gutters.regularTMargin, styles.replyText]}>
+      <ListItem containerStyle={[styles.user, Gutters.tinyTMargin, styles.replyText]}>
         <TouchableOpacity
           onPress={goToReplyToPost}
           style={[Fonts.textLeft, styles.comment, Gutters.regularTPadding]}
@@ -209,7 +206,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={editComment}
-          onDeletePress={deleteComment}
+          onDeletePress={() => onDeleteComment(_.get(reply, 'id', ''))}
           ownerId={_.get(reply, 'owner.id', '')}
         />
       </ActionSheet>

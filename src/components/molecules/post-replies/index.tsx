@@ -11,6 +11,7 @@ import { useTheme } from '../../../theme';
 import { postCommentsSelector } from '../../../reducers/post-comments-reducer/post-comments.reducer';
 import PostReply from '../../../components/molecules/post-reply';
 import { getPostCommentsAction } from '../../../reducers/post-comments-reducer/post-comments.actions';
+import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 
 const { width } = Dimensions.get('window');
 
@@ -38,6 +39,11 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
     }, [repliesExpanded]),
   );
 
+  const deleteComment = async (commentId: string) => {
+    await dispatch(deleteCommentAction(commentId));
+    await dispatch(getPostCommentsAction(_.get(post, 'id', '')));
+  };
+
   const onVote = () => {
     dispatch(getPostCommentsAction(_.get(post, 'id', '')));
   };
@@ -45,7 +51,7 @@ const PostReplies: React.FC<PostRepliesProps> = ({ post }) => {
   const renderPostReplies = ({ item, index }: { item: Object; index: number }) => {
     return (
       <>
-        <PostReply reply={item} post={post} onVote={onVote} />
+        <PostReply reply={item} post={post} onVote={onVote} onDeleteComment={deleteComment} />
         {index < postComments.length - 1 && <Divider style={styles.postDivider} />}
       </>
     );
