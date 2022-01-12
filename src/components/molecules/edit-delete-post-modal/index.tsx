@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Platform, Pressable } from 'react-native';
-import { Menu } from 'react-native-paper';
+import { Menu, ActivityIndicator } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
 import ReportPostModal from '../report-post-modal';
@@ -26,7 +26,7 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
 }) => {
   const [postOptionsModalVisible, setPostOptionsModalVisible] = useState(false);
   const { user } = useSelector(userSelector);
-  const { isLoadingReportUser } = useSelector(postsSelector);
+  const { isLoadingReportUser, isLoadingDeletePost } = useSelector(postsSelector);
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const owner = _.get(post, 'owner', {});
   const isOwner = useMemo(() => user.id === owner.id, [owner.id, user.id]);
@@ -88,10 +88,16 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
             >
               <Text>Edit Post</Text>
             </TouchableOpacity>
+            <ActivityIndicator
+              animating={isLoadingDeletePost}
+              color={Colors.lightGray}
+              style={styles.loadingIndicator}
+              size={25}
+            />
             <TouchableOpacity
               style={Gutters.regularMargin}
-              onPress={() => {
-                handleDelete();
+              onPress={async () => {
+                await handleDelete();
                 hidePostOptionsModal();
               }}
             >
@@ -126,6 +132,11 @@ const EditDeletePost: React.FC<EditDeletePostProps> = ({
 };
 
 const styles = StyleSheet.create({
+  loadingIndicator: {
+    alignSelf: 'center',
+    position: 'absolute',
+    top: '30%',
+  },
   menu: {
     ...Platform.select({
       android: { backgroundColor: Colors.transparent },

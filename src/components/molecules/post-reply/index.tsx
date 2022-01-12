@@ -16,7 +16,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ShareActionContent from '../share-action-content';
 import ReportPostModal from '../report-post-modal';
 import { commentsService } from '../../../services';
-import { deleteCommentAction } from '../../../reducers/comment-replies-reducer/comment-replies.actions';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { reportUserTypes } from '../../../services/sub-services/report-user-service/report-user.service';
 import { reportUserAction } from '../../../reducers/posts-reducer/posts.actions';
@@ -26,9 +25,10 @@ type PostReplyProps = {
   key?: any;
   post: Object;
   onVote: Function;
+  onDeleteComment: Function;
 };
 
-const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
+const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote, onDeleteComment }) => {
   const { Gutters, Fonts, Layout } = useTheme();
   const dispatch = useDispatch();
   const { isLoadingReportUser } = useSelector(postsSelector);
@@ -49,6 +49,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
         post={post}
         reply={chilComment}
         onVote={onVote}
+        onDeleteComment={onDeleteComment}
       />
     );
   });
@@ -88,10 +89,6 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
   const editComment = () => {
     actionSheetRef.current.setModalVisible(false);
     navigation.navigate('EditComment', { comment: reply });
-  };
-
-  const deleteComment = () => {
-    dispatch(deleteCommentAction(_.get(reply, 'id', '')));
   };
 
   const debounceDownVote = _.debounce(handleDownVote, 100, {
@@ -209,7 +206,7 @@ const PostReply: React.FC<PostReplyProps> = ({ reply, post, onVote }) => {
           onCopyPress={handleClipBoardCopy}
           onReportPress={handleReportPress}
           onEditPress={editComment}
-          onDeletePress={deleteComment}
+          onDeletePress={() => onDeleteComment(_.get(reply, 'id', ''))}
           ownerId={_.get(reply, 'owner.id', '')}
         />
       </ActionSheet>
