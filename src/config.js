@@ -14,4 +14,5 @@ export default {
   scope: 'openid profile role email offline_access mobileApi',
   oneSignalAppId: ONE_SIGNAL_APP_ID,
   oneSignalTokenKey: 'oneSignalTokenKey',
+  stagingPivacyPolicyUrl: 'https://armoportalstaging.z1.web.core.windows.net/privacy-policy',
 };
