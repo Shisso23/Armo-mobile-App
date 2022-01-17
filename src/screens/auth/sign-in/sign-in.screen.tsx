@@ -36,6 +36,8 @@ const SignInScreen: React.FC = () => {
     RNBootSplash.hide({ fade: true });
   };
 
+  const gotoPrivacyPolicy = () => navigation.navigate('PrivacyPolicy');
+
   const signIn = async (formData: SignInProps) => {
     await userAuthService.signIn(formData);
   };
@@ -66,7 +68,7 @@ const SignInScreen: React.FC = () => {
           />
           <Text style={[styles.signUpMessage, Layout.alignSelfCenter, Gutters.regularMargin]}>
             By signing in you agree to our
-            <Pressable onPress={() => navigation.navigate('PrivacyPolicy')}>
+            <Pressable onPress={gotoPrivacyPolicy}>
               <Text style={Common.link}>Terms of Service and Privacy policy</Text>
             </Pressable>
           </Text>

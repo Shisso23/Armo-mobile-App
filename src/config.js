@@ -1,6 +1,14 @@
 import Config from 'react-native-config';
 
-const { API_LOCATION, CLIENT_ID, CLIENT_SECRET, HOST_URL, ENVIRONMENT, ONE_SIGNAL_APP_ID } = Config;
+const {
+  API_LOCATION,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  HOST_URL,
+  ENVIRONMENT,
+  ONE_SIGNAL_APP_ID,
+  STAGING_PRIVACY_POLICY_URL,
+} = Config;
 
 export default {
   accessTokenKey: 'access_token',
@@ -14,5 +22,5 @@ export default {
   scope: 'openid profile role email offline_access mobileApi',
   oneSignalAppId: ONE_SIGNAL_APP_ID,
   oneSignalTokenKey: 'oneSignalTokenKey',
-  stagingPivacyPolicyUrl: 'https://armoportalstaging.z1.web.core.windows.net/privacy-policy',
+  stagingPivacyPolicyUrl: STAGING_PRIVACY_POLICY_URL,
 };
