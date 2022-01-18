@@ -36,6 +36,7 @@ const App: React.FC = () => {
   };
 
   const handleNotification = () => {
+    getUnreadNotifications();
     if (Platform.OS === 'ios') {
       OneSignal.promptForPushNotificationsWithUserResponse((response) => {
         handleForgroundNotifications();
@@ -65,11 +66,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const interval = setInterval(getUnreadNotifications, 5000);
       handleNotification();
-      return () => {
-        clearInterval(interval);
-      };
     }
   });
 
