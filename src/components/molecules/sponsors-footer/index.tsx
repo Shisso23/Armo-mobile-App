@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Image, Pressable, Linking, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator } from 'react-native-paper';
@@ -10,6 +10,7 @@ import { sponsorsSelector } from '../../../reducers/sponsors-reducer/sponsors.re
 import { flashService } from '../../../services';
 import useTheme from '../../../theme/hooks/useTheme';
 import { Colors } from '../../../theme/Variables';
+import { useFocusEffect } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
@@ -52,9 +53,11 @@ const SponsorsFooter = ({ categoryId }: { categoryId?: string }) => {
     };
   }, [JSON.stringify(stateSponsors)]);
 
-  useLayoutEffect(() => {
-    fetchSponsors();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchSponsors();
+    }, []),
+  );
 
   useEffect(() => {
     fetchSponsors();
