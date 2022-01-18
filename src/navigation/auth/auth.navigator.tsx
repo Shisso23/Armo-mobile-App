@@ -9,6 +9,7 @@ import useTheme from '../../theme/hooks/useTheme';
 
 import { AuthStackList } from './types';
 import ResetPasswordScreen from '../../screens/auth/reset-password/reset-password.screen';
+import PrivacyPolicyWebView from '../../screens/app/privacy-policy-web/privacy-policy-webview';
 
 const AuthStack = createStackNavigator<AuthStackList>();
 
@@ -21,6 +22,17 @@ const AuthNavigator = ({ navigation }: { navigation: { goBack: Function } }) => 
         component={SignInScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <AuthStack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyWebView}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: Colors.muted,
+          },
+          title: 'Privacy policy',
         }}
       />
       <AuthStack.Screen
