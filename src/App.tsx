@@ -4,7 +4,6 @@ import { LogBox, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import oneSignalService from './services/sub-services/push-notifications-service/one-signal.service';
-import { getUnreadNotificationsAction } from './reducers/notifications-reducer/notifications.actions';
 import NavigationContainer from './navigation/root.navigator';
 import { initAppAction } from './reducers/app-reducer/app.actions';
 import { notificationsService } from './services';
@@ -14,7 +13,11 @@ import config from './config';
 const App: React.FC = () => {
   const { isAuthenticated } = useSelector((reducer: RootReducer) => reducer.userAuthReducer);
   OneSignal.setLogLevel(6, 0);
-  OneSignal.setAppId(`${config.oneSignalAppId}`);
+  if (Platform.OS === 'android') {
+    OneSignal.setAppId(`${config.oneSignalAppId}`);
+  } else {
+    OneSignal.setAppId(`${config.oneSignalAppIdIos}`);
+  }
 
   const dispatch = useDispatch();
 
@@ -31,12 +34,7 @@ const App: React.FC = () => {
     });
   };
 
-  const getUnreadNotifications = async () => {
-    return dispatch(getUnreadNotificationsAction());
-  };
-
   const handleNotification = () => {
-    getUnreadNotifications();
     if (Platform.OS === 'ios') {
       OneSignal.promptForPushNotificationsWithUserResponse((response) => {
         handleForgroundNotifications();

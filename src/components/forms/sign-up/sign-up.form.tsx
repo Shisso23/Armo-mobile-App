@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import _ from 'lodash';
-import { HelperText } from 'react-native-paper';
 import { Button, Icon } from 'react-native-elements';
 
 import { emailSchema, registerPasswordSchema } from '../form-validaton-schemas';
@@ -44,7 +43,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
   const { Layout } = useTheme();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isRetypedPasswordHidden, setIsRetypedPasswordHidden] = useState(true);
-  const [showPasswordError, setShowPasswordError] = useState(false);
 
   const showPassword = (type: String) => {
     setTimeout(() => {
@@ -69,7 +67,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
     } catch (error) {
       actions.setSubmitting(false);
       if (_.get(error, 'statusCode') === 422 || _.get(error, 'statusCode') === 400) {
-        setShowPasswordError(true);
         if (_.get(error, 'statusCode') === 422) {
           const apiErrors = _.get(error, 'errors', '');
           actions.resetForm({ values: formData, status: { apiErrors } });
@@ -171,7 +168,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
               value={values.confirmPassword}
               secureTextEntry={isRetypedPasswordHidden}
               onChangeText={(text) => {
-                setShowPasswordError(false);
                 setFieldValue('confirmPassword', text);
               }}
               autoCapitalize="none"
@@ -188,10 +184,6 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
                 />
               }
             />
-            <HelperText style={styles.passwordError} visible={showPasswordError} type="error">
-              Make sure your password contains at least an uppercase letter, a lowercase letter, a
-              number and a special character!
-            </HelperText>
             <Button
               title="Submit"
               titleStyle={styles.buttonTitle}
@@ -211,9 +203,6 @@ const styles = StyleSheet.create({
   buttonContainer: { borderRadius: 20, width: '70%' },
   buttonStyle: { backgroundColor: Colors.secondary, borderRadius: 20 },
   buttonTitle: { fontSize: 16, fontWeight: 'bold', textTransform: 'uppercase' },
-  passwordError: {
-    textAlign: 'center',
-  },
   regionContent: {
     borderColor: Colors.shadow,
     borderRadius: 20,

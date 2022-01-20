@@ -79,8 +79,12 @@ const SponsorsScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getSponsors();
-      dispatch(getCategoriesAction());
+      if (sponsors.length === 0) {
+        getSponsors();
+      }
+      if (categories.length === 0) {
+        dispatch(getCategoriesAction());
+      }
       return () => {
         clearSearch();
       };

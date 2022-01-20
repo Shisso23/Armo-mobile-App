@@ -7,6 +7,7 @@ const {
   HOST_URL,
   ENVIRONMENT,
   ONE_SIGNAL_APP_ID,
+  ONE_SIGNAL_APP_ID_IOS,
   STAGING_PRIVACY_POLICY_URL,
 } = Config;
 
@@ -21,6 +22,7 @@ export default {
   website: 'www.armo.co.za',
   scope: 'openid profile role email offline_access mobileApi',
   oneSignalAppId: ONE_SIGNAL_APP_ID,
+  oneSignalAppIdIos: ONE_SIGNAL_APP_ID_IOS,
   oneSignalTokenKey: 'oneSignalTokenKey',
   stagingPivacyPolicyUrl: STAGING_PRIVACY_POLICY_URL,
 };
