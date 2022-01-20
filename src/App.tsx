@@ -13,11 +13,7 @@ import config from './config';
 const App: React.FC = () => {
   const { isAuthenticated } = useSelector((reducer: RootReducer) => reducer.userAuthReducer);
   OneSignal.setLogLevel(6, 0);
-  if (Platform.OS === 'android') {
-    OneSignal.setAppId(`${config.oneSignalAppId}`);
-  } else {
-    OneSignal.setAppId(`${config.oneSignalAppIdIos}`);
-  }
+  OneSignal.setAppId(`${config.oneSignalAppId}`);
 
   const dispatch = useDispatch();
 
