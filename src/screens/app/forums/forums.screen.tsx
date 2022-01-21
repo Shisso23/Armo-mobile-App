@@ -68,7 +68,10 @@ const ForumsScreen: React.FC = () => {
     [],
   );
 
-  const goToCreatePost = () => navigation.navigate('CreatePost');
+  const goToCreatePost = () =>
+    navigation.navigate('CreatePost', {
+      getPosts,
+    });
 
   const getPosts = (queryParams?: Object) => {
     dispatch(
@@ -87,7 +90,7 @@ const ForumsScreen: React.FC = () => {
   const getPost = async (id: any) => {
     const post: Object = await dispatch(getPostAction(id));
     if (post) {
-      navigation.navigate('ViewPost', { post });
+      navigation.navigate('ViewPost', { post, getPosts });
     }
   };
 

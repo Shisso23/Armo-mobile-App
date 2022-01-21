@@ -28,7 +28,7 @@ const SponsorsScreen: React.FC = () => {
 
   const filterPromosWithCategory = (categoryToGroupBy: string) => {
     return sponsors?.filter((sponsor: sponsorTypes) =>
-      sponsor.categories.some(
+      _.get(sponsor, 'categories', []).some(
         (category: Object) => _.get(category, 'name', '') === categoryToGroupBy,
       ),
     );
@@ -45,7 +45,7 @@ const SponsorsScreen: React.FC = () => {
         filterPromosWithCategory(_.get(category, 'name', '')),
       );
 
-      promosGroupedByCategories.push(addedListOfPromos);
+      promosGroupedByCategories.push(addedListOfPromos || []);
     });
 
     return promosGroupedByCategories?.filter(
@@ -54,11 +54,11 @@ const SponsorsScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    setGroupedPromos(groupPromosByCategory());
+    setGroupedPromos(groupPromosByCategory() || []);
   }, []);
 
   useEffect(() => {
-    setGroupedPromos(groupPromosByCategory());
+    setGroupedPromos(groupPromosByCategory() || []);
   }, [JSON.stringify(sponsors)]);
 
   const debounce = useMemo(
