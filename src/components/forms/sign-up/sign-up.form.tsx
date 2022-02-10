@@ -14,6 +14,7 @@ import CustomInput from '../../molecules/custom-input';
 import DropdownSelect from '../../molecules/dropdown-select/dropdown-select';
 import { Colors } from '../../../theme/Variables';
 import { useTheme } from '../../../theme';
+import { ErrorObject } from '../types';
 
 type SignUpFormFormProps = {
   submitForm: Function;
@@ -61,22 +62,37 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
     }
   };
 
-  const _handleSubmission = async (formData: SignUpProps, actions: FormikHelpers<SignUpProps>) => {
-    try {
-      await submitForm(formData);
-      actions.setSubmitting(false);
-      onSuccess();
-    } catch (error) {
-      actions.setSubmitting(false);
-      if (_.get(error, 'statusCode') === 422 || _.get(error, 'statusCode') === 400) {
-        setShowPasswordError(true);
-        if (_.get(error, 'statusCode') === 422) {
-          const apiErrors = _.get(error, 'errors', '');
-          actions.resetForm({ values: formData, status: { apiErrors } });
-        }
-        flashService.error('Form Submission Error');
+  const _handleFormSubmitError = (
+    error: ErrorObject,
+    actions: FormikHelpers<SignUpProps>,
+    formData: SignUpProps,
+  ) => {
+    actions.setSubmitting(false);
+    const apiErrors = error.errors;
+    if (!_.isEmpty(apiErrors)) {
+      actions.setFieldError('firstName', apiErrors.firstName);
+      actions.setFieldError('lastName', apiErrors.lastName);
+      actions.setFieldError('email', apiErrors.email);
+      actions.setFieldError('email', apiErrors.DuplicateEmail);
+      actions.setFieldError('cellphoneNumber', apiErrors.cellphoneNumber);
+      actions.setFieldError('password', apiErrors.password);
+      actions.setFieldError('termsChecked', apiErrors.termsChecked);
+    } else if (_.get(error, 'statusCode') === 422 || _.get(error, 'statusCode') === 400) {
+      setShowPasswordError(true);
+      if (_.get(error, 'statusCode') === 422) {
+        actions.resetForm({ values: formData, status: { apiErrors } });
       }
+      flashService.error('Form Submission Error');
     }
+  };
+
+  const _handleSubmission = (formData: SignUpProps, actions: FormikHelpers<SignUpProps>) => {
+    submitForm(formData)
+      .then(() => {
+        actions.setSubmitting(false);
+        onSuccess();
+      })
+      .catch((error: ErrorObject) => _handleFormSubmitError(error, actions, formData));
   };
 
   return (
