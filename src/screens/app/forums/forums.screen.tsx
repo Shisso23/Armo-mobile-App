@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { View, StyleSheet, Keyboard, Platform, Alert } from 'react-native';
 import { Text, Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import ActionSheet from 'react-native-actions-sheet';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import _ from 'lodash';
 
@@ -68,7 +68,10 @@ const ForumsScreen: React.FC = () => {
     [],
   );
 
-  const goToCreatePost = () => navigation.navigate('CreatePost');
+  const goToCreatePost = () =>
+    navigation.navigate('CreatePost', {
+      getPosts,
+    });
 
   const getPosts = (queryParams?: Object) => {
     dispatch(
@@ -76,20 +79,18 @@ const ForumsScreen: React.FC = () => {
     );
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      getPosts();
-      dispatch(getCategoriesAction());
-      return () => {
-        clearSearch();
-      };
-    }, []),
-  );
+  useEffect(() => {
+    getPosts();
+    dispatch(getCategoriesAction());
+    return () => {
+      clearSearch();
+    };
+  }, []);
 
   const getPost = async (id: any) => {
     const post: Object = await dispatch(getPostAction(id));
     if (post) {
-      navigation.navigate('ViewPost', { post });
+      navigation.navigate('ViewPost', { post, getPosts });
     }
   };
 

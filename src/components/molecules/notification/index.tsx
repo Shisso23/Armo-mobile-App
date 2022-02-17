@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import Moment from 'moment';
 import _ from 'lodash';
 
-import { getNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
+import { getUnreadNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
 import useTheme from '../../../theme/hooks/useTheme';
 import { notificationsService } from '../../../services';
 
@@ -26,7 +26,7 @@ const Notification = ({ notification }: { notification: Object }) => {
   const _handleCollapse = () => {
     if (!isSeen) {
       notificationsService.makeAsRead(notificationId);
-      dispatch(getNotificationsAction());
+      dispatch(getUnreadNotificationsAction());
       setIsSeen(true);
     }
     setIsCollapsed(!isCollapsed);

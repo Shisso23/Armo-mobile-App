@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
 
 import { useTheme } from '../../../theme';
@@ -26,11 +26,10 @@ const MyPostsScreen: React.FC = () => {
   const getPosts = () => {
     dispatch(getMyPostsAction());
   };
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(getMyPostsAction());
-    }, []),
-  );
+
+  useEffect(() => {
+    dispatch(getMyPostsAction());
+  }, []);
 
   const getPost = async (id: any) => {
     const post: Object = await dispatch(getPostAction(id));
@@ -86,7 +85,7 @@ const MyPostsScreen: React.FC = () => {
         onRefresh={getPosts}
         refreshing={isLoadingGetMyPosts}
         onEndReached={fetchMorePosts}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.8}
         ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>

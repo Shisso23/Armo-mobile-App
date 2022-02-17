@@ -4,7 +4,6 @@ import { LogBox, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import oneSignalService from './services/sub-services/push-notifications-service/one-signal.service';
-import { getUnreadNotificationsAction } from './reducers/notifications-reducer/notifications.actions';
 import NavigationContainer from './navigation/root.navigator';
 import { initAppAction } from './reducers/app-reducer/app.actions';
 import { notificationsService } from './services';
@@ -31,12 +30,7 @@ const App: React.FC = () => {
     });
   };
 
-  const getUnreadNotifications = async () => {
-    return dispatch(getUnreadNotificationsAction());
-  };
-
   const handleNotification = () => {
-    getUnreadNotifications();
     if (Platform.OS === 'ios') {
       OneSignal.promptForPushNotificationsWithUserResponse((response) => {
         handleForgroundNotifications();
