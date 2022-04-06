@@ -11,7 +11,7 @@ import {
 import storageService from '../storage-service/storage.service';
 
 const authNetworkService = ax.create({
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     Accept: 'application/json',
     'content-type': 'application/json',

@@ -6,7 +6,11 @@ import _ from 'lodash';
 import { HelperText } from 'react-native-paper';
 import { Button, Icon } from 'react-native-elements';
 
-import { emailSchema, registerPasswordSchema } from '../form-validaton-schemas';
+import {
+  confirmPasswordSchema,
+  emailSchema,
+  registerPasswordSchema,
+} from '../form-validaton-schemas';
 import { getFormError } from '../form-utils';
 import { flashService } from '../../../services';
 import { SignUpProps } from '../../../models';
@@ -28,9 +32,7 @@ const SignUpSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   lastName: Yup.string().required('Last name is required'),
   password: registerPasswordSchema,
-  confirmPassword: Yup.string()
-    .required()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  confirmPassword: confirmPasswordSchema,
   email: emailSchema,
   region: Yup.string().required('Region is required'),
   company: Yup.string().required('Company is required'),
@@ -70,19 +72,18 @@ const RecruitmentForm: React.FC<SignUpFormFormProps> = ({
     actions.setSubmitting(false);
     const apiErrors = error.errors;
     if (!_.isEmpty(apiErrors)) {
-      actions.setFieldError('firstName', apiErrors.firstName);
+      actions.setFieldError('username', apiErrors.username);
+      actions.setFieldError('name', apiErrors.name);
       actions.setFieldError('lastName', apiErrors.lastName);
       actions.setFieldError('email', apiErrors.email);
       actions.setFieldError('email', apiErrors.DuplicateEmail);
-      actions.setFieldError('cellphoneNumber', apiErrors.cellphoneNumber);
       actions.setFieldError('password', apiErrors.password);
-      actions.setFieldError('termsChecked', apiErrors.termsChecked);
     } else if (_.get(error, 'statusCode') === 422 || _.get(error, 'statusCode') === 400) {
       setShowPasswordError(true);
       if (_.get(error, 'statusCode') === 422) {
         actions.resetForm({ values: formData, status: { apiErrors } });
       }
-      flashService.error('Form Submission Error');
+      flashService.error(_.get(error, 'message'));
     }
   };
 
