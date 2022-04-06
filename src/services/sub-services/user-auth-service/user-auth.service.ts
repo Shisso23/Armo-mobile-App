@@ -6,13 +6,12 @@ import authUtils from './user-auth.utils';
 import networkService from '../network-service/network.service';
 import {
   apiForgotPasswordModel,
-  forgotPasswordModel,
   apiSignInModel,
-  SignInProps,
-  ForgotPasswordProps,
   apiSignUpModel,
+  forgotPasswordModel,
+  ForgotPasswordProps,
+  SignInProps,
   SignUpProps,
-  signUpFormModel,
 } from '../../../models';
 
 const signIn = async (formData: SignInProps) => {
@@ -39,10 +38,8 @@ const register = async (formData: SignUpProps) => {
   const registerUrl = authUrls.registerUrl();
   const apiModel = apiSignUpModel(formData);
   try {
-    const response = await networkService.post(registerUrl, apiModel);
-    return response;
+    return await networkService.post(registerUrl, apiModel);
   } catch (err) {
-    err.errors = signUpFormModel(err.errors);
     return Promise.reject(err);
   }
 };
