@@ -37,6 +37,7 @@ type ViewPostScreenProps = {
 const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
   const { params } = route;
   const { post } = params;
+  const getPosts = _.get(route, 'params.getPosts', () => {});
   const owner = _.get(post, 'owner', {});
   const attachmentIds = _.get(post, 'attachmentIds', []);
   const dispatch = useDispatch();
@@ -116,7 +117,8 @@ const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route }) => {
 
   const onDeletePost = async () => {
     await dispatch(deletePostAction(_.get(post, 'id', '')));
-    navigation.goBack();
+    getPosts();
+    navigation.navigate('Home', { needToRefresh: true });
   };
 
   const onEditPost = () => {

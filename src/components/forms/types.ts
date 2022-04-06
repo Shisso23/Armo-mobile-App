@@ -1,5 +1,6 @@
 export type ErrorObject = {
-  errors: Object;
+  errors: any;
   statusCode: number;
   message: string;
+  details: string;
 };

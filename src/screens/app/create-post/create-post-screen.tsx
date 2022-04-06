@@ -13,14 +13,19 @@ import { flashService, postsService } from '../../../services';
 import { postsSelector } from '../../../reducers/posts-reducer/posts.reducer';
 import { getCategoriesAction } from '../../../reducers/posts-reducer/posts.actions';
 
-const CreatePostScreen: React.FC = () => {
+type CreatePostScreenProps = {
+  route: { params: any };
+};
+
+const CreatePostScreen: React.FC<CreatePostScreenProps> = ({ route }) => {
   const navigation = useNavigation();
   const { Gutters, Layout, Fonts } = useTheme();
   const dispatch = useDispatch();
   const { categories } = useSelector(postsSelector);
+  const getPosts = _.get(route, 'params.getPosts', () => {});
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.navigate('Home');
   };
 
   useEffect(() => {
@@ -51,6 +56,7 @@ const CreatePostScreen: React.FC = () => {
     return postsService.createPost(formData).then((response) => {
       if (_.get(response, 'status', null) === 200 || _.get(response, 'status', null) === 204) {
         flashService.success('Post created successfully');
+        getPosts();
         return goBack();
       }
       return null;
