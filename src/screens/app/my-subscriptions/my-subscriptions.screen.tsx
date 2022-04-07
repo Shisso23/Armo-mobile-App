@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { useTheme } from '../../../theme';
 
@@ -26,14 +26,13 @@ const MySubscriptionsScreen: React.FC = () => {
   const [extraData, setExtraData] = useState([]);
   const { Layout, Gutters } = useTheme();
 
-  const getPosts = () => {
+  const getUbscribedPosts = () => {
     dispatch(getSubscribedPostsAction());
   };
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(getSubscribedPostsAction());
-    }, []),
-  );
+
+  useEffect(() => {
+    getUbscribedPosts();
+  }, []);
 
   const getPost = async (id: any) => {
     const post: Object = await dispatch(getPostAction(id));
@@ -87,10 +86,10 @@ const MySubscriptionsScreen: React.FC = () => {
         data={postsWithoutDups([...subscribedPosts, ...extraData])}
         renderItem={renderSubScription}
         keyExtractor={(item) => String(item.id)}
-        onRefresh={getPosts}
+        onRefresh={getUbscribedPosts}
         refreshing={isLoadingGetSubscribedPosts}
         onEndReached={fetchMorePosts}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.8}
         ListEmptyComponent={<Text style={[Layout.alignSelfCenter]}>There are no posts here!</Text>}
       />
     </View>

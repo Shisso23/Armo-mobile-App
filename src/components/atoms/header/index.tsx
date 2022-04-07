@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { Icon, Badge } from 'react-native-elements';
 
@@ -12,6 +12,7 @@ import CustomHeaderButton from '../custom-header-button';
 import { userSelector } from '../../../reducers/user-reducer/user.reducer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { notificationsSelector } from '../../../reducers/notifications-reducer/notifications.reducer';
+import { getUnreadNotificationsAction } from '../../../reducers/notifications-reducer/notifications.actions';
 
 type BackButtonProps = {
   onBack: any;
@@ -26,12 +27,19 @@ const Header: React.FC<BackButtonProps> = (props) => {
   const { Gutters, Common, Layout } = useTheme();
   const { user } = useSelector(userSelector);
   const navigation = useNavigation<DrawerNavigationProp<any>>();
+  const dispatch = useDispatch();
   const { unOpenedNotifications } = useSelector(notificationsSelector);
   const handleOnPress = () => {
     return navigation.toggleDrawer();
   };
 
   const goToNotifications = () => navigation.navigate('Notifications');
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getUnreadNotificationsAction());
+    }, []),
+  );
 
   return (
     <View style={[Layout.rowBetween, Layout.alignItemsEnd, styles.header]}>
